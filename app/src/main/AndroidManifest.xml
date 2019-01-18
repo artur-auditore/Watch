@@ -21,14 +21,16 @@
         </activity>
         <activity
                 android:name=".TimeLineActivity"
-                android:label="@string/title_activity_time_line"
+                android:label="Feed Principal"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".LoginActivity">
         </activity>
-        <activity android:name=".CadastroActivity">
+        <activity android:name=".CadastroActivity"
+        android:label="Cadastre-se">
         </activity>
-        <activity android:name=".FormularioItemActivity">
+        <activity android:name=".FormularioItemActivity"
+        android:label="Novo Filme/Série">
         </activity>
     </application>
 
