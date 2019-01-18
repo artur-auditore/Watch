@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.view.Window
 
 class SplashActivity : AppCompatActivity() {
 
@@ -15,6 +16,6 @@ class SplashActivity : AppCompatActivity() {
         handler.postDelayed({
             startActivity(Intent(this, TimeLineActivity::class.java))
             finish()
-        }, 2000)
+        }, 1000)
     }
 }

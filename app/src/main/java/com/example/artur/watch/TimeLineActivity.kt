@@ -1,5 +1,8 @@
 package com.example.artur.watch
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -13,13 +16,20 @@ import kotlinx.android.synthetic.main.app_bar_time_line.*
 
 class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    companion object {
+        const val KEY = "idUsuario"
+        const val DEFAULT_VALUE: Long = -1
+    }
+
+    private lateinit var preferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_time_line)
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "Adicionar novo filme/série", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
 
@@ -30,6 +40,17 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        if (!logado()){
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+    }
+
+    private fun logado(): Boolean {
+        preferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
+        val usuarioID = preferences.getLong(KEY, DEFAULT_VALUE)
+        return usuarioID != DEFAULT_VALUE
     }
 
     override fun onBackPressed() {
