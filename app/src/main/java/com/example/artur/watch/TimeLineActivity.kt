@@ -48,7 +48,8 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         setSupportActionBar(toolbar)
 
         val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            this, drawer_layout, toolbar,
+            R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
@@ -87,6 +88,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return usuario
     }
 
+
     @SuppressLint("CommitPrefEdits")
     private fun logout() {
         preferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
@@ -105,14 +107,6 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         recyclerView.hasFixedSize()
     }
 
-    override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.time_line, menu)
         return true
@@ -121,6 +115,14 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) { R.id.action_logout -> logout() }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
     }
 
     @SuppressLint("CommitTransaction", "RestrictedApi")

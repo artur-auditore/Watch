@@ -41,12 +41,11 @@ class CadastroActivity : AppCompatActivity() {
         editConfirmSenha = edit_confirm_senha
     }
 
-    @SuppressLint("ApplySharedPref")
     private fun logar(usuario: Usuario){
         val sharedPreferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putLong("idUsuario", usuario.id)
-        editor.commit()
+        editor.apply()
         startActivity(Intent(this, TimeLineActivity::class.java))
     }
 
