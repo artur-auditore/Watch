@@ -45,7 +45,7 @@ class CadastroActivity : AppCompatActivity() {
     private fun logar(usuario: Usuario){
         val sharedPreferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putLong(LoginActivity.KEY, usuario.id)
+        editor.putLong("idUsuario", usuario.id)
         editor.commit()
         startActivity(Intent(this, TimeLineActivity::class.java))
     }

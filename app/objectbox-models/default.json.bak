@@ -169,41 +169,11 @@
           "name": "capitulos"
         }
       ]
-    },
-    {
-      "id": "8:2167703472866556463",
-      "lastPropertyId": "4:2510946375701517152",
-      "name": "Post",
-      "properties": [
-        {
-          "id": "1:1573027510809947068",
-          "name": "id"
-        },
-        {
-          "id": "2:5409147511880301072",
-          "name": "descricao"
-        },
-        {
-          "id": "3:2789050647354808496",
-          "name": "data"
-        },
-        {
-          "id": "4:2510946375701517152",
-          "indexId": "3:996745117526343625",
-          "name": "usuarioId"
-        }
-      ],
-      "relations": [
-        {
-          "id": "7:4143320621995906826",
-          "name": "comentarios"
-        }
-      ]
     }
   ],
-  "lastEntityId": "8:2167703472866556463",
-  "lastIndexId": "3:996745117526343625",
-  "lastRelationId": "7:4143320621995906826",
+  "lastEntityId": "7:2038490414040681642",
+  "lastIndexId": "2:1994927153268143817",
+  "lastRelationId": "6:1565485323622785560",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,

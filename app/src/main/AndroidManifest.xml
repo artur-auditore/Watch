@@ -26,11 +26,19 @@
         </activity>
         <activity android:name=".LoginActivity">
         </activity>
-        <activity android:name=".CadastroActivity"
-        android:label="Cadastre-se">
+        <activity
+                android:name=".CadastroActivity"
+                android:label="Cadastre-se"
+                android:parentActivityName=".LoginActivity">
         </activity>
-        <activity android:name=".FormularioItemActivity"
-        android:label="Novo Filme/Série">
+        <activity
+                android:name=".FormularioItemActivity"
+                android:label="Novo Filme/Série"
+                android:parentActivityName=".TimeLineActivity">
+        </activity>
+        <activity android:name=".FormularioPostActivity"
+        android:label="Novo Post Público"
+        android:parentActivityName=".TimeLineActivity">
         </activity>
     </application>
 
