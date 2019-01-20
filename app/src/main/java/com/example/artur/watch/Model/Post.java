@@ -17,15 +17,6 @@ public class Post {
     private Date data;
     private ToOne<Usuario> usuario;
 
-    public List<Comentario> getComentarios() {
-        return comentarios;
-    }
-
-    public void setComentarios(List<Comentario> comentarios) {
-        this.comentarios = comentarios;
-    }
-
-    private List<Comentario> comentarios;
 
     public Post() {}
 

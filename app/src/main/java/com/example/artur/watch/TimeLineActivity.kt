@@ -15,9 +15,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import com.example.artur.watch.Adapter.FilmeAdapter
 import com.example.artur.watch.Adapter.PostAdapter
+import com.example.artur.watch.Adapter.SeriesAdapter
 import com.example.artur.watch.Fragments.FilmesFragment
+import com.example.artur.watch.Model.Filme
 import com.example.artur.watch.Model.Post
+import com.example.artur.watch.Model.Serie
 import com.example.artur.watch.Model.Usuario
 import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
@@ -39,6 +43,9 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private lateinit var usuarioLogado: Usuario
     private lateinit var usuarioBox: Box<Usuario>
+
+    private lateinit var filmeBox: Box<Filme>
+    private lateinit var serieBox: Box<Serie>
 
     private lateinit var adapter: PostAdapter
 
@@ -73,6 +80,9 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
         fabNovoPost = fab_novo_post
         usuarioLogado = obterUsuario()
+
+        filmeBox = ObjectBox.boxStore.boxFor(Filme::class.java)
+        serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
     }
 
     private fun logado(): Boolean {
@@ -131,13 +141,24 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         when (item.itemId) {
             R.id.posts -> {
                 fabNovoPost.visibility = View.VISIBLE
+
+                recyclerView.adapter = adapter
+                recyclerView.layoutManager = LinearLayoutManager(this)
+                recyclerView.hasFixedSize()
             }
             R.id.filmes -> {
                 fabNovoPost.visibility = View.INVISIBLE
                 supportFragmentManager.beginTransaction().replace(R.id.main, FilmesFragment()).commit()
+
+                recyclerView.adapter = FilmeAdapter(this, filmeBox.all, filmeBox)
+                recyclerView.layoutManager = LinearLayoutManager(this)
+                recyclerView.hasFixedSize()
             }
             R.id.series -> {
 
+                recyclerView.adapter = SeriesAdapter(this, serieBox.all, serieBox)
+                recyclerView.layoutManager = LinearLayoutManager(this)
+                recyclerView.hasFixedSize()
             }
             R.id.nav_share -> {
 
