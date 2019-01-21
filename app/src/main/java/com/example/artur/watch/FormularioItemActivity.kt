@@ -40,6 +40,7 @@ class FormularioItemActivity : AppCompatActivity() {
     private lateinit var usuarioLogado: Usuario
 
     private lateinit var radioButtonSim: RadioButton
+    private lateinit var radioButtonNao: RadioButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +57,7 @@ class FormularioItemActivity : AppCompatActivity() {
         val id = intent.getLongExtra(ID, DEFAULT_VALUE)
         if (id != DEFAULT_VALUE){
             //TODO completar depois
+
         }
 
     }
@@ -67,6 +69,7 @@ class FormularioItemActivity : AppCompatActivity() {
         editEstrelando = edit_estrelando
         editSinopse = edit_sinopse
         radioButtonSim = radio_sim
+        radioButtonNao = radio_nao
 
         serie = Serie()
         filme = Filme()

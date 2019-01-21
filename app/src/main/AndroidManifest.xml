@@ -36,9 +36,20 @@
                 android:label="Novo Filme/Série"
                 android:parentActivityName=".TimeLineActivity">
         </activity>
-        <activity android:name=".FormularioPostActivity"
-        android:label="Novo Post Público"
-        android:parentActivityName=".TimeLineActivity">
+        <activity
+                android:name=".FormularioPostActivity"
+                android:label="Novo Post Público"
+                android:parentActivityName=".TimeLineActivity">
+        </activity>
+        <activity
+                android:name=".ListaTemporadasActivity"
+                android:label="Temporadas"
+                android:parentActivityName=".ListaTemporadasActivity">
+        </activity>
+        <activity
+                android:name=".FormularioTemporadaActivity"
+                android:label="Nova Temporada"
+                android:parentActivityName=".ListaTemporadasActivity">
         </activity>
     </application>
 

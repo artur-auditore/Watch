@@ -13,21 +13,23 @@ import android.widget.PopupMenu
 import android.widget.Toast
 import com.example.artur.watch.FormularioPostActivity
 import com.example.artur.watch.Model.Post
+import com.example.artur.watch.Model.Post_
 import com.example.artur.watch.Model.Usuario
 import com.example.artur.watch.Model.Usuario_
 import com.example.artur.watch.R
 import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
+import io.objectbox.query.QueryBuilder
 import kotlinx.android.synthetic.main.item_post.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 class PostAdapter(private val context: Context,
-                  private val posts: MutableList<Post>,
                   private val postBox: Box<Post>): RecyclerView.Adapter<PostAdapter.ViewHolder>(){
 
     companion object {
         const val KEY = "idUsuario"
+        const val MODE_PRIVATE = 0x0000
         const val ID = "idPost"
         const val DEFAULT_VALUE: Long = -1
     }
@@ -57,23 +59,25 @@ class PostAdapter(private val context: Context,
     }
 
     override fun getItemCount(): Int {
-        return posts.size
+        return postBox.all.size
+
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val post = posts[position]
+        val post = postBox.all[position]
         holder.bind(post)
 
         menuPop(holder.itemView, post, position)
     }
 
     private fun obterUsuario(): Usuario {
-        val pref = context.getSharedPreferences("w.file", 0x0000)
+        val pref = context.getSharedPreferences("w.file", MODE_PRIVATE)
         val id = pref.getLong(KEY, DEFAULT_VALUE)
         return usuarioBox.get(id)
     }
 
     private fun menuPop(itemView: View, post: Post, position: Int){
+
         itemView.setOnLongClickListener { it ->
             if (post.usuario.target.id == usuarioLogado.id){
 
@@ -108,11 +112,15 @@ class PostAdapter(private val context: Context,
 
     private fun excluir(view: View, post: Post, position: Int){
 
+        val query = postBox.query()
+            .equal(Post_.usuarioId, usuarioLogado.id)
+            .build().find()
+
         val alertDialog = AlertDialog.Builder(context)
         alertDialog.setTitle("Excluir")
             .setMessage("Deseja realmente excluir seu post?")
             .setPositiveButton("SIM"){_, _ ->
-                this.posts.remove(post)
+                query.remove(post)
                 this.postBox.remove(post)
                 notifyItemChanged(position)
                 notifyItemRangeChanged(position, itemCount)

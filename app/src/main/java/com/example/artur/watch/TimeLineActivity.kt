@@ -106,7 +106,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onResume() {
         super.onResume()
 
-        recyclerView.adapter = PostAdapter(this, postBox.all, postBox)
+        recyclerView.adapter = PostAdapter(this, postBox)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.hasFixedSize()
     }
@@ -149,7 +149,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             R.id.posts -> {
                 fabNovoPost.visibility = View.VISIBLE
 
-                recyclerView.adapter = PostAdapter(this, postBox.all, postBox)
+                recyclerView.adapter = PostAdapter(this, postBox)
                 recyclerView.layoutManager = LinearLayoutManager(this)
                 recyclerView.hasFixedSize()
             }

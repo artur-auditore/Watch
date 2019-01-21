@@ -94,7 +94,7 @@
     },
     {
       "id": "10:6123179457463294246",
-      "lastPropertyId": "8:8455974869611348352",
+      "lastPropertyId": "9:1540308022364885495",
       "name": "Filme",
       "properties": [
         {
@@ -124,13 +124,18 @@
         {
           "id": "7:3515547645197670053",
           "name": "comentarios"
+        },
+        {
+          "id": "9:1540308022364885495",
+          "indexId": "7:5500138352061045553",
+          "name": "usuarioId"
         }
       ],
       "relations": []
     },
     {
       "id": "11:7561763395026860917",
-      "lastPropertyId": "8:1141707454833324883",
+      "lastPropertyId": "9:1170706996033796591",
       "name": "Serie",
       "properties": [
         {
@@ -160,6 +165,11 @@
         {
           "id": "7:5879474038375222001",
           "name": "comentarios"
+        },
+        {
+          "id": "9:1170706996033796591",
+          "indexId": "8:1601464688912392022",
+          "name": "usuarioId"
         }
       ],
       "relations": [
@@ -183,7 +193,7 @@
     }
   ],
   "lastEntityId": "12:2525639586135598161",
-  "lastIndexId": "6:5955742804810611563",
+  "lastIndexId": "8:1601464688912392022",
   "lastRelationId": "8:5351601501560702615",
   "lastSequenceId": "0:0",
   "modelVersion": 4,

@@ -2,10 +2,12 @@ package com.example.artur.watch.Adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.artur.watch.ListaTemporadasActivity
 import com.example.artur.watch.Model.Serie
 import com.example.artur.watch.R
 import io.objectbox.Box
@@ -14,6 +16,10 @@ import kotlinx.android.synthetic.main.item_filme.view.*
 class SeriesAdapter(private val context: Context,
                     private val series: MutableList<Serie>,
                     private val serieBox:Box<Serie>): RecyclerView.Adapter<SeriesAdapter.ViewHolder>() {
+
+    companion object {
+        const val ID = "idSerie"
+    }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         @SuppressLint("SetTextI18n")
@@ -40,5 +46,13 @@ class SeriesAdapter(private val context: Context,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val serie = series[position]
         holder.bind(serie)
+
+        holder.itemView.setOnClickListener {
+
+            val intent = Intent(context, ListaTemporadasActivity::class.java)
+            intent.putExtra(ID, serie.id)
+            context.startActivity(intent)
+            notifyItemChanged(position)
+        }
     }
 }

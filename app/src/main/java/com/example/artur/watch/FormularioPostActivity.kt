@@ -51,6 +51,8 @@ class FormularioPostActivity : AppCompatActivity() {
         postBox = ObjectBox.boxStore.boxFor(Post::class.java)
         usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
         usuarioLogado = obterUsuario()
+
+        post = Post()
     }
 
     private fun obterUsuario(): Usuario {

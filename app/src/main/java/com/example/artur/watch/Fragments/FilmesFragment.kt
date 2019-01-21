@@ -4,9 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.AdapterView
+import android.widget.Toast
 import com.example.artur.watch.FormularioItemActivity
 import com.example.artur.watch.R
 import kotlinx.android.synthetic.main.filmes_layout.view.*

@@ -181,20 +181,54 @@
     },
     {
       "id": "12:2525639586135598161",
-      "lastPropertyId": "1:146902866005840295",
+      "lastPropertyId": "5:4930368344667714717",
       "name": "Temporada",
       "properties": [
         {
           "id": "1:146902866005840295",
+          "name": "id"
+        },
+        {
+          "id": "2:4385172462915950990",
+          "name": "numero"
+        },
+        {
+          "id": "3:855418604861959364",
+          "name": "titulo"
+        },
+        {
+          "id": "4:2466633416209099624",
+          "name": "descricao"
+        },
+        {
+          "id": "5:4930368344667714717",
+          "indexId": "9:2780073148571243923",
+          "name": "serieId"
+        }
+      ],
+      "relations": [
+        {
+          "id": "9:2843734164460651546",
+          "name": "capitulos"
+        }
+      ]
+    },
+    {
+      "id": "13:1546753524128424977",
+      "lastPropertyId": "1:2537330808775292433",
+      "name": "Capitulo",
+      "properties": [
+        {
+          "id": "1:2537330808775292433",
           "name": "id"
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "12:2525639586135598161",
-  "lastIndexId": "8:1601464688912392022",
-  "lastRelationId": "8:5351601501560702615",
+  "lastEntityId": "13:1546753524128424977",
+  "lastIndexId": "9:2780073148571243923",
+  "lastRelationId": "9:2843734164460651546",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
