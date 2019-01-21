@@ -51,7 +51,13 @@ class FormularioItemActivity : AppCompatActivity() {
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
 
         bind()
-        
+
+        //Para editar
+        val id = intent.getLongExtra(ID, DEFAULT_VALUE)
+        if (id != DEFAULT_VALUE){
+            //TODO completar depois
+        }
+
     }
 
     fun bind(){
@@ -61,6 +67,9 @@ class FormularioItemActivity : AppCompatActivity() {
         editEstrelando = edit_estrelando
         editSinopse = edit_sinopse
         radioButtonSim = radio_sim
+
+        serie = Serie()
+        filme = Filme()
 
     }
 
@@ -100,14 +109,22 @@ class FormularioItemActivity : AppCompatActivity() {
 
             if (radioButtonSim.isChecked){
 
-                serie = Serie(titulo, genero, ano.toInt(), estrelando, sinopse)
+                serie.titulo = titulo
+                serie.genero = genero
+                serie.ano = ano.toInt()
+                serie.estrelando = estrelando
+                serie.sinopse = sinopse
                 serie.usuario.target = usuarioLogado
                 serieBox.put(serie)
                 finish()
 
             } else {
 
-                filme = Filme(titulo, genero, ano.toInt(), estrelando, sinopse)
+                filme.titulo = titulo
+                filme.genero = genero
+                filme.ano = ano.toInt()
+                filme.estrelando = estrelando
+                filme.sinopse = sinopse
                 filme.usuario.target = usuarioLogado
                 filmeBox.put(filme)
                 finish()

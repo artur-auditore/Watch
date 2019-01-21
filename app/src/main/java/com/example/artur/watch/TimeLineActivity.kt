@@ -111,16 +111,16 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         recyclerView.hasFixedSize()
     }
 
-    private fun loadFilmes(){
+    private fun loadFilmes(list: MutableList<Filme>){
 
-        recyclerView.adapter = FilmeAdapter(this, filmeBox.all, filmeBox)
+        recyclerView.adapter = FilmeAdapter(this, list, filmeBox)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.hasFixedSize()
     }
 
-    private fun loadSeries(){
+    private fun loadSeries(list: MutableList<Serie>){
 
-        recyclerView.adapter = SeriesAdapter(this, serieBox.all, serieBox)
+        recyclerView.adapter = SeriesAdapter(this, list, serieBox)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.hasFixedSize()
     }
@@ -158,14 +158,22 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 fabNovoPost.visibility = View.INVISIBLE
                 supportFragmentManager.beginTransaction().replace(R.id.main, FilmesFragment()).commit()
 
-                loadFilmes()
+                val query = filmeBox.query()
+                val list = query.equal(Filme_.usuarioId, usuarioLogado.id)
+                    .build().find()
+
+                loadFilmes(list)
             }
 
             R.id.series -> {
                 fabNovoPost.visibility = View.INVISIBLE
                 supportFragmentManager.beginTransaction().replace(R.id.main, FilmesFragment()).commit()
 
-                loadSeries()
+                val query = serieBox.query()
+                val list = query.equal(Serie_.usuarioId, usuarioLogado.id)
+                    .build().find()
+
+                loadSeries(list)
             }
 
             R.id.nav_share -> {

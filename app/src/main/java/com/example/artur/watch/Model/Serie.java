@@ -10,6 +10,8 @@ public class Serie extends Item {
 
     private ToOne<Usuario> usuario;
 
+    public Serie() { }
+
     public Serie(String titulo, String genero, int ano, String estrelando, String sinopse){
         this.setTitulo(titulo);
         this.setGenero(genero);

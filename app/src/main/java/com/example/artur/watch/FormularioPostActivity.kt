@@ -36,6 +36,7 @@ class FormularioPostActivity : AppCompatActivity() {
 
         bind()
 
+        //Para editar
         val id = intent.getLongExtra(ID, DEFAULT_VALUE)
         if (id != DEFAULT_VALUE){
             post = postBox.get(id)

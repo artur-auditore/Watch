@@ -8,6 +8,8 @@ public class Filme extends Item {
 
     private ToOne<Usuario> usuario;
 
+    public Filme() { }
+
     public Filme(String titulo, String genero, int ano, String estrelando, String sinopse){
         this.setTitulo(titulo);
         this.setGenero(genero);
