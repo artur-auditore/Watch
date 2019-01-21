@@ -8,7 +8,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/app_bar_time_line"
         android:id="@+id/main"
-        android:background="#BA55D3"
+        android:background="#7B68EE"
         tools:context=".TimeLineActivity">
 
     <android.support.v7.widget.RecyclerView

@@ -1,7 +1,9 @@
 package com.example.artur.watch
 
+import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -10,11 +12,18 @@ import android.widget.RadioButton
 import android.widget.Toast
 import com.example.artur.watch.Model.Filme
 import com.example.artur.watch.Model.Serie
+import com.example.artur.watch.Model.Usuario
 import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_formulario_item.*
 
 class FormularioItemActivity : AppCompatActivity() {
+
+    companion object {
+        const val ID = "idFilme"
+        const val KEY = "idUsuario"
+        const val DEFAULT_VALUE: Long = -1
+    }
 
     private lateinit var editTitulo: EditText
     private lateinit var editGenero: EditText
@@ -27,13 +36,22 @@ class FormularioItemActivity : AppCompatActivity() {
     private lateinit var filme: Filme
     private lateinit var serie: Serie
 
+    private lateinit var usuarioBox: Box<Usuario>
+    private lateinit var usuarioLogado: Usuario
+
     private lateinit var radioButtonSim: RadioButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_formulario_item)
 
+        usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
+        usuarioLogado = obterUsuario()
+        filmeBox = ObjectBox.boxStore.boxFor(Filme::class.java)
+        serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
+
         bind()
+        
     }
 
     fun bind(){
@@ -44,8 +62,12 @@ class FormularioItemActivity : AppCompatActivity() {
         editSinopse = edit_sinopse
         radioButtonSim = radio_sim
 
-        filmeBox = ObjectBox.boxStore.boxFor(Filme::class.java)
-        serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
+    }
+
+    private fun obterUsuario(): Usuario {
+        val pref = getSharedPreferences("w.file", Context.MODE_PRIVATE)
+        val id = pref.getLong(KEY, DEFAULT_VALUE)
+        return usuarioBox.get(id)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -67,20 +89,29 @@ class FormularioItemActivity : AppCompatActivity() {
 
         if (titulo.trim() == "" || genero.trim() == "" || ano.trim() == ""){
 
-            Toast.makeText(this, "Título, gênero ou ano vazios", Toast.LENGTH_LONG).show()
+            val alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("Aviso")
+                .setMessage("Título, gênero e ano são campos obrigatórios!")
+                .setNegativeButton("OK"){_, _ ->}
+                .create()
+                .show()
 
         } else {
 
             if (radioButtonSim.isChecked){
 
                 serie = Serie(titulo, genero, ano.toInt(), estrelando, sinopse)
+                serie.usuario.target = usuarioLogado
                 serieBox.put(serie)
                 finish()
+
             } else {
 
                 filme = Filme(titulo, genero, ano.toInt(), estrelando, sinopse)
+                filme.usuario.target = usuarioLogado
                 filmeBox.put(filme)
                 finish()
+
             }
         }
 

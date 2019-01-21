@@ -18,8 +18,9 @@ import java.util.*
 class FormularioPostActivity : AppCompatActivity() {
 
     companion object {
+        const val ID = "idPost"
         const val KEY = "idUsuario"
-        const val DEFAULT_VALUE: Long = 0
+        const val DEFAULT_VALUE: Long = -1
     }
 
     private lateinit var editPostDescricao: EditText
@@ -35,13 +36,19 @@ class FormularioPostActivity : AppCompatActivity() {
 
         bind()
 
+        val id = intent.getLongExtra(ID, DEFAULT_VALUE)
+        if (id != DEFAULT_VALUE){
+            post = postBox.get(id)
+            editPostDescricao.setText(post.descricao)
+
+        }
+
     }
 
     private fun bind(){
         editPostDescricao = post_descricao
         postBox = ObjectBox.boxStore.boxFor(Post::class.java)
         usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
-        post = Post()
         usuarioLogado = obterUsuario()
     }
 
@@ -65,7 +72,8 @@ class FormularioPostActivity : AppCompatActivity() {
     private fun publicar(){
         val textPost = editPostDescricao.text.toString()
 
-        post = Post(textPost, Date())
+        post.descricao = textPost
+        post.data = Date()
         post.usuario.target = usuarioLogado
         postBox.put(post)
         finish()

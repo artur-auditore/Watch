@@ -19,10 +19,7 @@ import com.example.artur.watch.Adapter.FilmeAdapter
 import com.example.artur.watch.Adapter.PostAdapter
 import com.example.artur.watch.Adapter.SeriesAdapter
 import com.example.artur.watch.Fragments.FilmesFragment
-import com.example.artur.watch.Model.Filme
-import com.example.artur.watch.Model.Post
-import com.example.artur.watch.Model.Serie
-import com.example.artur.watch.Model.Usuario
+import com.example.artur.watch.Model.*
 import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_time_line.*
@@ -33,7 +30,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     companion object {
         const val KEY = "idUsuario"
-        const val DEFAULT_VALUE = -1
+        const val DEFAULT_VALUE: Long = -1
     }
 
     private lateinit var preferences: SharedPreferences
@@ -46,8 +43,6 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private lateinit var filmeBox: Box<Filme>
     private lateinit var serieBox: Box<Serie>
-
-    private lateinit var adapter: PostAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,13 +82,13 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun logado(): Boolean {
         preferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
-        val usuarioID = preferences.getLong(KEY, DEFAULT_VALUE.toLong())
-        return usuarioID != DEFAULT_VALUE.toLong()
+        val usuarioID = preferences.getLong(KEY, DEFAULT_VALUE)
+        return usuarioID != DEFAULT_VALUE
     }
 
     private fun obterUsuario(): Usuario {
         val pref = getSharedPreferences("w.file", Context.MODE_PRIVATE)
-        val id = pref.getLong(KEY, DEFAULT_VALUE.toLong())
+        val id = pref.getLong(KEY, DEFAULT_VALUE)
         val usuario = usuarioBox.get(id)
         return usuario
     }
@@ -111,15 +106,27 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onResume() {
         super.onResume()
 
-        adapter = PostAdapter(this, postBox.all, postBox)
-        recyclerView.adapter = adapter
+        recyclerView.adapter = PostAdapter(this, postBox.all, postBox)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.hasFixedSize()
+    }
+
+    private fun loadFilmes(){
+
+        recyclerView.adapter = FilmeAdapter(this, filmeBox.all, filmeBox)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.hasFixedSize()
+    }
+
+    private fun loadSeries(){
+
+        recyclerView.adapter = SeriesAdapter(this, serieBox.all, serieBox)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.hasFixedSize()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.time_line, menu)
-        return true
+        menuInflater.inflate(R.menu.time_line, menu); return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -137,29 +144,30 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     @SuppressLint("CommitTransaction", "RestrictedApi")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
         when (item.itemId) {
+
             R.id.posts -> {
                 fabNovoPost.visibility = View.VISIBLE
 
-                recyclerView.adapter = adapter
+                recyclerView.adapter = PostAdapter(this, postBox.all, postBox)
                 recyclerView.layoutManager = LinearLayoutManager(this)
                 recyclerView.hasFixedSize()
             }
+
             R.id.filmes -> {
                 fabNovoPost.visibility = View.INVISIBLE
                 supportFragmentManager.beginTransaction().replace(R.id.main, FilmesFragment()).commit()
 
-                recyclerView.adapter = FilmeAdapter(this, filmeBox.all, filmeBox)
-                recyclerView.layoutManager = LinearLayoutManager(this)
-                recyclerView.hasFixedSize()
+                loadFilmes()
             }
-            R.id.series -> {
 
-                recyclerView.adapter = SeriesAdapter(this, serieBox.all, serieBox)
-                recyclerView.layoutManager = LinearLayoutManager(this)
-                recyclerView.hasFixedSize()
+            R.id.series -> {
+                fabNovoPost.visibility = View.INVISIBLE
+                supportFragmentManager.beginTransaction().replace(R.id.main, FilmesFragment()).commit()
+
+                loadSeries()
             }
+
             R.id.nav_share -> {
 
             }
