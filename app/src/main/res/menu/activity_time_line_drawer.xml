@@ -18,16 +18,16 @@
                 android:title="Séries"/>
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Outros">
         <menu>
             <item
                     android:id="@+id/nav_share"
-                    android:icon="@drawable/ic_menu_share"
-                    android:title="Share"/>
+                    android:icon="@drawable/ic_action_perfil"
+                    android:title="Perfil"/>
             <item
                     android:id="@+id/nav_send"
-                    android:icon="@drawable/ic_menu_send"
-                    android:title="Send"/>
+                    android:icon="@drawable/ic_action_help"
+                    android:title="Ajuda"/>
         </menu>
     </item>
 

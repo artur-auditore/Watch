@@ -1,6 +1,5 @@
 package com.example.artur.watch
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -30,10 +29,12 @@ class CadastroActivity : AppCompatActivity() {
         setContentView(R.layout.activity_cadastro)
 
         usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
+
         bind()
     }
 
     private fun bind(){
+
         editNome = edit_nome
         editEmail = edit_email
         editUsername = edit_username
@@ -42,6 +43,7 @@ class CadastroActivity : AppCompatActivity() {
     }
 
     private fun logar(usuario: Usuario){
+
         val sharedPreferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putLong("idUsuario", usuario.id)
@@ -59,6 +61,7 @@ class CadastroActivity : AppCompatActivity() {
     }
 
     private fun cadastrar(){
+
         val nome = editNome.text.toString()
         val username = editUsername.text.toString()
         val email = editEmail.text.toString()

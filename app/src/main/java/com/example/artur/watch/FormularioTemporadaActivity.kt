@@ -2,10 +2,8 @@ package com.example.artur.watch
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import com.example.artur.watch.Model.Serie
@@ -68,6 +66,7 @@ class FormularioTemporadaActivity : AppCompatActivity() {
         if (nTemp.trim() == ""){
             Toast.makeText(this, "O número da temporada é obrigatório",
                 Toast.LENGTH_LONG).show()
+
         } else {
 
             temporada.numero = nTemp.toInt()

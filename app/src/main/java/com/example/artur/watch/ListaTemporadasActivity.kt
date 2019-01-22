@@ -5,10 +5,8 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
-import android.widget.Toast
 import com.example.artur.watch.Adapter.TemporadaAdapter
 import com.example.artur.watch.Model.Serie
 import com.example.artur.watch.Model.Temporada
@@ -37,6 +35,7 @@ class ListaTemporadasActivity : AppCompatActivity() {
         bind()
 
         fabNewTemp.setOnClickListener {
+            
             val intent = Intent(this, FormularioTemporadaActivity::class.java)
             intent.putExtra(ID, serieAtual.id)
             startActivity(intent)
@@ -44,6 +43,7 @@ class ListaTemporadasActivity : AppCompatActivity() {
     }
 
     private fun bind(){
+
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
         serieAtual = serieBox.get(intent.getLongExtra(ID, -1))
         temporadaBox = ObjectBox.boxStore.boxFor(Temporada::class.java)

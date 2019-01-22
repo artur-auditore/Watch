@@ -64,12 +64,14 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
 
         bind()
+
         fabNovoPost.setOnClickListener {
             startActivity(Intent(this, FormularioPostActivity::class.java))
         }
     }
 
     private fun bind(){
+
         recyclerView = rv_posts
         postBox = ObjectBox.boxStore.boxFor(Post::class.java)
         usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
@@ -80,22 +82,32 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        loadPosts()
+    }
+
+    //Métodos específicos para login e logout
     private fun logado(): Boolean {
+
         preferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
         val usuarioID = preferences.getLong(KEY, DEFAULT_VALUE)
         return usuarioID != DEFAULT_VALUE
     }
 
+
     private fun obterUsuario(): Usuario {
+
         val pref = getSharedPreferences("w.file", Context.MODE_PRIVATE)
         val id = pref.getLong(KEY, DEFAULT_VALUE)
         val usuario = usuarioBox.get(id)
         return usuario
     }
 
-
     @SuppressLint("CommitPrefEdits")
     private fun logout() {
+
         preferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
         preferences.edit().clear()
         preferences.edit().apply()
@@ -103,8 +115,8 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         finish()
     }
 
-    override fun onResume() {
-        super.onResume()
+    //Métodos para carregar itens para recyclerView
+    private fun loadPosts(){
 
         recyclerView.adapter = PostAdapter(this, postBox)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -125,6 +137,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         recyclerView.hasFixedSize()
     }
 
+    //Métodos de menus e navigation drawer
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.time_line, menu); return true
     }
@@ -149,9 +162,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             R.id.posts -> {
                 fabNovoPost.visibility = View.VISIBLE
 
-                recyclerView.adapter = PostAdapter(this, postBox)
-                recyclerView.layoutManager = LinearLayoutManager(this)
-                recyclerView.hasFixedSize()
+                loadPosts()
             }
 
             R.id.filmes -> {

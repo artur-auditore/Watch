@@ -2,7 +2,6 @@ package com.example.artur.watch
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -47,6 +46,7 @@ class FormularioPostActivity : AppCompatActivity() {
     }
 
     private fun bind(){
+
         editPostDescricao = post_descricao
         postBox = ObjectBox.boxStore.boxFor(Post::class.java)
         usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
@@ -56,6 +56,7 @@ class FormularioPostActivity : AppCompatActivity() {
     }
 
     private fun obterUsuario(): Usuario {
+
         val pref = getSharedPreferences("w.file", Context.MODE_PRIVATE)
         val id = pref.getLong(KEY, DEFAULT_VALUE)
         return usuarioBox.get(id)
@@ -73,6 +74,8 @@ class FormularioPostActivity : AppCompatActivity() {
 
     @SuppressLint("SimpleDateFormat")
     private fun publicar(){
+
+        //TODO autoCompleteText depois...
         val textPost = editPostDescricao.text.toString()
 
         post.descricao = textPost

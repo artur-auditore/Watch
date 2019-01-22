@@ -43,6 +43,14 @@ class LoginActivity : AppCompatActivity() {
         login()
     }
 
+    private fun bind(){
+
+        editUsername = edit_username_login
+        editSenha = edit_senha_login
+        buttonLogin = button_login
+        textCadastro = text_cadastrar
+    }
+
     private fun login(){
         buttonLogin.setOnClickListener {
             val username = editUsername.text.toString()
@@ -64,9 +72,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun logar(usuario: Usuario){
+
         val sharedPreferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putLong("idUsuario", usuario.id)
+        editor.putLong(KEY, usuario.id)
         editor.apply()
         startActivity(Intent(this, TimeLineActivity::class.java))
     }
@@ -75,12 +84,5 @@ class LoginActivity : AppCompatActivity() {
         textCadastro.setOnClickListener {
             startActivity(Intent(this, CadastroActivity::class.java))
         }
-    }
-
-    private fun bind(){
-        editUsername = edit_username_login
-        editSenha = edit_senha_login
-        buttonLogin = button_login
-        textCadastro = text_cadastrar
     }
 }

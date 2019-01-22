@@ -6,10 +6,8 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.EditText
 import android.widget.RadioButton
-import android.widget.Toast
 import com.example.artur.watch.Model.Filme
 import com.example.artur.watch.Model.Serie
 import com.example.artur.watch.Model.Usuario
@@ -63,6 +61,7 @@ class FormularioItemActivity : AppCompatActivity() {
     }
 
     fun bind(){
+
         editTitulo = edit_titulo
         editGenero = edit_genero
         editAno = edit_ano_lancamento
@@ -73,26 +72,26 @@ class FormularioItemActivity : AppCompatActivity() {
 
         serie = Serie()
         filme = Filme()
-
     }
 
     private fun obterUsuario(): Usuario {
+
         val pref = getSharedPreferences("w.file", Context.MODE_PRIVATE)
         val id = pref.getLong(KEY, DEFAULT_VALUE)
         return usuarioBox.get(id)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_salvar_filme, menu)
-        return true
+        menuInflater.inflate(R.menu.menu_salvar_filme, menu); return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId){ R.id.salvar_filme -> salvarFilme() }
+        when (item!!.itemId) { R.id.salvar_filme -> salvarFilme() }
         return super.onOptionsItemSelected(item)
     }
 
     private fun salvarFilme(){
+
         val titulo = editTitulo.text.toString()
         val genero = editGenero.text.toString()
         val ano = editAno.text.toString()
@@ -134,7 +133,5 @@ class FormularioItemActivity : AppCompatActivity() {
 
             }
         }
-
-
     }
 }
