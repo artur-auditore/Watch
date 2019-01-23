@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
+import android.widget.Toast
 import com.example.artur.watch.Model.Post
 import com.example.artur.watch.Model.Usuario
 import com.example.artur.watch.dal.ObjectBox
@@ -66,6 +68,23 @@ class FormularioPostActivity : AppCompatActivity() {
         return usuarioBox.get(id)
     }
 
+    override fun onBackPressed() {
+        
+        if (editPostDescricao.text.toString().trim() != ""){
+            val alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("Arquivar")
+                .setMessage("Deseja arquivar o post?")
+                .setPositiveButton("SIM"){_ , _ ->
+                    arquivar()
+                }
+                .setNegativeButton("NÃO"){_, _ ->
+                    super.onBackPressed()
+                }
+                .create()
+                .show()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_compartilhar, menu)
         return true
@@ -83,11 +102,18 @@ class FormularioPostActivity : AppCompatActivity() {
 
         val textPost = editPostDescricao.text.toString()
 
-        post.descricao = textPost
-        post.data = Date()
-        post.usuario.target = usuarioLogado
-        postsArquivados.put(post)
-        finish()
+        if (textPost.trim() == ""){
+
+            Toast.makeText(this, "Escreva alguma coisa antes de prosseguir",
+                Toast.LENGTH_LONG).show()
+        } else {
+
+            post.descricao = textPost
+            post.data = Date()
+            post.usuario.target = usuarioLogado
+            postBox.put(post)
+            finish()
+        }
     }
 
     private fun publicar(){
@@ -95,10 +121,17 @@ class FormularioPostActivity : AppCompatActivity() {
         //TODO autoCompleteText depois...
         val textPost = editPostDescricao.text.toString()
 
-        post.descricao = textPost
-        post.data = Date()
-        post.usuario.target = usuarioLogado
-        postBox.put(post)
-        finish()
+        if (textPost.trim() == ""){
+
+            Toast.makeText(this, "Escreva alguma coisa antes de prosseguir",
+                Toast.LENGTH_LONG).show()
+        } else {
+
+            post.descricao = textPost
+            post.data = Date()
+            post.usuario.target = usuarioLogado
+            postBox.put(post)
+            finish()
+        }
     }
 }

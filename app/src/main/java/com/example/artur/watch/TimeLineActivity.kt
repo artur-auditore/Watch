@@ -26,7 +26,6 @@ import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_time_line.*
 import kotlinx.android.synthetic.main.app_bar_time_line.*
 import kotlinx.android.synthetic.main.content_time_line.*
-import kotlinx.android.synthetic.main.nav_header_time_line.*
 import kotlinx.android.synthetic.main.nav_header_time_line.view.*
 
 class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -71,8 +70,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
 
         bind()
-        textNome.text = usuarioLogado.nome
-        textEmail.text = usuarioLogado.email
+
 
         fabNovoPost.setOnClickListener {
             startActivity(Intent(this, FormularioPostActivity::class.java))
@@ -96,6 +94,9 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         val nav = navigationView.getHeaderView(0)
         textNome = nav.text_nome_usuario
         textEmail = nav.text_email_do_usuario
+
+        textNome.text = usuarioLogado.nome
+        textEmail.text = usuarioLogado.email
     }
 
     //Métodos específicos para login e logout
