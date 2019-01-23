@@ -20,7 +20,7 @@
                   android:layout_height="wrap_content"
                   android:id="@+id/edit_username_login"
                   android:inputType="textEmailAddress"
-                  android:hint="Username"
+                  android:hint="E-mail ou Nome de Usuário"
         />
     </android.support.design.widget.TextInputLayout>
 

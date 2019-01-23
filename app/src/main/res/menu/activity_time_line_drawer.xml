@@ -28,6 +28,12 @@
                     android:id="@+id/nav_send"
                     android:icon="@drawable/ic_action_help"
                     android:title="Ajuda"/>
+
+            <item
+                    android:id="@+id/posts_arquivados"
+                    android:title="Posts Arquivados"
+                    android:icon="@drawable/ic_action_arquivar"
+                />
         </menu>
     </item>
 

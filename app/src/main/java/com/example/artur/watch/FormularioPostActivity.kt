@@ -24,6 +24,7 @@ class FormularioPostActivity : AppCompatActivity() {
 
     private lateinit var editPostDescricao: EditText
     private lateinit var postBox: Box<Post>
+    private lateinit var postsArquivados: Box<Post>
     private lateinit var usuarioBox: Box<Usuario>
 
     private lateinit var usuarioLogado: Usuario
@@ -38,6 +39,7 @@ class FormularioPostActivity : AppCompatActivity() {
         //Para editar
         val id = intent.getLongExtra(ID, DEFAULT_VALUE)
         if (id != DEFAULT_VALUE){
+            supportActionBar!!.title = "Editar Post"
             post = postBox.get(id)
             editPostDescricao.setText(post.descricao)
 
@@ -53,6 +55,8 @@ class FormularioPostActivity : AppCompatActivity() {
         usuarioLogado = obterUsuario()
 
         post = Post()
+
+        postsArquivados = ObjectBox.boxStore.boxFor(Post::class.java)
     }
 
     private fun obterUsuario(): Usuario {
@@ -68,11 +72,24 @@ class FormularioPostActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId){ R.id.op_publicar -> publicar()}
+        when (item!!.itemId) {
+            R.id.op_publicar -> publicar()
+            R.id.op_arquivar_post -> arquivar()
+        }
         return super.onOptionsItemSelected(item)
     }
 
-    @SuppressLint("SimpleDateFormat")
+    private fun arquivar(){
+
+        val textPost = editPostDescricao.text.toString()
+
+        post.descricao = textPost
+        post.data = Date()
+        post.usuario.target = usuarioLogado
+        postsArquivados.put(post)
+        finish()
+    }
+
     private fun publicar(){
 
         //TODO autoCompleteText depois...

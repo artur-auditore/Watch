@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import com.example.artur.watch.Adapter.FilmeAdapter
 import com.example.artur.watch.Adapter.PostAdapter
 import com.example.artur.watch.Adapter.SeriesAdapter
@@ -25,6 +26,8 @@ import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_time_line.*
 import kotlinx.android.synthetic.main.app_bar_time_line.*
 import kotlinx.android.synthetic.main.content_time_line.*
+import kotlinx.android.synthetic.main.nav_header_time_line.*
+import kotlinx.android.synthetic.main.nav_header_time_line.view.*
 
 class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -37,6 +40,10 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private lateinit var recyclerView: RecyclerView
     private lateinit var postBox: Box<Post>
     private lateinit var fabNovoPost: FloatingActionButton
+
+    private lateinit var textNome: TextView
+    private lateinit var textEmail: TextView
+    private lateinit var navigationView: NavigationView
 
     private lateinit var usuarioLogado: Usuario
     private lateinit var usuarioBox: Box<Usuario>
@@ -64,10 +71,14 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
 
         bind()
+        textNome.text = usuarioLogado.nome
+        textEmail.text = usuarioLogado.email
 
         fabNovoPost.setOnClickListener {
             startActivity(Intent(this, FormularioPostActivity::class.java))
         }
+
+        loadPosts()
     }
 
     private fun bind(){
@@ -80,12 +91,11 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         filmeBox = ObjectBox.boxStore.boxFor(Filme::class.java)
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
-    }
 
-    override fun onStart() {
-        super.onStart()
-
-        loadPosts()
+        navigationView = nav_view
+        val nav = navigationView.getHeaderView(0)
+        textNome = nav.text_nome_usuario
+        textEmail = nav.text_email_do_usuario
     }
 
     //Métodos específicos para login e logout
@@ -162,6 +172,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             R.id.posts -> {
                 fabNovoPost.visibility = View.VISIBLE
 
+                supportActionBar!!.title = "Feed principal"
                 loadPosts()
             }
 
@@ -172,7 +183,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 val query = filmeBox.query()
                 val list = query.equal(Filme_.usuarioId, usuarioLogado.id)
                     .build().find()
-
+                supportActionBar!!.title = "Filmes"
                 loadFilmes(list)
             }
 
@@ -184,6 +195,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 val list = query.equal(Serie_.usuarioId, usuarioLogado.id)
                     .build().find()
 
+                supportActionBar!!.title = "Séries"
                 loadSeries(list)
             }
 

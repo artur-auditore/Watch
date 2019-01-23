@@ -16,6 +16,10 @@ import kotlinx.android.synthetic.main.activity_cadastro.*
 
 class CadastroActivity : AppCompatActivity() {
 
+    companion object {
+        const val ID = "idUsuario"
+    }
+
     private lateinit var editNome: EditText
     private lateinit var editEmail: EditText
     private lateinit var editUsername: EditText
@@ -46,7 +50,7 @@ class CadastroActivity : AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putLong("idUsuario", usuario.id)
+        editor.putLong(ID, usuario.id)
         editor.apply()
         startActivity(Intent(this, TimeLineActivity::class.java))
     }

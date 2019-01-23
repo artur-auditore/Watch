@@ -39,12 +39,15 @@ class PostAdapter(private val context: Context,
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
+        val opcoes = itemView.img_opcoes
+
         @SuppressLint("SimpleDateFormat", "SetTextI18n")
         fun bind(post: Post){
             val nome = itemView.text_nome
             val username = itemView.text_username
             val texto = itemView.text_post
             val data = itemView.text_data
+
 
             val dataAtual = Date()
             nome.text = post.usuario.target.nome
@@ -68,9 +71,24 @@ class PostAdapter(private val context: Context,
         holder.bind(post)
 
         menuPop(holder.itemView, post, position)
+
+        holder.opcoes.setOnClickListener { it ->
+            val popup = PopupMenu(context, it)
+            popup.menuInflater.inflate(R.menu.menu_opcoes, popup.menu)
+
+            popup.setOnMenuItemClickListener { item ->
+                when(item.itemId){
+                    R.id.op_salvar_post -> Snackbar.make(it, "Salvo", Snackbar.LENGTH_LONG).show()
+                }
+                false
+            }
+
+            popup.show()
+        }
     }
 
     private fun obterUsuario(): Usuario {
+
         val pref = context.getSharedPreferences("w.file", MODE_PRIVATE)
         val id = pref.getLong(KEY, DEFAULT_VALUE)
         return usuarioBox.get(id)
