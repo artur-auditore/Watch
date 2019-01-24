@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.widget.TextView
+import com.example.artur.watch.Adapter.SeriesAdapter
 import com.example.artur.watch.Adapter.TemporadaAdapter
 import com.example.artur.watch.Model.Serie
 import com.example.artur.watch.Model.Temporada
@@ -21,6 +23,7 @@ class ListaTemporadasActivity : AppCompatActivity() {
     companion object {
         const val ID = "idSerie"
         const val NOME_SERIE = "nomeSerie"
+        const val DEFAUT_VALUE: Long = -1
     }
 
     private lateinit var fabNewTemp: FloatingActionButton
@@ -28,6 +31,11 @@ class ListaTemporadasActivity : AppCompatActivity() {
     private lateinit var serieBox: Box<Serie>
     private lateinit var serieAtual: Serie
     private lateinit var recyclerView: RecyclerView
+
+    private lateinit var textTituloItem: TextView
+    private lateinit var textGeneroItem: TextView
+    private lateinit var textAnoItem: TextView
+    private lateinit var textSinopseItem: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,10 +54,20 @@ class ListaTemporadasActivity : AppCompatActivity() {
     private fun bind(){
 
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
-        serieAtual = serieBox.get(intent.getLongExtra(ID, 0))
+        serieAtual = serieBox.get(intent.getLongExtra(ID, DEFAUT_VALUE))
         temporadaBox = ObjectBox.boxStore.boxFor(Temporada::class.java)
         fabNewTemp = fab_nova_temporada
         recyclerView = rv_temporadas
+
+        textTituloItem = text_titulo_serie_filme
+        textGeneroItem = text_ano_serie_filme
+        textAnoItem = text_ano_serie_filme
+        textSinopseItem = text_sinopse_serie_filme
+
+        textTituloItem.text = serieAtual.titulo
+        textGeneroItem.text = serieAtual.genero
+        textAnoItem.text = serieAtual.ano.toString()
+        textSinopseItem.text = serieAtual.sinopse
 
     }
 

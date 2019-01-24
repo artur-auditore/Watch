@@ -18,7 +18,7 @@ class ListaCapitulosActivity : AppCompatActivity() {
 
     companion object {
         const val ID = "idTemporada"
-        const val DEFAULT_VAUE: Long = 0
+        const val DEFAULT_VAUE: Long = -1
         const val NUMERO_TEMPORADA: String = "numeroTemporada"
 
     }
@@ -32,9 +32,11 @@ class ListaCapitulosActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_capitulos)
-        title = "Temporada ${intent.getIntExtra(NUMERO_TEMPORADA, 0)}"
 
         bind()
+
+        supportActionBar!!.title = "Temporada ${temporadaAtual.numero}"
+
         novoCapitulo()
     }
 

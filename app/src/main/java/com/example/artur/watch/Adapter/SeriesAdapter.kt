@@ -20,6 +20,9 @@ class SeriesAdapter(private val context: Context,
     companion object {
         const val ID = "idSerie"
         const val NOME_SERIE = "nomeSerie"
+        const val GENERO_SERIE = "generoSerie"
+        const val ANO_SERIE = "anoSerie"
+        const val SINOPSE = "sinopse"
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -30,9 +33,9 @@ class SeriesAdapter(private val context: Context,
             val genero = itemView.genero_filme
             val ano = itemView.ano_filme
 
-            titulo.text = "Título: ${serie.titulo}"
-            genero.text = "Gênero: ${serie.genero}"
-            ano.text = "Ano: ${serie.ano}"
+            titulo.text = serie.titulo
+            genero.text = serie.genero
+            ano.text = "${serie.ano}"
         }
     }
 

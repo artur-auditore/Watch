@@ -16,7 +16,6 @@ class FormularioTemporadaActivity : AppCompatActivity() {
 
     companion object {
         const val ID = "idSerie"
-        const val NOME_SERIE = "nomeSerie"
     }
 
     private lateinit var editNTemp: EditText
