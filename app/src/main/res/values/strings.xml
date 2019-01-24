@@ -7,4 +7,12 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="filmes">Filmes</string>
+    <string name="s_ries">Séries</string>
+    <string name="rascunho">Rascunho</string>
+    <string name="perfil">Perfil</string>
+    <string name="feed_principal">Feed principal</string>
+    <string name="pref_name">w.file</string>
+    <string name="editar_post">Editar Post</string>
+    <string name="salvos">Salvos</string>
 </resources>

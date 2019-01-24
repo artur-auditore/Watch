@@ -5,9 +5,9 @@
     <application
             android:name=".dal.App"
             android:allowBackup="true"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/ic_laucher_2"
             android:label="@string/app_name"
-            android:roundIcon="@mipmap/ic_launcher_round"
+            android:roundIcon="@mipmap/ic_laucher_2"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
@@ -44,12 +44,20 @@
         <activity
                 android:name=".ListaTemporadasActivity"
                 android:label="Temporadas"
-                android:parentActivityName=".ListaTemporadasActivity">
+                android:parentActivityName=".TimeLineActivity">
         </activity>
         <activity
                 android:name=".FormularioTemporadaActivity"
                 android:label="Nova Temporada"
                 android:parentActivityName=".ListaTemporadasActivity">
+        </activity>
+        <activity android:name=".ListaCapitulosActivity"
+        android:label="Capítulos"
+        android:parentActivityName=".ListaTemporadasActivity">
+        </activity>
+        <activity android:name=".FormularioCapituloActivity"
+        android:label="Novo Capítulo"
+        android:parentActivityName=".ListaCapitulosActivity">
         </activity>
     </application>
 

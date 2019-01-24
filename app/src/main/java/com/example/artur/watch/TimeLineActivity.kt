@@ -16,9 +16,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import com.example.artur.watch.Adapter.FilmeAdapter
-import com.example.artur.watch.Adapter.PostAdapter
-import com.example.artur.watch.Adapter.SeriesAdapter
+import com.example.artur.watch.Adapter.*
 import com.example.artur.watch.Fragments.FilmesFragment
 import com.example.artur.watch.Model.*
 import com.example.artur.watch.dal.ObjectBox
@@ -38,6 +36,8 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private lateinit var preferences: SharedPreferences
     private lateinit var recyclerView: RecyclerView
     private lateinit var postBox: Box<Post>
+    private lateinit var postRascunhoBox: Box<Post>
+    private lateinit var postsSalvos: Box<Post>
     private lateinit var fabNovoPost: FloatingActionButton
 
     private lateinit var textNome: TextView
@@ -89,6 +89,8 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         filmeBox = ObjectBox.boxStore.boxFor(Filme::class.java)
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
+        postRascunhoBox = ObjectBox.boxStore.boxFor(Post::class.java)
+        postsSalvos = ObjectBox.boxStore.boxFor(Post::class.java)
 
         navigationView = nav_view
         val nav = navigationView.getHeaderView(0)
@@ -102,7 +104,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     //Métodos específicos para login e logout
     private fun logado(): Boolean {
 
-        preferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
+        preferences = getSharedPreferences(getString(R.string.pref_name), Context.MODE_PRIVATE)
         val usuarioID = preferences.getLong(KEY, DEFAULT_VALUE)
         return usuarioID != DEFAULT_VALUE
     }
@@ -110,7 +112,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun obterUsuario(): Usuario {
 
-        val pref = getSharedPreferences("w.file", Context.MODE_PRIVATE)
+        val pref = getSharedPreferences(getString(R.string.pref_name), Context.MODE_PRIVATE)
         val id = pref.getLong(KEY, DEFAULT_VALUE)
         val usuario = usuarioBox.get(id)
         return usuario
@@ -119,7 +121,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     @SuppressLint("CommitPrefEdits")
     private fun logout() {
 
-        preferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
+        preferences = getSharedPreferences(getString(R.string.pref_name), Context.MODE_PRIVATE)
         preferences.edit().clear()
         preferences.edit().apply()
         startActivity(Intent(this, LoginActivity::class.java))
@@ -143,7 +145,15 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
     private fun loadSeries(list: MutableList<Serie>){
 
-        recyclerView.adapter = SeriesAdapter(this, list, serieBox)
+        val adapter = SeriesAdapter(this, list, serieBox)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.hasFixedSize()
+    }
+
+    private fun loadRascunhos(list: MutableList<Post>){
+
+        recyclerView.adapter = PostRascunhoAdapter(this, list, postRascunhoBox)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.hasFixedSize()
     }
@@ -166,14 +176,14 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
     }
 
-    @SuppressLint("CommitTransaction", "RestrictedApi")
+    @SuppressLint("RestrictedApi")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
 
             R.id.posts -> {
                 fabNovoPost.visibility = View.VISIBLE
 
-                supportActionBar!!.title = "Feed principal"
+                supportActionBar!!.title = getString(R.string.feed_principal)
                 loadPosts()
             }
 
@@ -184,7 +194,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 val query = filmeBox.query()
                 val list = query.equal(Filme_.usuarioId, usuarioLogado.id)
                     .build().find()
-                supportActionBar!!.title = "Filmes"
+                supportActionBar!!.title = getString(R.string.filmes)
                 loadFilmes(list)
             }
 
@@ -196,15 +206,38 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 val list = query.equal(Serie_.usuarioId, usuarioLogado.id)
                     .build().find()
 
-                supportActionBar!!.title = "Séries"
+                supportActionBar!!.title = getString(R.string.s_ries)
                 loadSeries(list)
             }
 
-            R.id.nav_share -> {
+            R.id.posts_rascunhos -> {
+
+                supportActionBar!!.title = getString(R.string.rascunho)
+
+                val query = postRascunhoBox.query()
+                val list = query.equal(Post_.usuarioId, usuarioLogado.id)
+                    .build().find()
+
+                for (post in list) if (post.isArquivado) loadRascunhos(list)
+
 
             }
-            R.id.nav_send -> {
 
+            R.id.perfil -> {
+
+                supportActionBar!!.title = getString(R.string.perfil)
+            }
+
+            R.id.salvos -> {
+                supportActionBar!!.title = getString(R.string.salvos)
+
+                val query = postsSalvos.query()
+                val list = query.equal(Post_.usuarioId, usuarioLogado.id)
+                    .build().find()
+
+                recyclerView.adapter = PostsSalvosAdapter(this, list, postsSalvos)
+                recyclerView.layoutManager = LinearLayoutManager(this)
+                recyclerView.hasFixedSize()
             }
         }
 

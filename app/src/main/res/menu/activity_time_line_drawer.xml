@@ -11,29 +11,40 @@
         <item
                 android:id="@+id/filmes"
                 android:icon="@drawable/ic_action_movies"
-                android:title="Filmes"/>
+                android:title="@string/filmes"/>
         <item
                 android:id="@+id/series"
-                android:icon="@drawable/ic_menu_slideshow"
-                android:title="Séries"/>
+                android:icon="@drawable/ic_action_series"
+                android:title="@string/s_ries"/>
+
+        <item
+                android:id="@+id/posts_rascunhos"
+                android:title="@string/rascunho"
+                android:icon="@drawable/ic_action_arquivar"
+        />
+
+        <item
+                android:id="@+id/salvos"
+                android:title="@string/salvos"
+                android:icon="@drawable/ic_action_salvos"
+
+            />
+
+        <item
+                android:id="@+id/perfil"
+                android:icon="@drawable/ic_action_perfil"
+                android:title="@string/perfil"/>
     </group>
 
     <item android:title="Outros">
         <menu>
-            <item
-                    android:id="@+id/nav_share"
-                    android:icon="@drawable/ic_action_perfil"
-                    android:title="Perfil"/>
+
             <item
                     android:id="@+id/nav_send"
                     android:icon="@drawable/ic_action_help"
                     android:title="Ajuda"/>
 
-            <item
-                    android:id="@+id/posts_arquivados"
-                    android:title="Posts Arquivados"
-                    android:icon="@drawable/ic_action_arquivar"
-                />
+
         </menu>
     </item>
 

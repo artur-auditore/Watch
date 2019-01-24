@@ -18,7 +18,9 @@ class FilmeAdapter(private val context: Context,
                    private val filmes: MutableList<Filme>,
                    private val filmesBox: Box<Filme>): RecyclerView.Adapter<FilmeAdapter.ViewHolder>(){
 
-
+    companion object {
+        const val ID = "idFilme"
+    }
 
     @SuppressLint("NewApi")
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){

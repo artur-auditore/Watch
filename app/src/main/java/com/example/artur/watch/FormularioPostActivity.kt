@@ -1,6 +1,5 @@
 package com.example.artur.watch
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -26,7 +25,7 @@ class FormularioPostActivity : AppCompatActivity() {
 
     private lateinit var editPostDescricao: EditText
     private lateinit var postBox: Box<Post>
-    private lateinit var postsArquivados: Box<Post>
+    private lateinit var postRascunhoBox: Box<Post>
     private lateinit var usuarioBox: Box<Usuario>
 
     private lateinit var usuarioLogado: Usuario
@@ -41,7 +40,7 @@ class FormularioPostActivity : AppCompatActivity() {
         //Para editar
         val id = intent.getLongExtra(ID, DEFAULT_VALUE)
         if (id != DEFAULT_VALUE){
-            supportActionBar!!.title = "Editar Post"
+            supportActionBar!!.title = getString(R.string.editar_post)
             post = postBox.get(id)
             editPostDescricao.setText(post.descricao)
 
@@ -58,24 +57,24 @@ class FormularioPostActivity : AppCompatActivity() {
 
         post = Post()
 
-        postsArquivados = ObjectBox.boxStore.boxFor(Post::class.java)
+        postRascunhoBox = ObjectBox.boxStore.boxFor(Post::class.java)
     }
 
     private fun obterUsuario(): Usuario {
 
-        val pref = getSharedPreferences("w.file", Context.MODE_PRIVATE)
+        val pref = getSharedPreferences(getString(R.string.pref_name), Context.MODE_PRIVATE)
         val id = pref.getLong(KEY, DEFAULT_VALUE)
         return usuarioBox.get(id)
     }
 
     override fun onBackPressed() {
-        
+
         if (editPostDescricao.text.toString().trim() != ""){
             val alertDialog = AlertDialog.Builder(this)
             alertDialog.setTitle("Arquivar")
                 .setMessage("Deseja arquivar o post?")
                 .setPositiveButton("SIM"){_ , _ ->
-                    arquivar()
+                    salvarRascunho()
                 }
                 .setNegativeButton("NÃO"){_, _ ->
                     super.onBackPressed()
@@ -93,27 +92,9 @@ class FormularioPostActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
             R.id.op_publicar -> publicar()
-            R.id.op_arquivar_post -> arquivar()
+            R.id.op_arquivar_post -> salvarRascunho()
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun arquivar(){
-
-        val textPost = editPostDescricao.text.toString()
-
-        if (textPost.trim() == ""){
-
-            Toast.makeText(this, "Escreva alguma coisa antes de prosseguir",
-                Toast.LENGTH_LONG).show()
-        } else {
-
-            post.descricao = textPost
-            post.data = Date()
-            post.usuario.target = usuarioLogado
-            postBox.put(post)
-            finish()
-        }
     }
 
     private fun publicar(){
@@ -131,6 +112,25 @@ class FormularioPostActivity : AppCompatActivity() {
             post.data = Date()
             post.usuario.target = usuarioLogado
             postBox.put(post)
+            finish()
+        }
+    }
+
+    private fun salvarRascunho(){
+
+        val textPost = editPostDescricao.text.toString()
+
+        if (textPost.trim() == ""){
+
+            Toast.makeText(this, "Escreva alguma coisa antes de prosseguir",
+                Toast.LENGTH_LONG).show()
+        } else {
+
+            post.descricao = textPost
+            post.data = Date()
+            post.isArquivado = true
+            post.usuario.target = usuarioLogado
+            postRascunhoBox.put(post)
             finish()
         }
     }

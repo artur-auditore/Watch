@@ -10,16 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.Toast
 import com.example.artur.watch.FormularioPostActivity
 import com.example.artur.watch.Model.Post
 import com.example.artur.watch.Model.Post_
 import com.example.artur.watch.Model.Usuario
-import com.example.artur.watch.Model.Usuario_
 import com.example.artur.watch.R
 import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
-import io.objectbox.query.QueryBuilder
 import kotlinx.android.synthetic.main.item_post.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,6 +33,7 @@ class PostAdapter(private val context: Context,
 
     private var usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
     private var usuarioLogado = obterUsuario()
+    private var postsSalvosBox = ObjectBox.boxStore.boxFor(Post::class.java)
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
@@ -78,7 +76,11 @@ class PostAdapter(private val context: Context,
 
             popup.setOnMenuItemClickListener { item ->
                 when(item.itemId){
-                    R.id.op_salvar_post -> Snackbar.make(it, "Salvo", Snackbar.LENGTH_LONG).show()
+                    R.id.op_salvar_post -> {
+                        val postCopy = post
+                        postsSalvosBox.put(postCopy)
+                        notifyItemChanged(position)
+                    }
                 }
                 false
             }

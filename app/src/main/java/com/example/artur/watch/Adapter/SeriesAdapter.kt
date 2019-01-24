@@ -19,6 +19,7 @@ class SeriesAdapter(private val context: Context,
 
     companion object {
         const val ID = "idSerie"
+        const val NOME_SERIE = "nomeSerie"
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -51,6 +52,7 @@ class SeriesAdapter(private val context: Context,
 
             val intent = Intent(context, ListaTemporadasActivity::class.java)
             intent.putExtra(ID, serie.id)
+            intent.putExtra(NOME_SERIE, serie.titulo)
             context.startActivity(intent)
             notifyItemChanged(position)
         }

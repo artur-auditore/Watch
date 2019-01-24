@@ -60,7 +60,7 @@ class CadastroActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) { R.id.op_cadastar -> cadastrar() }
+        when (item!!.itemId) { R.id.op_salvar -> cadastrar() }
         return super.onOptionsItemSelected(item)
     }
 

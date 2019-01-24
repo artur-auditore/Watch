@@ -16,6 +16,7 @@ class FormularioTemporadaActivity : AppCompatActivity() {
 
     companion object {
         const val ID = "idSerie"
+        const val NOME_SERIE = "nomeSerie"
     }
 
     private lateinit var editNTemp: EditText
@@ -53,7 +54,7 @@ class FormularioTemporadaActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId){ R.id.op_cadastar -> salvar() }
+        when (item!!.itemId){ R.id.op_salvar -> salvar() }
         return super.onOptionsItemSelected(item)
     }
 

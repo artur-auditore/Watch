@@ -15,6 +15,7 @@ public class Post {
     @Id private long id;
     private String descricao;
     private Date data;
+    private boolean arquivado = false;
     private ToOne<Usuario> usuario;
 
 
@@ -55,5 +56,13 @@ public class Post {
 
     public void setUsuario(ToOne<Usuario> usuario) {
         this.usuario = usuario;
+    }
+
+    public boolean isArquivado() {
+        return arquivado;
+    }
+
+    public void setArquivado(boolean arquivado) {
+        this.arquivado = arquivado;
     }
 }

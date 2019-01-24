@@ -20,6 +20,7 @@ class ListaTemporadasActivity : AppCompatActivity() {
 
     companion object {
         const val ID = "idSerie"
+        const val NOME_SERIE = "nomeSerie"
     }
 
     private lateinit var fabNewTemp: FloatingActionButton
@@ -31,7 +32,7 @@ class ListaTemporadasActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_temporadas)
-
+        supportActionBar!!.title = intent.getStringExtra(NOME_SERIE)
         bind()
 
         fabNewTemp.setOnClickListener {
@@ -45,7 +46,7 @@ class ListaTemporadasActivity : AppCompatActivity() {
     private fun bind(){
 
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
-        serieAtual = serieBox.get(intent.getLongExtra(ID, -1))
+        serieAtual = serieBox.get(intent.getLongExtra(ID, 0))
         temporadaBox = ObjectBox.boxStore.boxFor(Temporada::class.java)
         fabNewTemp = fab_nova_temporada
         recyclerView = rv_temporadas
