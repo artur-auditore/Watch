@@ -1,8 +1,10 @@
 package com.example.artur.watch.Adapter
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -72,6 +74,7 @@ class SeriesAdapter(private val context: Context,
 
                 when(item.itemId){
                     R.id.op_editar -> editar(serie, position)
+                    R.id.op_excluir -> excluir(itemView, serie, position)
                 }
 
                 false
@@ -90,5 +93,23 @@ class SeriesAdapter(private val context: Context,
         intent.putExtra("nome", TIPO)
         context.startActivity(intent)
         notifyItemChanged(position)
+    }
+
+    private fun excluir(view: View, serie: Serie, position: Int){
+
+        val alertDialog = AlertDialog.Builder(context)
+        alertDialog.setTitle("Excluir")
+            .setMessage("Deseja realmente excluir ${serie.filme.target.titulo} da sua lista de filmes?")
+            .setPositiveButton("SIM"){_, _ ->
+
+                this.series.remove(serie)
+                this.serieBox.remove(serie)
+                notifyItemChanged(position)
+                notifyItemChanged(position, itemCount)
+                Snackbar.make(view, "${serie.filme.target.titulo} apagado.", Snackbar.LENGTH_LONG).show()
+            }
+            .setNegativeButton("Não"){_, _ ->}
+            .create()
+            .show()
     }
 }

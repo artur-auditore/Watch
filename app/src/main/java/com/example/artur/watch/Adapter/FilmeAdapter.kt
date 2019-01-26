@@ -68,6 +68,7 @@ class FilmeAdapter(private val context: Context,
 
                 when(item.itemId){
                     R.id.op_editar -> editar(filme, position)
+                    R.id.op_excluir -> excluir(itemView, filme, position)
                 }
 
                 false
@@ -86,5 +87,23 @@ class FilmeAdapter(private val context: Context,
         intent.putExtra("nome", TIPO)
         context.startActivity(intent)
         notifyItemChanged(position)
+    }
+
+    private fun excluir(view: View, filme: Filme, position: Int){
+
+        val alertDialog = AlertDialog.Builder(context)
+        alertDialog.setTitle("Excluir")
+            .setMessage("Deseja realmente excluir ${filme.titulo} da sua lista de filmes?")
+            .setPositiveButton("SIM"){_, _ ->
+
+                this.filmes.remove(filme)
+                this.filmesBox.remove(filme)
+                notifyItemChanged(position)
+                notifyItemChanged(position, itemCount)
+                Snackbar.make(view, "${filme.titulo} apagado.", Snackbar.LENGTH_LONG).show()
+            }
+            .setNegativeButton("Não"){_, _ ->}
+            .create()
+            .show()
     }
 }

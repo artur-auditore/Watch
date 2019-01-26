@@ -24,9 +24,6 @@ class FormularioItemActivity : AppCompatActivity() {
         const val ID_SERIE = "idSerie"
         const val KEY = "idUsuario"
         const val DEFAULT_VALUE: Long = -1
-
-        const val TIPO_FILME = "filme"
-        const val TIPO_SERIE = "serie"
     }
 
     private lateinit var editTitulo: EditText
@@ -51,11 +48,6 @@ class FormularioItemActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_formulario_item)
-
-        usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
-        usuarioLogado = obterUsuario()
-        filmeBox = ObjectBox.boxStore.boxFor(Filme::class.java)
-        serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
 
         bind()
 
@@ -101,6 +93,11 @@ class FormularioItemActivity : AppCompatActivity() {
     }
 
     private fun bind(){
+
+        usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
+        usuarioLogado = obterUsuario()
+        filmeBox = ObjectBox.boxStore.boxFor(Filme::class.java)
+        serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
 
         editTitulo = edit_titulo
         editGenero = edit_genero
