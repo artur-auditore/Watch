@@ -61,7 +61,7 @@ class InfoSerieActivity : AppCompatActivity() {
         recyclerView = rv_temporadas
 
         textTituloItem = text_titulo_serie_filme
-        textGeneroItem = text_ano_serie_filme
+        textGeneroItem = text_genero_serie_filme
         textAnoItem = text_ano_serie_filme
         textSinopseItem = text_estudio_serie_filme
 

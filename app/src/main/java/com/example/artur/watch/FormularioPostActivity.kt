@@ -6,14 +6,15 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.EditText
-import android.widget.Toast
-import com.example.artur.watch.Model.Post
-import com.example.artur.watch.Model.Usuario
+import android.view.View
+import android.widget.*
+import com.example.artur.watch.Model.*
 import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_formulario_post.*
 import java.util.*
+
+
 
 class FormularioPostActivity : AppCompatActivity() {
 
@@ -25,17 +26,27 @@ class FormularioPostActivity : AppCompatActivity() {
 
     private lateinit var editPostDescricao: EditText
     private lateinit var postBox: Box<Post>
+    private lateinit var filmeBox: Box<Filme>
+    private lateinit var serieBox: Box<Serie>
     private lateinit var postRascunhoBox: Box<Post>
     private lateinit var usuarioBox: Box<Usuario>
-
     private lateinit var usuarioLogado: Usuario
+    private lateinit var acItem: AutoCompleteTextView
+
     private lateinit var post: Post
+    private lateinit var filme: Filme
+    private lateinit var serie: Serie
+
+    private lateinit var radioGroup: RadioGroup
+    private lateinit var radioSerie: RadioButton
+    private lateinit var radioFilme: RadioButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_formulario_post)
 
         bind()
+
 
         //Para editar
         val id = intent.getLongExtra(ID, DEFAULT_VALUE)
@@ -45,19 +56,52 @@ class FormularioPostActivity : AppCompatActivity() {
             editPostDescricao.setText(post.descricao)
 
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val list = serieBox.query()
+            .equal(Serie_.usuarioId, usuarioLogado.id)
+            .build()
+            .find() + filmeBox.query()
+            .equal(Filme_.usuarioId, usuarioLogado.id)
+            .build()
+            .find()
+
+        val adapterSerie = ArrayAdapter(this, android.R.layout.simple_list_item_1, list)
+        acItem.setAdapter(adapterSerie)
+
+        if (radioFilme.isChecked){
+            acItem.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+                filme = parent.getItemAtPosition(position) as Filme
+            }
+        } else{
+            acItem.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+                serie = parent.getItemAtPosition(position) as Serie
+            }
+        }
+
 
     }
 
     private fun bind(){
 
         editPostDescricao = post_descricao
+        acItem = auto_complete_filme_serie
         postBox = ObjectBox.boxStore.boxFor(Post::class.java)
         usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
+        filmeBox = ObjectBox.boxStore.boxFor(Filme::class.java)
+        serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
         usuarioLogado = obterUsuario()
 
         post = Post()
 
         postRascunhoBox = ObjectBox.boxStore.boxFor(Post::class.java)
+
+        radioGroup = radio_group
+        radioFilme = radio_filme
+        radioSerie = radio_serie
     }
 
     private fun obterUsuario(): Usuario {
@@ -70,6 +114,7 @@ class FormularioPostActivity : AppCompatActivity() {
     override fun onBackPressed() {
 
         if (editPostDescricao.text.toString().trim() != ""){
+
             val alertDialog = AlertDialog.Builder(this)
             alertDialog.setTitle("Arquivar")
                 .setMessage("Deseja arquivar o post?")
@@ -97,7 +142,6 @@ class FormularioPostActivity : AppCompatActivity() {
 
     private fun publicar(){
 
-        //TODO autoCompleteText depois...
         val textPost = editPostDescricao.text.toString()
 
         if (textPost.trim() == ""){

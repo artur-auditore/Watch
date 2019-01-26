@@ -1,5 +1,6 @@
 package com.example.artur.watch.Model;
 
+import android.support.annotation.NonNull;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.relation.ToOne;
@@ -56,5 +57,12 @@ public class Serie {
 
     public void setTemporadas(List<Temporada> temporadas) {
         this.temporadas = temporadas;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.getFilme().getTarget().getTitulo() +
+                " - " + this.getFilme().getTarget().getAno();
     }
 }

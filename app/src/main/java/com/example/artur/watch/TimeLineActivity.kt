@@ -133,7 +133,6 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         recyclerView.adapter = PostAdapter(this, postBox)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.hasFixedSize()
     }
 
     private fun loadFilmes(list: MutableList<Filme>){

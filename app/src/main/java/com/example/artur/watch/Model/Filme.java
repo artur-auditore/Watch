@@ -1,5 +1,6 @@
 package com.example.artur.watch.Model;
 
+import android.support.annotation.NonNull;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.relation.ToOne;
@@ -80,5 +81,11 @@ public class Filme {
 
     public void setUsuario(ToOne<Usuario> usuario) {
         this.usuario = usuario;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.getTitulo() + " - " + this.getAno();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.artur.watch
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -10,9 +11,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
-import com.example.artur.watch.Model.Filme
-import com.example.artur.watch.Model.Serie
-import com.example.artur.watch.Model.Usuario
+import com.example.artur.watch.Model.*
 import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_formulario_item.*

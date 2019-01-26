@@ -7,6 +7,50 @@
         android:orientation="vertical"
         tools:context=".FormularioPostActivity">
 
+    <RadioGroup
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/radio_group"
+            android:layout_height="wrap_content">
+
+        <RadioButton
+                android:text="Filme"
+                android:id="@+id/radio_filme"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+
+        <RadioButton
+                android:layout_width="match_parent"
+                android:id="@+id/radio_serie"
+                android:text="Série"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+
+    </RadioGroup>
+
+    <android.support.design.widget.TextInputLayout
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <AutoCompleteTextView
+                android:id="@+id/auto_complete_filme_serie"
+                android:hint="Filme ou série"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </android.support.design.widget.TextInputLayout>
+
 
     <TextView android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -30,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="8dp"
-                android:background="@null"
+                android:background="@drawable/edit_text_post"
                 android:gravity="top"
                 android:inputType="textMultiLine"
                 android:overScrollMode="always"
@@ -38,6 +82,9 @@
                 android:scrollbars="vertical"/>
 
     </android.support.design.widget.TextInputLayout>
+
+
+
 
 
 </LinearLayout>
