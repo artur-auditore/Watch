@@ -191,9 +191,10 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 fabNovoPost.visibility = View.INVISIBLE
                 supportFragmentManager.beginTransaction().replace(R.id.main, FilmesFragment()).commit()
 
-                val query = filmeBox.query()
-                val list = query.equal(Filme_.usuarioId, usuarioLogado.id)
+                val list = filmeBox.query()
+                    .equal(Filme_.usuarioId, usuarioLogado.id)
                     .build().find()
+
                 supportActionBar!!.title = getString(R.string.filmes)
                 loadFilmes(list)
             }
@@ -202,8 +203,8 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 fabNovoPost.visibility = View.INVISIBLE
                 supportFragmentManager.beginTransaction().replace(R.id.main, FilmesFragment()).commit()
 
-                val query = serieBox.query()
-                val list = query.equal(Serie_.usuarioId, usuarioLogado.id)
+                val list = serieBox.query()
+                    .equal(Serie_.usuarioId, usuarioLogado.id)
                     .build().find()
 
                 supportActionBar!!.title = getString(R.string.s_ries)
@@ -214,8 +215,8 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
                 supportActionBar!!.title = getString(R.string.rascunho)
 
-                val query = postRascunhoBox.query()
-                val list = query.equal(Post_.usuarioId, usuarioLogado.id)
+                val list = postRascunhoBox.query()
+                    .equal(Post_.arquivado, usuarioLogado.id)
                     .build().find()
 
                 for (post in list) if (post.isArquivado) loadRascunhos(list)
@@ -231,8 +232,8 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             R.id.salvos -> {
                 supportActionBar!!.title = getString(R.string.salvos)
 
-                val query = postsSalvos.query()
-                val list = query.equal(Post_.usuarioId, usuarioLogado.id)
+                val list = postsSalvos.query()
+                    .equal(Post_.arquivado, usuarioLogado.id)
                     .build().find()
 
                 recyclerView.adapter = PostsSalvosAdapter(this, list, postsSalvos)

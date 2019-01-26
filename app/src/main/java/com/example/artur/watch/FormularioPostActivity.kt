@@ -76,12 +76,11 @@ class FormularioPostActivity : AppCompatActivity() {
                 .setPositiveButton("SIM"){_ , _ ->
                     salvarRascunho()
                 }
-                .setNegativeButton("NÃO"){_, _ ->
-                    super.onBackPressed()
-                }
+                .setNegativeButton("NÃO"){_, _ -> }
                 .create()
                 .show()
         }
+        super.onBackPressed()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -92,7 +91,6 @@ class FormularioPostActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
             R.id.op_publicar -> publicar()
-            R.id.op_arquivar_post -> salvarRascunho()
         }
         return super.onOptionsItemSelected(item)
     }

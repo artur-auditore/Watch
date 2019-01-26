@@ -19,7 +19,6 @@ import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.item_post.view.*
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class PostAdapter(private val context: Context,
@@ -78,9 +77,7 @@ class PostAdapter(private val context: Context,
             popup.setOnMenuItemClickListener { item ->
                 when(item.itemId){
                     R.id.op_salvar_post -> {
-                        val postCopy = post
-                        postsSalvosBox.put(postCopy)
-                        notifyItemChanged(position)
+
                     }
                 }
                 false
@@ -145,6 +142,7 @@ class PostAdapter(private val context: Context,
                 this.postBox.remove(post)
                 notifyItemChanged(position)
                 notifyItemRangeChanged(position, itemCount)
+                notifyItemRangeRemoved(position, itemCount)
                 Snackbar.make(view, "Post excluído", Snackbar.LENGTH_LONG).show()
             }
             .setNegativeButton("NÃO"){_, _ ->}

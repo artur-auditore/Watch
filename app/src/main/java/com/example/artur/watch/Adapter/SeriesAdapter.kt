@@ -23,7 +23,6 @@ class SeriesAdapter(private val context: Context,
 
     companion object {
         const val ID = "idSerie"
-        const val TIPO = "serie"
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -90,7 +89,6 @@ class SeriesAdapter(private val context: Context,
 
         val intent = Intent(context, FormularioItemActivity::class.java)
         intent.putExtra(ID, serie.id)
-        intent.putExtra("nome", TIPO)
         context.startActivity(intent)
         notifyItemChanged(position)
     }

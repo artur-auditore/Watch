@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.support.constraint.solver.widgets.Analyzer.setPosition
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.*
@@ -84,7 +83,6 @@ class FilmeAdapter(private val context: Context,
 
         val intent = Intent(context, FormularioItemActivity::class.java)
         intent.putExtra(ID, filme.id)
-        intent.putExtra("nome", TIPO)
         context.startActivity(intent)
         notifyItemChanged(position)
     }

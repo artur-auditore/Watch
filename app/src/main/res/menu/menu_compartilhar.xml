@@ -2,13 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:title="Arquivar"
-            app:showAsAction="always"
-            android:id="@+id/op_arquivar_post"
-            android:icon="@drawable/ic_action_arquivar"
-    />
-
-    <item
             android:title="Publicar"
             app:showAsAction="always"
             android:id="@+id/op_publicar"
