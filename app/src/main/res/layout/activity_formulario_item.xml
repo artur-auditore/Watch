@@ -64,7 +64,7 @@
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
+                    android:inputType="number"
                     android:id="@+id/edit_ano_lancamento"
                     android:hint="Ano de Lançamento"
             />
@@ -91,6 +91,24 @@
 
         <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+        >
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:id="@+id/edit_estudio"
+                    android:hint="Estúdio (Netflix, HBO, CW, etc)"
+            />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
                 android:theme="@style/AlertDialog.AppCompat"
                 android:layout_height="150dp"
                 android:layout_marginLeft="8dp"
@@ -104,7 +122,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="8dp"
-                    android:hint="Sinopse"
+                    android:hint="Sinopse resumida"
                     android:background="@null"
                     android:gravity="top"
                     android:inputType="textMultiLine"
@@ -156,6 +174,25 @@
             </RadioGroup>
 
         </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+        >
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:inputType="number"
+                    android:id="@+id/edit_qtd_temporadas"
+                    android:hint="Quantas temporadas?"
+            />
+
+        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 

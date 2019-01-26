@@ -1,23 +1,45 @@
 package com.example.artur.watch.Model;
 
 import io.objectbox.annotation.Entity;
+import io.objectbox.annotation.Id;
 import io.objectbox.relation.ToOne;
 
 import java.util.List;
 
 @Entity
-public class Serie extends Item {
+public class Serie {
 
+    @Id private long id;
+    private ToOne<Filme> filme;
+    private int qtdTemporadas;
     private ToOne<Usuario> usuario;
+    private List<Temporada> temporadas;
+
 
     public Serie() { }
 
-    public Serie(String titulo, String genero, int ano, String estrelando, String sinopse){
-        this.setTitulo(titulo);
-        this.setGenero(genero);
-        this.setAno(ano);
-        this.setEstrelando(estrelando);
-        this.setSinopse(sinopse);
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public ToOne<Filme> getFilme() {
+        return filme;
+    }
+
+    public void setFilme(ToOne<Filme> filme) {
+        this.filme = filme;
+    }
+
+    public int getQtdTemporadas() {
+        return qtdTemporadas;
+    }
+
+    public void setQtdTemporadas(int qtdTemporadas) {
+        this.qtdTemporadas = qtdTemporadas;
     }
 
     public ToOne<Usuario> getUsuario() {
@@ -27,8 +49,6 @@ public class Serie extends Item {
     public void setUsuario(ToOne<Usuario> usuario) {
         this.usuario = usuario;
     }
-
-    private List<Temporada> temporadas;
 
     public List<Temporada> getTemporadas() {
         return temporadas;

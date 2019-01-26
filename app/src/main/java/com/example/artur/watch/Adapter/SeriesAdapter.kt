@@ -7,7 +7,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.artur.watch.ListaTemporadasActivity
+import android.widget.PopupMenu
+import com.example.artur.watch.FormularioItemActivity
+import com.example.artur.watch.InfoSerieActivity
 import com.example.artur.watch.Model.Serie
 import com.example.artur.watch.R
 import io.objectbox.Box
@@ -19,10 +21,7 @@ class SeriesAdapter(private val context: Context,
 
     companion object {
         const val ID = "idSerie"
-        const val NOME_SERIE = "nomeSerie"
-        const val GENERO_SERIE = "generoSerie"
-        const val ANO_SERIE = "anoSerie"
-        const val SINOPSE = "sinopse"
+        const val TIPO = "serie"
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -33,9 +32,9 @@ class SeriesAdapter(private val context: Context,
             val genero = itemView.genero_filme
             val ano = itemView.ano_filme
 
-            titulo.text = serie.titulo
-            genero.text = serie.genero
-            ano.text = "${serie.ano}"
+            titulo.text = serie.filme.target.titulo
+            genero.text = serie.filme.target.genero
+            ano.text = "${serie.filme.target.ano}"
         }
     }
 
@@ -53,11 +52,43 @@ class SeriesAdapter(private val context: Context,
 
         holder.itemView.setOnClickListener {
 
-            val intent = Intent(context, ListaTemporadasActivity::class.java)
+            val intent = Intent(context, InfoSerieActivity::class.java)
             intent.putExtra(ID, serie.id)
-            intent.putExtra(NOME_SERIE, serie.titulo)
             context.startActivity(intent)
             notifyItemChanged(position)
         }
+
+        menuPop(holder.itemView, serie, position)
+    }
+
+    private fun menuPop(itemView: View, serie: Serie, position: Int){
+
+        itemView.setOnLongClickListener {it ->
+
+            val popup = PopupMenu(context, it)
+            popup.menuInflater.inflate(R.menu.menu_pop, popup.menu)
+
+            popup.setOnMenuItemClickListener {item ->
+
+                when(item.itemId){
+                    R.id.op_editar -> editar(serie, position)
+                }
+
+                false
+            }
+
+            popup.show()
+
+            true
+        }
+    }
+
+    private fun editar(serie: Serie, position: Int) {
+
+        val intent = Intent(context, FormularioItemActivity::class.java)
+        intent.putExtra(ID, serie.id)
+        intent.putExtra("nome", TIPO)
+        context.startActivity(intent)
+        notifyItemChanged(position)
     }
 }

@@ -3,10 +3,13 @@ package com.example.artur.watch.Adapter
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.support.constraint.solver.widgets.Analyzer.setPosition
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.*
+import android.widget.PopupMenu
+import com.example.artur.watch.FormularioItemActivity
 import com.example.artur.watch.Model.Filme
 import com.example.artur.watch.R
 import io.objectbox.Box
@@ -20,6 +23,7 @@ class FilmeAdapter(private val context: Context,
 
     companion object {
         const val ID = "idFilme"
+        const val TIPO = "filme"
     }
 
     @SuppressLint("NewApi")
@@ -31,12 +35,10 @@ class FilmeAdapter(private val context: Context,
             val genero = itemView.genero_filme
             val ano = itemView.ano_filme
 
-            titulo.text = "Título: ${filme.titulo}"
-            genero.text = "Gênero: ${filme.genero}"
-            ano.text = "Ano: ${filme.ano}"
+            titulo.text = filme.titulo
+            genero.text = filme.genero
+            ano.text = "${filme.ano}"
         }
-
-
     }
 
 
@@ -52,5 +54,37 @@ class FilmeAdapter(private val context: Context,
         val filme = filmes[position]
         holder.bind(filme)
 
+        menuPop(holder.itemView, filme, position)
+
+    }
+
+    private fun menuPop(itemView: View, filme: Filme, position: Int){
+        itemView.setOnLongClickListener {it ->
+
+            val popup = PopupMenu(context, it)
+            popup.menuInflater.inflate(R.menu.menu_pop, popup.menu)
+
+            popup.setOnMenuItemClickListener {item ->
+
+                when(item.itemId){
+                    R.id.op_editar -> editar(filme, position)
+                }
+
+                false
+            }
+
+            popup.show()
+
+            true
+        }
+    }
+
+    private fun editar(filme: Filme, position: Int) {
+
+        val intent = Intent(context, FormularioItemActivity::class.java)
+        intent.putExtra(ID, filme.id)
+        intent.putExtra("nome", TIPO)
+        context.startActivity(intent)
+        notifyItemChanged(position)
     }
 }

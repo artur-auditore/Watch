@@ -19,6 +19,7 @@ import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.item_post.view.*
 import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class PostAdapter(private val context: Context,

@@ -18,11 +18,10 @@ import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_lista_temporadas.*
 
 @SuppressLint("Registered")
-class ListaTemporadasActivity : AppCompatActivity() {
+class InfoSerieActivity : AppCompatActivity() {
 
     companion object {
         const val ID = "idSerie"
-        const val NOME_SERIE = "nomeSerie"
         const val DEFAUT_VALUE: Long = -1
     }
 
@@ -40,7 +39,8 @@ class ListaTemporadasActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_temporadas)
-        supportActionBar!!.title = intent.getStringExtra(NOME_SERIE)
+
+
         bind()
 
         fabNewTemp.setOnClickListener {
@@ -51,6 +51,7 @@ class ListaTemporadasActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun bind(){
 
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
@@ -62,12 +63,12 @@ class ListaTemporadasActivity : AppCompatActivity() {
         textTituloItem = text_titulo_serie_filme
         textGeneroItem = text_ano_serie_filme
         textAnoItem = text_ano_serie_filme
-        textSinopseItem = text_sinopse_serie_filme
+        textSinopseItem = text_estudio_serie_filme
 
-        textTituloItem.text = serieAtual.titulo
-        textGeneroItem.text = serieAtual.genero
-        textAnoItem.text = serieAtual.ano.toString()
-        textSinopseItem.text = serieAtual.sinopse
+        textTituloItem.text = serieAtual.filme.target.titulo
+        textGeneroItem.text = serieAtual.filme.target.genero
+        textAnoItem.text = serieAtual.filme.target.ano.toString()
+        textSinopseItem.text = "Série Original ${serieAtual.filme.target.estudio}"
 
     }
 
@@ -81,9 +82,10 @@ class ListaTemporadasActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        val query = temporadaBox.query()
-        val list = query.equal(Temporada_.serieId, serieAtual.id)
-            .build().find()
+        val list = temporadaBox.query()
+            .equal(Temporada_.serieId, serieAtual.id)
+            .build()
+            .find()
 
         loadTemporadas(list)
     }

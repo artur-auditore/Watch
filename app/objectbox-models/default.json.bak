@@ -219,19 +219,32 @@
     },
     {
       "id": "13:1546753524128424977",
-      "lastPropertyId": "1:2537330808775292433",
+      "lastPropertyId": "4:3458928423265246399",
       "name": "Capitulo",
       "properties": [
         {
           "id": "1:2537330808775292433",
           "name": "id"
+        },
+        {
+          "id": "2:2184678212398779873",
+          "name": "titulo"
+        },
+        {
+          "id": "3:8391055829605857642",
+          "name": "descricao"
+        },
+        {
+          "id": "4:3458928423265246399",
+          "indexId": "10:8624002325126902197",
+          "name": "temporadaId"
         }
       ],
       "relations": []
     }
   ],
   "lastEntityId": "13:1546753524128424977",
-  "lastIndexId": "9:2780073148571243923",
+  "lastIndexId": "10:8624002325126902197",
   "lastRelationId": "9:2843734164460651546",
   "lastSequenceId": "0:0",
   "modelVersion": 4,

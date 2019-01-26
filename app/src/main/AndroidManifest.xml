@@ -43,19 +43,19 @@
                 android:parentActivityName=".TimeLineActivity">
         </activity>
         <activity
-                android:name=".ListaTemporadasActivity"
-                android:label="Temporadas"
+                android:name=".InfoSerieActivity"
+                android:label="Informações"
                 android:parentActivityName=".TimeLineActivity">
         </activity>
         <activity
                 android:name=".FormularioTemporadaActivity"
                 android:label="Nova Temporada"
-                android:parentActivityName=".ListaTemporadasActivity">
+                android:parentActivityName=".InfoSerieActivity">
         </activity>
         <activity
                 android:name=".ListaCapitulosActivity"
                 android:label="Capítulos"
-                android:parentActivityName=".ListaTemporadasActivity">
+                android:parentActivityName=".InfoSerieActivity">
         </activity>
         <activity
                 android:name=".FormularioCapituloActivity"

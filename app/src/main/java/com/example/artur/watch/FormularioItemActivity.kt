@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import android.widget.RadioButton
+import android.widget.Toast
 import com.example.artur.watch.Model.Filme
 import com.example.artur.watch.Model.Serie
 import com.example.artur.watch.Model.Usuario
@@ -18,15 +20,21 @@ import kotlinx.android.synthetic.main.activity_formulario_item.*
 class FormularioItemActivity : AppCompatActivity() {
 
     companion object {
-        const val ID = "idFilme"
+        const val ID_FILME = "idFilme"
+        const val ID_SERIE = "idSerie"
         const val KEY = "idUsuario"
         const val DEFAULT_VALUE: Long = -1
+
+        const val TIPO_FILME = "filme"
+        const val TIPO_SERIE = "serie"
     }
 
     private lateinit var editTitulo: EditText
     private lateinit var editGenero: EditText
     private lateinit var editAno: EditText
     private lateinit var editEstrelando: EditText
+    private lateinit var editEstudio: EditText
+    private lateinit var editQtdTemp: EditText
     private lateinit var editSinopse: EditText
 
     private lateinit var filmeBox: Box<Filme>
@@ -52,21 +60,55 @@ class FormularioItemActivity : AppCompatActivity() {
         bind()
 
         //Para editar
-        val id = intent.getLongExtra(ID, DEFAULT_VALUE)
-        if (id != DEFAULT_VALUE){
-            //TODO completar depois
+        val idFilme = intent.getLongExtra(ID_FILME, DEFAULT_VALUE)
+        val idSerie = intent.getLongExtra(ID_SERIE, DEFAULT_VALUE)
 
+        if (idFilme != DEFAULT_VALUE){
+            supportActionBar!!.title = "Editar Filme"
+            filme = filmeBox.get(idFilme)
+            preecherFilme(filme)
+        }
+
+        if (idSerie != DEFAULT_VALUE){
+            supportActionBar!!.title = "Editar Série"
+            serie = serieBox.get(idSerie)
+            preecherSerie(serie)
         }
 
     }
 
-    fun bind(){
+    private fun preecherFilme(filme: Filme){
+
+        editTitulo.setText(filme.titulo)
+        editGenero.setText(filme.genero)
+        editAno.setText(filme.ano.toString())
+        editEstrelando.setText(filme.estrelando)
+        editEstudio.setText(filme.estudio)
+        editSinopse.setText(filme.sinopse)
+        radioButtonNao.isChecked
+    }
+
+    private fun preecherSerie(serie: Serie){
+
+        editTitulo.setText(serie.filme.target.titulo)
+        editGenero.setText(serie.filme.target.genero)
+        editAno.setText(serie.filme.target.ano.toString())
+        editEstrelando.setText(serie.filme.target.estrelando)
+        editEstudio.setText(serie.filme.target.estudio)
+        editSinopse.setText(serie.filme.target.sinopse)
+        radioButtonSim.isChecked
+        editQtdTemp.setText(serie.qtdTemporadas.toString())
+    }
+
+    private fun bind(){
 
         editTitulo = edit_titulo
         editGenero = edit_genero
         editAno = edit_ano_lancamento
+        editEstudio = edit_estudio
         editEstrelando = edit_estrelando
         editSinopse = edit_sinopse
+        editQtdTemp = edit_qtd_temporadas
         radioButtonSim = radio_sim
         radioButtonNao = radio_nao
 
@@ -96,6 +138,7 @@ class FormularioItemActivity : AppCompatActivity() {
         val genero = editGenero.text.toString()
         val ano = editAno.text.toString()
         val estrelando = editEstrelando.text.toString()
+        val estudio = editEstudio.text.toString()
         val sinopse = editSinopse.text.toString()
 
         if (titulo.trim() == "" || genero.trim() == "" || ano.trim() == ""){
@@ -111,14 +154,30 @@ class FormularioItemActivity : AppCompatActivity() {
 
             if (radioButtonSim.isChecked){
 
-                serie.titulo = titulo
-                serie.genero = genero
-                serie.ano = ano.toInt()
-                serie.estrelando = estrelando
-                serie.sinopse = sinopse
-                serie.usuario.target = usuarioLogado
-                serieBox.put(serie)
-                finish()
+                editQtdTemp.visibility = View.VISIBLE
+                val qtdTemp = editQtdTemp.text.toString()
+
+                if (qtdTemp.trim() == ""){
+
+                    Toast.makeText(this,
+                        "Você deve adicionar a quantidade de temporadas", Toast.LENGTH_LONG).show()
+                } else{
+
+                    serie.filme.target = filme
+                    serie.filme.target.titulo = titulo
+                    serie.filme.target.genero = genero
+                    serie.filme.target.ano = ano.toInt()
+                    serie.filme.target.estrelando = estrelando
+                    serie.filme.target.estudio = estudio
+                    serie.filme.target.sinopse = sinopse
+                    serie.usuario.target = usuarioLogado
+                    serieBox.put(serie)
+                    finish()
+
+                    Toast.makeText(this,
+                        "Série salva!", Toast.LENGTH_LONG).show()
+
+                }
 
             } else {
 
@@ -126,10 +185,14 @@ class FormularioItemActivity : AppCompatActivity() {
                 filme.genero = genero
                 filme.ano = ano.toInt()
                 filme.estrelando = estrelando
+                filme.estudio = estudio
                 filme.sinopse = sinopse
                 filme.usuario.target = usuarioLogado
                 filmeBox.put(filme)
                 finish()
+
+                Toast.makeText(this,
+                    "Filme salvo!", Toast.LENGTH_LONG).show()
 
             }
         }
