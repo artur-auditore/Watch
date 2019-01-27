@@ -17,6 +17,8 @@ public class Post {
     private Date data;
     private boolean arquivado = false;
     private ToOne<Usuario> usuario;
+    private ToOne<Filme> filme;
+    private ToOne<Serie> serie;
 
 
     public Post() {}
@@ -64,5 +66,21 @@ public class Post {
 
     public void setArquivado(boolean arquivado) {
         this.arquivado = arquivado;
+    }
+
+    public ToOne<Filme> getFilme() {
+        return filme;
+    }
+
+    public void setFilme(ToOne<Filme> filme) {
+        this.filme = filme;
+    }
+
+    public ToOne<Serie> getSerie() {
+        return serie;
+    }
+
+    public void setSerie(ToOne<Serie> serie) {
+        this.serie = serie;
     }
 }

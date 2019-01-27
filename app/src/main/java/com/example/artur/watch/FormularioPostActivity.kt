@@ -150,11 +150,24 @@ class FormularioPostActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG).show()
         } else {
 
-            post.descricao = textPost
-            post.data = Date()
-            post.usuario.target = usuarioLogado
-            postBox.put(post)
-            finish()
+            if (radioSerie.isChecked){
+
+                post.descricao = textPost
+                post.serie.target = serie
+                post.data = Date()
+                post.usuario.target = usuarioLogado
+                postBox.put(post)
+                finish()
+
+            } else {
+                post.descricao = textPost
+                post.filme.target = filme
+                post.data = Date()
+                post.usuario.target = usuarioLogado
+                postBox.put(post)
+                finish()
+            }
+
         }
     }
 
