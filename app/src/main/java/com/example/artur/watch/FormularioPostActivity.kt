@@ -26,7 +26,6 @@ class FormularioPostActivity : AppCompatActivity() {
 
     private lateinit var editPostDescricao: EditText
     private lateinit var postBox: Box<Post>
-    private lateinit var filmeBox: Box<Filme>
     private lateinit var serieBox: Box<Serie>
     private lateinit var postRascunhoBox: Box<Post>
     private lateinit var usuarioBox: Box<Usuario>
@@ -34,12 +33,7 @@ class FormularioPostActivity : AppCompatActivity() {
     private lateinit var acItem: AutoCompleteTextView
 
     private lateinit var post: Post
-    private lateinit var filme: Filme
     private lateinit var serie: Serie
-
-    private lateinit var radioGroup: RadioGroup
-    private lateinit var radioSerie: RadioButton
-    private lateinit var radioFilme: RadioButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +48,7 @@ class FormularioPostActivity : AppCompatActivity() {
             supportActionBar!!.title = getString(R.string.editar_post)
             post = postBox.get(id)
             editPostDescricao.setText(post.descricao)
-            acItem.setText(post.serie.target.filme.target.titulo)
+            acItem.setText(post.serie.target.titulo)
 
         }
     }
@@ -65,21 +59,15 @@ class FormularioPostActivity : AppCompatActivity() {
         val list = serieBox.query()
             .equal(Serie_.usuarioId, usuarioLogado.id)
             .build()
-            .find() + filmeBox.query()
-            .equal(Filme_.usuarioId, usuarioLogado.id)
-            .build()
             .find()
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, list)
         acItem.setAdapter(adapter)
 
         acItem.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            if (radioFilme.isChecked)
-                filme = parent.getItemAtPosition(position) as Filme
-            else
-                serie = parent.getItemAtPosition(position) as Serie
-
+            serie = parent.getItemAtPosition(position) as Serie
         }
+
     }
 
     private fun bind(){
@@ -88,7 +76,6 @@ class FormularioPostActivity : AppCompatActivity() {
         acItem = auto_complete_filme_serie
         postBox = ObjectBox.boxStore.boxFor(Post::class.java)
         usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
-        filmeBox = ObjectBox.boxStore.boxFor(Filme::class.java)
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
         usuarioLogado = obterUsuario()
 
@@ -96,9 +83,6 @@ class FormularioPostActivity : AppCompatActivity() {
 
         postRascunhoBox = ObjectBox.boxStore.boxFor(Post::class.java)
 
-        radioGroup = radio_group
-        radioFilme = radio_filme
-        radioSerie = radio_serie
     }
 
     private fun obterUsuario(): Usuario {
@@ -140,32 +124,39 @@ class FormularioPostActivity : AppCompatActivity() {
     private fun publicar(){
 
         val textPost = editPostDescricao.text.toString()
+        val textItem = acItem.text.toString()
 
-        if (textPost.trim() == ""){
+        try {
 
-            Toast.makeText(this, "Escreva alguma coisa antes de prosseguir",
-                Toast.LENGTH_LONG).show()
-        } else {
+            if (textItem.trim() == ""){
 
-            if (radioSerie.isChecked){
-
-                post.descricao = textPost
-                post.serie.target = serie
-                post.data = Date()
-                post.usuario.target = usuarioLogado
-                postBox.put(post)
-                finish()
+                val alertDialog = AlertDialog.Builder(this)
+                alertDialog.setTitle("Erro")
+                    .setMessage("Há campos obrigatórios em branco ou você não adiciou nenhuma série ainda. " +
+                            "Adicione uma série e/ou sua opinião para prosseguir.")
+                    .setNeutralButton("OK"){_, _ ->}
+                    .create().show()
 
             } else {
-                post.descricao = textPost
-                post.filme.target = filme
-                post.data = Date()
-                post.usuario.target = usuarioLogado
-                postBox.put(post)
-                finish()
+
+                    post.descricao = textPost
+                    post.serie.target = serie
+                    post.data = Date()
+                    post.usuario.target = usuarioLogado
+                    postBox.put(post)
+                    finish()
             }
 
+        } catch (e: UninitializedPropertyAccessException){
+            val alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("Erro")
+                .setMessage("Você não adicionou nenhuma série com este título. " +
+                        "Adicione-a para prosseguir.")
+                .setNeutralButton("OK"){_, _ ->}
+                .create().show()
         }
+
+
     }
 
     private fun salvarRascunho(){

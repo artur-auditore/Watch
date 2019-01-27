@@ -33,7 +33,7 @@
                 android:parentActivityName=".LoginActivity">
         </activity>
         <activity
-                android:name=".FormularioItemActivity"
+                android:name=".FormularioSerieActivity"
                 android:label="Novo Filme/Série"
                 android:parentActivityName=".TimeLineActivity">
         </activity>

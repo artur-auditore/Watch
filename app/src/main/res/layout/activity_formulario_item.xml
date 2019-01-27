@@ -22,7 +22,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="25dp"
-                android:layout_marginBottom="10dp"
                 android:layout_marginEnd="10dp"
         >
             <EditText
@@ -40,7 +39,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_marginEnd="10dp"
         >
             <EditText
@@ -58,7 +56,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_marginEnd="10dp"
         >
             <EditText
@@ -76,7 +73,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_marginEnd="10dp"
         >
             <EditText
@@ -94,7 +90,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_marginEnd="10dp"
         >
             <EditText
@@ -102,7 +97,24 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:id="@+id/edit_estudio"
-                    android:hint="Estúdio (Netflix, HBO, CW, etc)"
+                    android:hint="Estúdio (Netflix, HBO, Warner, etc)"
+            />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+        >
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:hint="Quantas Temporadas?"
+                    android:id="@+id/edit_qtd_temporadas"
             />
 
         </android.support.design.widget.TextInputLayout>
@@ -123,7 +135,7 @@
                     android:layout_height="match_parent"
                     android:padding="8dp"
                     android:hint="Sinopse resumida"
-                    android:background="@null"
+                    android:background="@drawable/edit_text_post"
                     android:gravity="top"
                     android:inputType="textMultiLine"
                     android:overScrollMode="always"
@@ -134,65 +146,6 @@
 
 
 
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:textSize="20sp"
-                    android:text="Temporadas?"/>
-
-            <RadioGroup
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:checkedButton="@id/radio_nao"
-                    android:layout_height="wrap_content">
-
-                <RadioButton
-                        android:id="@+id/radio_sim"
-                        android:text="Sim"
-                        android:layout_width="match_parent"
-                        android:layout_marginEnd="10dp"
-                        android:layout_height="wrap_content"/>
-
-                <RadioButton
-                        android:id="@+id/radio_nao"
-                        android:text="Não"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-            </RadioGroup>
-
-        </LinearLayout>
-
-        <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginEnd="10dp"
-        >
-            <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    android:inputType="number"
-                    android:id="@+id/edit_qtd_temporadas"
-                    android:hint="Quantas temporadas?"
-            />
-
-        </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
 

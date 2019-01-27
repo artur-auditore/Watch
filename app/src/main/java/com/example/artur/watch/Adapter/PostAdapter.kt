@@ -11,9 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import com.example.artur.watch.FormularioPostActivity
-import com.example.artur.watch.Model.Post
-import com.example.artur.watch.Model.Post_
-import com.example.artur.watch.Model.Usuario
+import com.example.artur.watch.Model.*
 import com.example.artur.watch.R
 import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
@@ -33,7 +31,6 @@ class PostAdapter(private val context: Context,
 
     private var usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
     private var usuarioLogado = obterUsuario()
-    private var postsSalvosBox = ObjectBox.boxStore.boxFor(Post::class.java)
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
@@ -45,7 +42,6 @@ class PostAdapter(private val context: Context,
             val username = itemView.text_username
             val texto = itemView.text_post
             val textSerie = itemView.text_post_serie
-            //val textFilme = itemView.text_post_filme
             val data = itemView.text_data
 
 
@@ -53,8 +49,7 @@ class PostAdapter(private val context: Context,
             nome.text = post.usuario.target.nome
             username.text = "@${post.usuario.target.username}"
             texto.text = post.descricao
-            textSerie.text = "Está assistindo ${post.serie.target.filme.target.titulo}"
-           // textFilme.text = "Está assistindo ${post.filme.target.titulo}"
+            textSerie.text = "Está assistindo ${post.serie.target.titulo}"
             data.text = SimpleDateFormat("dd/MM/yyyy").format(dataAtual)
 
             textSerie.setOnClickListener {
@@ -122,7 +117,6 @@ class PostAdapter(private val context: Context,
                         R.id.op_editar -> editar(post, position)
                         R.id.op_excluir -> excluir(itemView, post, position)
                     }
-
                     false
                 }
 

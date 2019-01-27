@@ -16,7 +16,7 @@ import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_formulario_item.*
 
-class FormularioItemActivity : AppCompatActivity() {
+class FormularioSerieActivity : AppCompatActivity() {
 
     companion object {
         const val ID_FILME = "idFilme"
@@ -33,16 +33,11 @@ class FormularioItemActivity : AppCompatActivity() {
     private lateinit var editQtdTemp: EditText
     private lateinit var editSinopse: EditText
 
-    private lateinit var filmeBox: Box<Filme>
     private lateinit var serieBox: Box<Serie>
-    private lateinit var filme: Filme
     private lateinit var serie: Serie
 
     private lateinit var usuarioBox: Box<Usuario>
     private lateinit var usuarioLogado: Usuario
-
-    private lateinit var radioButtonSim: RadioButton
-    private lateinit var radioButtonNao: RadioButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,15 +46,7 @@ class FormularioItemActivity : AppCompatActivity() {
         bind()
 
         //Para editar
-        val idFilme = intent.getLongExtra(ID_FILME, DEFAULT_VALUE)
         val idSerie = intent.getLongExtra(ID_SERIE, DEFAULT_VALUE)
-
-        if (idFilme != DEFAULT_VALUE){
-            supportActionBar!!.title = "Editar Filme"
-            filme = filmeBox.get(idFilme)
-            preecherFilme(filme)
-        }
-
         if (idSerie != DEFAULT_VALUE){
             supportActionBar!!.title = "Editar Série"
             serie = serieBox.get(idSerie)
@@ -68,26 +55,14 @@ class FormularioItemActivity : AppCompatActivity() {
 
     }
 
-    private fun preecherFilme(filme: Filme){
-
-        editTitulo.setText(filme.titulo)
-        editGenero.setText(filme.genero)
-        editAno.setText(filme.ano.toString())
-        editEstrelando.setText(filme.estrelando)
-        editEstudio.setText(filme.estudio)
-        editSinopse.setText(filme.sinopse)
-        radioButtonNao.isChecked
-    }
-
     private fun preecherSerie(serie: Serie){
 
-        editTitulo.setText(serie.filme.target.titulo)
-        editGenero.setText(serie.filme.target.genero)
-        editAno.setText(serie.filme.target.ano.toString())
-        editEstrelando.setText(serie.filme.target.estrelando)
-        editEstudio.setText(serie.filme.target.estudio)
-        editSinopse.setText(serie.filme.target.sinopse)
-        radioButtonSim.isChecked
+        editTitulo.setText(serie.titulo)
+        editGenero.setText(serie.genero)
+        editAno.setText(serie.ano.toString())
+        editEstrelando.setText(serie.estrelando)
+        editEstudio.setText(serie.estudio)
+        editSinopse.setText(serie.sinopse)
         editQtdTemp.setText(serie.qtdTemporadas.toString())
     }
 
@@ -95,7 +70,6 @@ class FormularioItemActivity : AppCompatActivity() {
 
         usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
         usuarioLogado = obterUsuario()
-        filmeBox = ObjectBox.boxStore.boxFor(Filme::class.java)
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
 
         editTitulo = edit_titulo
@@ -105,11 +79,8 @@ class FormularioItemActivity : AppCompatActivity() {
         editEstrelando = edit_estrelando
         editSinopse = edit_sinopse
         editQtdTemp = edit_qtd_temporadas
-        radioButtonSim = radio_sim
-        radioButtonNao = radio_nao
 
         serie = Serie()
-        filme = Filme()
     }
 
     private fun obterUsuario(): Usuario {
@@ -124,11 +95,11 @@ class FormularioItemActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) { R.id.salvar_filme -> salvarFilme() }
+        when (item!!.itemId) { R.id.salvar_filme -> salvarSerie() }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun salvarFilme(){
+    private fun salvarSerie(){
 
         val titulo = editTitulo.text.toString()
         val genero = editGenero.text.toString()
@@ -136,6 +107,7 @@ class FormularioItemActivity : AppCompatActivity() {
         val estrelando = editEstrelando.text.toString()
         val estudio = editEstudio.text.toString()
         val sinopse = editSinopse.text.toString()
+        val qtdTemp = editQtdTemp.text.toString()
 
         if (titulo.trim() == "" || genero.trim() == "" || ano.trim() == ""){
 
@@ -148,47 +120,27 @@ class FormularioItemActivity : AppCompatActivity() {
 
         } else {
 
-            if (radioButtonSim.isChecked){
+            if (qtdTemp.trim() == ""){
 
-                editQtdTemp.visibility = View.VISIBLE
-                val qtdTemp = editQtdTemp.text.toString()
-
-                if (qtdTemp.trim() == ""){
-
-                    Toast.makeText(this,
-                        "Você deve adicionar a quantidade de temporadas", Toast.LENGTH_LONG).show()
-                } else{
-
-                    serie.filme.target = filme
-                    serie.filme.target.titulo = titulo
-                    serie.filme.target.genero = genero
-                    serie.filme.target.ano = ano.toInt()
-                    serie.filme.target.estrelando = estrelando
-                    serie.filme.target.estudio = estudio
-                    serie.filme.target.sinopse = sinopse
-                    serie.usuario.target = usuarioLogado
-                    serieBox.put(serie)
-                    finish()
-
-                    Toast.makeText(this,
-                        "Série salva!", Toast.LENGTH_LONG).show()
-
-                }
+                Toast.makeText(this,
+                    "Você deve adicionar a quantidade de temporadas", Toast.LENGTH_LONG).show()
 
             } else {
 
-                filme.titulo = titulo
-                filme.genero = genero
-                filme.ano = ano.toInt()
-                filme.estrelando = estrelando
-                filme.estudio = estudio
-                filme.sinopse = sinopse
-                filme.usuario.target = usuarioLogado
-                filmeBox.put(filme)
+                serie.titulo = titulo
+                serie.genero = genero
+                serie.ano = ano.toInt()
+                serie.estrelando = estrelando
+                serie.estudio = estudio
+                serie.sinopse = sinopse
+                serie.usuario.target = usuarioLogado
+                serieBox.put(serie)
                 finish()
 
-                Toast.makeText(this,
-                    "Filme salvo!", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this,
+                    "Série salva!", Toast.LENGTH_LONG
+                ).show()
 
             }
         }

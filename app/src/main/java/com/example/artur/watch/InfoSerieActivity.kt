@@ -8,7 +8,6 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.widget.TextView
-import com.example.artur.watch.Adapter.SeriesAdapter
 import com.example.artur.watch.Adapter.TemporadaAdapter
 import com.example.artur.watch.Model.Serie
 import com.example.artur.watch.Model.Temporada
@@ -65,10 +64,10 @@ class InfoSerieActivity : AppCompatActivity() {
         textAnoItem = text_ano_serie_filme
         textSinopseItem = text_estudio_serie_filme
 
-        textTituloItem.text = serieAtual.filme.target.titulo
-        textGeneroItem.text = serieAtual.filme.target.genero
-        textAnoItem.text = serieAtual.filme.target.ano.toString()
-        textSinopseItem.text = "Série Original ${serieAtual.filme.target.estudio}"
+        textTituloItem.text = serieAtual.titulo
+        textGeneroItem.text = serieAtual.genero
+        textAnoItem.text = serieAtual.ano.toString()
+        textSinopseItem.text = "Série Original ${serieAtual.estudio}"
 
     }
 

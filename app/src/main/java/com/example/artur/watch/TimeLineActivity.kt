@@ -17,7 +17,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import com.example.artur.watch.Adapter.*
-import com.example.artur.watch.Fragments.FilmesFragment
+import com.example.artur.watch.Fragments.SeriesFragment
 import com.example.artur.watch.Model.*
 import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
@@ -47,7 +47,6 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private lateinit var usuarioLogado: Usuario
     private lateinit var usuarioBox: Box<Usuario>
 
-    private lateinit var filmeBox: Box<Filme>
     private lateinit var serieBox: Box<Serie>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +86,6 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         fabNovoPost = fab_novo_post
         usuarioLogado = obterUsuario()
 
-        filmeBox = ObjectBox.boxStore.boxFor(Filme::class.java)
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
         postRascunhoBox = ObjectBox.boxStore.boxFor(Post::class.java)
         postsSalvos = ObjectBox.boxStore.boxFor(Post::class.java)
@@ -135,12 +133,6 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun loadFilmes(list: MutableList<Filme>){
-
-        recyclerView.adapter = FilmeAdapter(this, list, filmeBox)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.hasFixedSize()
-    }
 
     private fun loadSeries(list: MutableList<Serie>){
 
@@ -186,21 +178,9 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 loadPosts()
             }
 
-            R.id.filmes -> {
-                fabNovoPost.visibility = View.INVISIBLE
-                supportFragmentManager.beginTransaction().replace(R.id.main, FilmesFragment()).commit()
-
-                val list = filmeBox.query()
-                    .equal(Filme_.usuarioId, usuarioLogado.id)
-                    .build().find()
-
-                supportActionBar!!.title = getString(R.string.filmes)
-                loadFilmes(list)
-            }
-
             R.id.series -> {
                 fabNovoPost.visibility = View.INVISIBLE
-                supportFragmentManager.beginTransaction().replace(R.id.main, FilmesFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.main, SeriesFragment()).commit()
 
                 val list = serieBox.query()
                     .equal(Serie_.usuarioId, usuarioLogado.id)
@@ -215,7 +195,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 supportActionBar!!.title = getString(R.string.rascunho)
 
                 val list = postRascunhoBox.query()
-                    .equal(Post_.arquivado, usuarioLogado.id)
+                    .equal(Post_.isArquivado, usuarioLogado.id)
                     .build().find()
 
                 for (post in list) if (post.isArquivado) loadRascunhos(list)
@@ -232,7 +212,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 supportActionBar!!.title = getString(R.string.salvos)
 
                 val list = postsSalvos.query()
-                    .equal(Post_.arquivado, usuarioLogado.id)
+                    .equal(Post_.isArquivado, usuarioLogado.id)
                     .build().find()
 
                 recyclerView.adapter = PostsSalvosAdapter(this, list, postsSalvos)

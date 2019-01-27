@@ -8,10 +8,7 @@
                 android:id="@+id/posts"
                 android:icon="@drawable/ic_action_posts"
                 android:title="Posts"/>
-        <item
-                android:id="@+id/filmes"
-                android:icon="@drawable/ic_action_movies"
-                android:title="@string/filmes"/>
+
         <item
                 android:id="@+id/series"
                 android:icon="@drawable/ic_action_series"

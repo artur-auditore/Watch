@@ -10,7 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import com.example.artur.watch.FormularioItemActivity
+import com.example.artur.watch.FormularioSerieActivity
 import com.example.artur.watch.InfoSerieActivity
 import com.example.artur.watch.Model.Serie
 import com.example.artur.watch.R
@@ -33,9 +33,9 @@ class SeriesAdapter(private val context: Context,
             val genero = itemView.genero_filme
             val ano = itemView.ano_filme
 
-            titulo.text = serie.filme.target.titulo
-            genero.text = serie.filme.target.genero
-            ano.text = "${serie.filme.target.ano}"
+            titulo.text = serie.titulo
+            genero.text = serie.genero
+            ano.text = "${serie.ano}"
         }
     }
 
@@ -87,7 +87,7 @@ class SeriesAdapter(private val context: Context,
 
     private fun editar(serie: Serie, position: Int) {
 
-        val intent = Intent(context, FormularioItemActivity::class.java)
+        val intent = Intent(context, FormularioSerieActivity::class.java)
         intent.putExtra(ID, serie.id)
         context.startActivity(intent)
         notifyItemChanged(position)
@@ -97,14 +97,14 @@ class SeriesAdapter(private val context: Context,
 
         val alertDialog = AlertDialog.Builder(context)
         alertDialog.setTitle("Excluir")
-            .setMessage("Deseja realmente excluir ${serie.filme.target.titulo} da sua lista de filmes?")
+            .setMessage("Deseja realmente excluir ${serie.titulo} da sua lista de filmes?")
             .setPositiveButton("SIM"){_, _ ->
 
                 this.series.remove(serie)
                 this.serieBox.remove(serie)
                 notifyItemChanged(position)
                 notifyItemChanged(position, itemCount)
-                Snackbar.make(view, "${serie.filme.target.titulo} apagado.", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(view, "${serie.titulo} apagado.", Snackbar.LENGTH_LONG).show()
             }
             .setNegativeButton("Não"){_, _ ->}
             .create()
