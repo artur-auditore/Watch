@@ -26,6 +26,7 @@
             <AutoCompleteTextView
                     android:id="@+id/auto_complete_filme_serie"
                     android:hint="Título da Série"
+                    android:inputType="textCapWords"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
