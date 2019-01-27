@@ -1,90 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+
+<ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
-        tools:context=".FormularioPostActivity">
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RadioGroup
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:id="@+id/radio_group"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:orientation="vertical"
+            tools:context=".FormularioPostActivity">
 
-        <RadioButton
-                android:text="Filme"
-                android:id="@+id/radio_filme"
+        <RadioGroup
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"/>
+                android:orientation="horizontal"
+                android:id="@+id/radio_group"
+                android:layout_height="wrap_content">
 
-        <RadioButton
+            <RadioButton
+                    android:text="Filme"
+                    android:id="@+id/radio_filme"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+            <RadioButton
+                    android:layout_width="match_parent"
+                    android:id="@+id/radio_serie"
+                    android:text="Série"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"/>
+
+        </RadioGroup>
+
+        <android.support.design.widget.TextInputLayout
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_width="match_parent"
-                android:id="@+id/radio_serie"
-                android:text="Série"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content">
 
-    </RadioGroup>
+            <AutoCompleteTextView
+                    android:id="@+id/auto_complete_filme_serie"
+                    android:hint="Filme ou série"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
-    <android.support.design.widget.TextInputLayout
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        </android.support.design.widget.TextInputLayout>
 
-        <AutoCompleteTextView
-                android:id="@+id/auto_complete_filme_serie"
-                android:hint="Filme ou série"
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="10dp"
+                  android:text="Escreva alguma coisa:"
+                  android:textColor="@color/colorAccent"
+                  android:layout_marginStart="8dp"
+                  android:layout_marginEnd="8dp"/>
+
+        <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="150dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
 
-    </android.support.design.widget.TextInputLayout>
+            <EditText
+                    android:id="@+id/post_descricao"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:background="@drawable/edit_text_post"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical"/>
 
-
-    <TextView android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="10dp"
-              android:text="Escreva alguma coisa:"
-              android:textColor="@color/colorAccent"
-              android:layout_marginStart="8dp"
-              android:layout_marginEnd="8dp"/>
-
-    <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp">
-
-        <EditText
-                android:id="@+id/post_descricao"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="8dp"
-                android:background="@drawable/edit_text_post"
-                android:gravity="top"
-                android:inputType="textMultiLine"
-                android:overScrollMode="always"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"/>
-
-    </android.support.design.widget.TextInputLayout>
+        </android.support.design.widget.TextInputLayout>
 
 
+    </LinearLayout>
 
-
-
-</LinearLayout>
+</ScrollView>

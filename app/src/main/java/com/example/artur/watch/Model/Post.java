@@ -1,5 +1,6 @@
 package com.example.artur.watch.Model;
 
+import android.support.annotation.NonNull;
 import io.objectbox.annotation.Entity;
 import io.objectbox.annotation.Id;
 import io.objectbox.relation.ToOne;
@@ -83,4 +84,14 @@ public class Post {
     public void setSerie(ToOne<Serie> serie) {
         this.serie = serie;
     }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Título: " + getSerie().getTarget().getFilme().getTarget().getTitulo() + "\n" +
+                "Ano: " + getSerie().getTarget().getFilme().getTarget().getAno() + "\n"+
+                "Gênero: " + getSerie().getTarget().getFilme().getTarget().getGenero() + "\n" +
+                "Estúdio: " + getSerie().getTarget().getFilme().getTarget().getEstudio() + "\n";
+    }
+
 }

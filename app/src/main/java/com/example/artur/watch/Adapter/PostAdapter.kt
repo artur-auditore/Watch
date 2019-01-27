@@ -45,7 +45,7 @@ class PostAdapter(private val context: Context,
             val username = itemView.text_username
             val texto = itemView.text_post
             val textSerie = itemView.text_post_serie
-            val textFilme = itemView.text_post_filme
+            //val textFilme = itemView.text_post_filme
             val data = itemView.text_data
 
 
@@ -54,8 +54,17 @@ class PostAdapter(private val context: Context,
             username.text = "@${post.usuario.target.username}"
             texto.text = post.descricao
             textSerie.text = "Está assistindo ${post.serie.target.filme.target.titulo}"
-            textFilme.text = "Está assistindo ${post.filme.target.titulo}"
+           // textFilme.text = "Está assistindo ${post.filme.target.titulo}"
             data.text = SimpleDateFormat("dd/MM/yyyy").format(dataAtual)
+
+            textSerie.setOnClickListener {
+                val alertDialog  = AlertDialog.Builder(itemView.context)
+                alertDialog.setTitle("Informações")
+                    .setMessage(post.toString())
+                    .setNeutralButton("OK"){_, _ -> }
+                    .create().show()
+            }
+
         }
     }
 

@@ -54,6 +54,7 @@ class FormularioPostActivity : AppCompatActivity() {
             supportActionBar!!.title = getString(R.string.editar_post)
             post = postBox.get(id)
             editPostDescricao.setText(post.descricao)
+            acItem.setText(post.serie.target.filme.target.titulo)
 
         }
     }
@@ -69,20 +70,16 @@ class FormularioPostActivity : AppCompatActivity() {
             .build()
             .find()
 
-        val adapterSerie = ArrayAdapter(this, android.R.layout.simple_list_item_1, list)
-        acItem.setAdapter(adapterSerie)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, list)
+        acItem.setAdapter(adapter)
 
-        if (radioFilme.isChecked){
-            acItem.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+        acItem.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            if (radioFilme.isChecked)
                 filme = parent.getItemAtPosition(position) as Filme
-            }
-        } else{
-            acItem.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            else
                 serie = parent.getItemAtPosition(position) as Serie
-            }
+
         }
-
-
     }
 
     private fun bind(){
