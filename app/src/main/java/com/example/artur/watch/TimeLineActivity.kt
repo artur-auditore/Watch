@@ -1,6 +1,7 @@
 package com.example.artur.watch
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -31,6 +32,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     companion object {
         const val KEY = "idUsuario"
         const val DEFAULT_VALUE: Long = -1
+        const val REQUEST_CODE = 1
     }
 
     private lateinit var preferences: SharedPreferences
@@ -182,6 +184,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 fabNovoPost.visibility = View.INVISIBLE
                 supportFragmentManager.beginTransaction().replace(R.id.main, SeriesFragment()).commit()
 
+
                 val list = serieBox.query()
                     .equal(Serie_.usuarioId, usuarioLogado.id)
                     .build().find()
@@ -223,5 +226,19 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CODE){
+            if (resultCode == Activity.RESULT_OK){
+
+                val list = serieBox.query()
+                    .equal(Serie_.usuarioId, usuarioLogado.id)
+                    .build().find()
+                loadSeries(list)
+            }
+        }
     }
 }

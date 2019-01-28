@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.view.*
+import com.example.artur.watch.Adapter.TabsAdapter
 import com.example.artur.watch.FormularioSerieActivity
 import com.example.artur.watch.R
 import kotlinx.android.synthetic.main.series_layout.view.*

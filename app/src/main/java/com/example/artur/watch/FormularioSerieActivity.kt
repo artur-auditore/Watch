@@ -1,5 +1,6 @@
 package com.example.artur.watch
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -107,7 +108,7 @@ class FormularioSerieActivity : AppCompatActivity() {
         val estrelando = editEstrelando.text.toString()
         val estudio = editEstudio.text.toString()
         val sinopse = editSinopse.text.toString()
-        val qtdTemp = editQtdTemp.text.toString()
+        val qtdTemp = editQtdTemp.text.toString().toInt()
 
         if (titulo.trim() == "" || genero.trim() == "" || ano.trim() == ""){
 
@@ -120,29 +121,24 @@ class FormularioSerieActivity : AppCompatActivity() {
 
         } else {
 
-            if (qtdTemp.trim() == ""){
+            serie.titulo = titulo
+            serie.genero = genero
+            serie.ano = ano.toInt()
+            serie.estrelando = estrelando
+            serie.estudio = estudio
+            serie.sinopse = sinopse
+            serie.qtdTemporadas = qtdTemp
+            serie.usuario.target = usuarioLogado
+            serieBox.put(serie)
+            setResult(Activity.RESULT_OK)
+            finish()
 
-                Toast.makeText(this,
-                    "Você deve adicionar a quantidade de temporadas", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                this,
+                "Série salva!", Toast.LENGTH_LONG
+            ).show()
 
-            } else {
-
-                serie.titulo = titulo
-                serie.genero = genero
-                serie.ano = ano.toInt()
-                serie.estrelando = estrelando
-                serie.estudio = estudio
-                serie.sinopse = sinopse
-                serie.usuario.target = usuarioLogado
-                serieBox.put(serie)
-                finish()
-
-                Toast.makeText(
-                    this,
-                    "Série salva!", Toast.LENGTH_LONG
-                ).show()
-
-            }
         }
     }
 }
+
