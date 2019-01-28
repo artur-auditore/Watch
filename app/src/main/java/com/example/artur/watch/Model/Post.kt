@@ -15,6 +15,7 @@ class Post {
     lateinit var descricao: String
     lateinit var data: Date
     var isArquivado = false
+    lateinit var estadoPost: String
     lateinit var usuario: ToOne<Usuario>
     lateinit var serie: ToOne<Serie>
 

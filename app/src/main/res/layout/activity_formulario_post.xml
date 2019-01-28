@@ -14,6 +14,37 @@
             tools:context=".FormularioPostActivity">
 
 
+        <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="22dp"
+                >
+
+            <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_weight="0.30"
+                    android:id="@+id/esta_assistindo"
+                    android:text="Está assistindo"
+                    android:layout_height="wrap_content"
+            />
+
+            <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_weight="0.33"
+                    android:text="Irá assistir"
+                    android:id="@+id/ira_assistir"
+                    android:layout_height="wrap_content"/>
+
+            <RadioButton android:layout_width="match_parent"
+                         android:layout_weight="0.33"
+                         android:id="@+id/ja_assistiu"
+                         android:text="Assistiu"
+                         android:layout_height="wrap_content"/>
+
+        </RadioGroup>
+
+
         <android.support.design.widget.TextInputLayout
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"

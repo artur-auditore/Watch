@@ -35,6 +35,10 @@ class FormularioPostActivity : AppCompatActivity() {
     private lateinit var post: Post
     private lateinit var serie: Serie
 
+    private lateinit var radioEstaAssistindo: RadioButton
+    private lateinit var radioIraAssistir: RadioButton
+    private lateinit var radioJaAssitiu: RadioButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_formulario_post)
@@ -81,6 +85,10 @@ class FormularioPostActivity : AppCompatActivity() {
 
         post = Post()
 
+        radioEstaAssistindo = esta_assistindo
+        radioIraAssistir = ira_assistir
+        radioJaAssitiu = ja_assistiu
+
         postRascunhoBox = ObjectBox.boxStore.boxFor(Post::class.java)
 
     }
@@ -102,11 +110,12 @@ class FormularioPostActivity : AppCompatActivity() {
                 .setPositiveButton("SIM"){_ , _ ->
                     salvarRascunho()
                 }
-                .setNegativeButton("NÃO"){_, _ -> }
+                .setNegativeButton("NÃO"){_, _ ->
+                    super.onBackPressed()
+                }
                 .create()
                 .show()
-        }
-        super.onBackPressed()
+        } 
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -134,10 +143,26 @@ class FormularioPostActivity : AppCompatActivity() {
                 alertDialog.setTitle("Erro")
                     .setMessage("Há campos obrigatórios em branco ou você não adiciou nenhuma série ainda. " +
                             "Adicione uma série e/ou sua opinião para prosseguir.")
-                    .setNeutralButton("OK"){_, _ ->}
+                    .setNegativeButton("OK"){_, _ ->}
                     .create().show()
 
             } else {
+
+                if (!radioEstaAssistindo.isChecked || !radioIraAssistir.isChecked || !radioJaAssitiu.isChecked){
+
+                    val alertDialog = AlertDialog.Builder(this)
+                    alertDialog.setTitle("Erro")
+                        .setMessage("Campos obrigatórios ainda estão em branco")
+                        .setNegativeButton("OK"){_, _ ->}
+                        .create().show()
+
+                } else {
+
+                    when{
+                        radioEstaAssistindo.isChecked -> post.estadoPost = "${radioEstaAssistindo.text }"
+                        radioIraAssistir.isChecked -> post.estadoPost = "${radioIraAssistir.text }"
+                        radioJaAssitiu.isChecked -> post.estadoPost = "${radioJaAssitiu.text }"
+                    }
 
                     post.descricao = textPost
                     post.serie.target = serie
@@ -145,6 +170,8 @@ class FormularioPostActivity : AppCompatActivity() {
                     post.usuario.target = usuarioLogado
                     postBox.put(post)
                     finish()
+                }
+
             }
 
         } catch (e: UninitializedPropertyAccessException){

@@ -41,7 +41,8 @@ class PostAdapter(private val context: Context,
             val nome = itemView.text_nome
             val username = itemView.text_username
             val texto = itemView.text_post
-            val textSerie = itemView.text_post_serie
+            val textSerie = itemView.text_post_titulo_serie
+            val textEstado = itemView.text_post_estado
             val data = itemView.text_data
 
 
@@ -49,7 +50,8 @@ class PostAdapter(private val context: Context,
             nome.text = post.usuario.target.nome
             username.text = "@${post.usuario.target.username}"
             texto.text = post.descricao
-            textSerie.text = "Está assistindo ${post.serie.target.titulo}"
+            textSerie.text = post.serie.target.titulo
+            textEstado.text = post.estadoPost
             data.text = SimpleDateFormat("dd/MM/yyyy").format(dataAtual)
 
             textSerie.setOnClickListener {
