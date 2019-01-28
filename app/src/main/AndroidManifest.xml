@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools" package="com.example.artur.watch">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.example.artur.watch">
 
     <application
             android:name=".dal.App"
@@ -24,8 +25,7 @@
                 android:label="Feed Principal"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity
-                android:name=".LoginActivity">
+        <activity android:name=".LoginActivity">
         </activity>
         <activity
                 android:name=".CadastroActivity"
@@ -61,6 +61,10 @@
                 android:name=".FormularioCapituloActivity"
                 android:label="Novo Capítulo"
                 android:parentActivityName=".ListaCapitulosActivity">
+        </activity>
+        <activity android:name=".ComentariosActivity"
+        android:label="Comentários"
+        android:parentActivityName=".TimeLineActivity">
         </activity>
     </application>
 

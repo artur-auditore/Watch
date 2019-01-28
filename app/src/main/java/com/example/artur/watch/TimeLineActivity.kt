@@ -169,6 +169,12 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        loadPosts()
+    }
+
     @SuppressLint("RestrictedApi")
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -226,19 +232,5 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == REQUEST_CODE){
-            if (resultCode == Activity.RESULT_OK){
-
-                val list = serieBox.query()
-                    .equal(Serie_.usuarioId, usuarioLogado.id)
-                    .build().find()
-                loadSeries(list)
-            }
-        }
     }
 }

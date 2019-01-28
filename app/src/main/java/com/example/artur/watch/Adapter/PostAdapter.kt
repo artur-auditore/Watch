@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import com.example.artur.watch.ComentariosActivity
 import com.example.artur.watch.FormularioPostActivity
 import com.example.artur.watch.Model.*
 import com.example.artur.watch.R
@@ -33,8 +34,6 @@ class PostAdapter(private val context: Context,
     private var usuarioLogado = obterUsuario()
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-
-        val opcoes = itemView.img_opcoes
 
         @SuppressLint("SimpleDateFormat", "SetTextI18n")
         fun bind(post: Post){
@@ -80,21 +79,13 @@ class PostAdapter(private val context: Context,
 
         menuPop(holder.itemView, post, position)
 
-        holder.opcoes.setOnClickListener { it ->
-            val popup = PopupMenu(context, it)
-            popup.menuInflater.inflate(R.menu.menu_opcoes, popup.menu)
-
-            popup.setOnMenuItemClickListener { item ->
-                when(item.itemId){
-                    R.id.op_salvar_post -> {
-
-                    }
-                }
-                false
-            }
-
-            popup.show()
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, ComentariosActivity::class.java)
+            intent.putExtra(ID, post.id)
+            context.startActivity(intent)
+            notifyItemChanged(position)
         }
+
     }
 
     private fun obterUsuario(): Usuario {

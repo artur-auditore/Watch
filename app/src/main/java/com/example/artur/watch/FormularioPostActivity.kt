@@ -1,5 +1,6 @@
 package com.example.artur.watch
 
+import android.app.Activity
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -38,6 +39,7 @@ class FormularioPostActivity : AppCompatActivity() {
     private lateinit var radioEstaAssistindo: RadioButton
     private lateinit var radioIraAssistir: RadioButton
     private lateinit var radioJaAssitiu: RadioButton
+    private lateinit var radioGroup: RadioGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +90,7 @@ class FormularioPostActivity : AppCompatActivity() {
         radioEstaAssistindo = esta_assistindo
         radioIraAssistir = ira_assistir
         radioJaAssitiu = ja_assistiu
+        radioGroup = radio_group
 
         postRascunhoBox = ObjectBox.boxStore.boxFor(Post::class.java)
 
@@ -115,7 +118,9 @@ class FormularioPostActivity : AppCompatActivity() {
                 }
                 .create()
                 .show()
-        } 
+        } else{
+            super.onBackPressed()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -148,7 +153,7 @@ class FormularioPostActivity : AppCompatActivity() {
 
             } else {
 
-                if (!radioEstaAssistindo.isChecked || !radioIraAssistir.isChecked || !radioJaAssitiu.isChecked){
+                if (!radioGroup.isEnabled){
 
                     val alertDialog = AlertDialog.Builder(this)
                     alertDialog.setTitle("Erro")
@@ -175,14 +180,14 @@ class FormularioPostActivity : AppCompatActivity() {
             }
 
         } catch (e: UninitializedPropertyAccessException){
+
             val alertDialog = AlertDialog.Builder(this)
             alertDialog.setTitle("Erro")
                 .setMessage("Você não adicionou nenhuma série com este título. " +
                         "Adicione-a para prosseguir.")
-                .setNeutralButton("OK"){_, _ ->}
+                .setNegativeButton("OK"){_, _ ->}
                 .create().show()
         }
-
 
     }
 
