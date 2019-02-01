@@ -71,7 +71,7 @@
     },
     {
       "id": "11:7561763395026860917",
-      "lastPropertyId": "18:1705623539998527590",
+      "lastPropertyId": "19:3476255244467035716",
       "name": "Serie",
       "properties": [
         {
@@ -110,6 +110,10 @@
         {
           "id": "17:1921524953455105554",
           "name": "estrelando"
+        },
+        {
+          "id": "19:3476255244467035716",
+          "name": "imageUrl"
         }
       ],
       "relations": []
@@ -175,7 +179,7 @@
     },
     {
       "id": "14:1188238215981616987",
-      "lastPropertyId": "4:7861372162545192265",
+      "lastPropertyId": "5:1465195280749209969",
       "name": "Comentario",
       "properties": [
         {
@@ -194,13 +198,18 @@
           "id": "4:7861372162545192265",
           "indexId": "14:2766940607944884806",
           "name": "usuarioId"
+        },
+        {
+          "id": "5:1465195280749209969",
+          "indexId": "15:3250326721571114704",
+          "name": "postId"
         }
       ],
       "relations": []
     }
   ],
   "lastEntityId": "14:1188238215981616987",
-  "lastIndexId": "14:2766940607944884806",
+  "lastIndexId": "15:3250326721571114704",
   "lastRelationId": "9:2843734164460651546",
   "lastSequenceId": "0:0",
   "modelVersion": 4,

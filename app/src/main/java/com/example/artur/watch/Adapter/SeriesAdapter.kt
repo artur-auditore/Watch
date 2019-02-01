@@ -10,12 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import com.example.artur.watch.FormularioPostActivity
 import com.example.artur.watch.FormularioSerieActivity
 import com.example.artur.watch.InfoSerieActivity
 import com.example.artur.watch.Model.Serie
 import com.example.artur.watch.R
 import io.objectbox.Box
-import kotlinx.android.synthetic.main.item_filme.view.*
+import kotlinx.android.synthetic.main.item_serie.view.*
 
 class SeriesAdapter(private val context: Context,
                     private val series: MutableList<Serie>,
@@ -26,12 +27,16 @@ class SeriesAdapter(private val context: Context,
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        val titulo = itemView.titulo_serie
+        val genero = itemView.genero_serie
+        val ano = itemView.ano_serie
+        val image = itemView.imageSerie
+
+        val imgCompartilhar = itemView.imageCompartilhar
+        val imgOpcoes = itemView.imageOpcoes
+
         @SuppressLint("SetTextI18n")
         fun bind(serie: Serie){
-
-            val titulo = itemView.titulo_filme
-            val genero = itemView.genero_filme
-            val ano = itemView.ano_filme
 
             titulo.text = serie.titulo
             genero.text = serie.genero
@@ -40,7 +45,7 @@ class SeriesAdapter(private val context: Context,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_filme, parent, false))
+        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_serie, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -52,14 +57,47 @@ class SeriesAdapter(private val context: Context,
         holder.bind(serie)
 
         holder.itemView.setOnClickListener {
+            informacoes(serie, position)
+        }
 
-            val intent = Intent(context, InfoSerieActivity::class.java)
-            intent.putExtra(ID, serie.id)
-            context.startActivity(intent)
-            notifyItemChanged(position)
+        holder.imgCompartilhar.setOnClickListener {
+            compartilhar(serie, position)
+        }
+
+        holder.imgOpcoes.setOnClickListener {
+            val popup = PopupMenu(context, it)
+            popup.menuInflater.inflate(R.menu.menu_pop, popup.menu)
+
+            popup.setOnMenuItemClickListener {item ->
+
+                when(item.itemId){
+                    R.id.op_editar -> editar(serie, position)
+                    R.id.op_excluir -> excluir(holder.itemView, serie, position)
+                }
+
+                false
+            }
+
+            popup.show()
+
+            true
         }
 
         menuPop(holder.itemView, serie, position)
+    }
+
+    private fun compartilhar(serie: Serie, position: Int){
+        val intent = Intent(context, FormularioPostActivity::class.java)
+        intent.putExtra(ID, serie.id)
+        context.startActivity(intent)
+        notifyItemChanged(position)
+    }
+
+    private fun informacoes(serie: Serie, position: Int){
+        val intent = Intent(context, InfoSerieActivity::class.java)
+        intent.putExtra(ID, serie.id)
+        context.startActivity(intent)
+        notifyItemChanged(position)
     }
 
     private fun menuPop(itemView: View, serie: Serie, position: Int){
@@ -97,7 +135,7 @@ class SeriesAdapter(private val context: Context,
 
         val alertDialog = AlertDialog.Builder(context)
         alertDialog.setTitle("Excluir")
-            .setMessage("Deseja realmente excluir ${serie.titulo} da sua lista de filmes?")
+            .setMessage("Deseja realmente excluir ${serie.titulo} da sua lista de séries?")
             .setPositiveButton("SIM"){_, _ ->
 
                 this.series.remove(serie)

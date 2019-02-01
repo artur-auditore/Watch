@@ -21,6 +21,7 @@ class FormularioPostActivity : AppCompatActivity() {
 
     companion object {
         const val ID = "idPost"
+        const val ID_SERIE = "idSerie"
         const val KEY = "idUsuario"
         const val DEFAULT_VALUE: Long = -1
     }
@@ -49,13 +50,21 @@ class FormularioPostActivity : AppCompatActivity() {
 
 
         //Para editar
-        val id = intent.getLongExtra(ID, DEFAULT_VALUE)
-        if (id != DEFAULT_VALUE){
+        val idPost = intent.getLongExtra(ID, DEFAULT_VALUE)
+        if (idPost != DEFAULT_VALUE){
             supportActionBar!!.title = getString(R.string.editar_post)
-            post = postBox.get(id)
+            post = postBox.get(idPost)
             editPostDescricao.setText(post.descricao)
             acItem.setText(post.serie.target.titulo)
 
+        }
+
+        //Para compartilhar
+        val idSerie = intent.getLongExtra(ID_SERIE, DEFAULT_VALUE)
+        if (idSerie != DEFAULT_VALUE){
+            supportActionBar!!.title = "Compartilhar"
+            serie = serieBox.get(idSerie)
+            acItem.setText(serie.titulo)
         }
     }
 
