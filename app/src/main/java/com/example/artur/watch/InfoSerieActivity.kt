@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.widget.TextView
@@ -20,7 +21,8 @@ import kotlinx.android.synthetic.main.activity_lista_temporadas.*
 class InfoSerieActivity : AppCompatActivity() {
 
     companion object {
-        const val ID = "idSerie"
+        const val ID_SERIE = "idSerie"
+        const val ID_FILME = "idFilme"
         const val DEFAUT_VALUE: Long = -1
     }
 
@@ -39,14 +41,24 @@ class InfoSerieActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_temporadas)
 
-
         bind()
 
+        if (serieAtual.tipo == "Filme") novaNota() else novaTemporada()
+
+    }
+
+    private fun novaTemporada(){
         fabNewTemp.setOnClickListener {
-            
+
             val intent = Intent(this, FormularioTemporadaActivity::class.java)
-            intent.putExtra(ID, serieAtual.id)
+            intent.putExtra(ID_SERIE, serieAtual.id)
             startActivity(intent)
+        }
+    }
+
+    private fun novaNota(){
+        fabNewTemp.setOnClickListener {
+            val alertDialog = AlertDialog.Builder(this)
         }
     }
 
@@ -54,7 +66,7 @@ class InfoSerieActivity : AppCompatActivity() {
     private fun bind(){
 
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
-        serieAtual = serieBox.get(intent.getLongExtra(ID, DEFAUT_VALUE))
+        serieAtual = serieBox.get(intent.getLongExtra(ID_SERIE, DEFAUT_VALUE))
         temporadaBox = ObjectBox.boxStore.boxFor(Temporada::class.java)
         fabNewTemp = fab_nova_temporada
         recyclerView = rv_temporadas
@@ -67,7 +79,9 @@ class InfoSerieActivity : AppCompatActivity() {
         textTituloItem.text = serieAtual.titulo
         textGeneroItem.text = serieAtual.genero
         textAnoItem.text = serieAtual.ano.toString()
-        textSinopseItem.text = "Série Original ${serieAtual.estudio}"
+
+        if (serieAtual.tipo == "Série") textSinopseItem.text = "Série Original ${serieAtual.estudio}"
+        else textSinopseItem.text = "Produção: ${serieAtual.estudio}"
 
     }
 

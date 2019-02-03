@@ -40,6 +40,9 @@ class FormularioSerieActivity : AppCompatActivity() {
     private lateinit var usuarioBox: Box<Usuario>
     private lateinit var usuarioLogado: Usuario
 
+    private lateinit var radioFilme: RadioButton
+    private lateinit var radioSerie: RadioButton
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_formulario_item)
@@ -64,7 +67,6 @@ class FormularioSerieActivity : AppCompatActivity() {
         editEstrelando.setText(serie.estrelando)
         editEstudio.setText(serie.estudio)
         editSinopse.setText(serie.sinopse)
-        editQtdTemp.setText(serie.qtdTemporadas.toString())
     }
 
     private fun bind(){
@@ -79,7 +81,8 @@ class FormularioSerieActivity : AppCompatActivity() {
         editEstudio = edit_estudio
         editEstrelando = edit_estrelando
         editSinopse = edit_sinopse
-        editQtdTemp = edit_qtd_temporadas
+        radioFilme = tipo_filme
+        radioSerie = tipo_serie
 
         serie = Serie()
     }
@@ -108,7 +111,6 @@ class FormularioSerieActivity : AppCompatActivity() {
         val estrelando = editEstrelando.text.toString()
         val estudio = editEstudio.text.toString()
         val sinopse = editSinopse.text.toString()
-        val qtdTemp = editQtdTemp.text.toString().toInt()
 
         if (titulo.trim() == "" || genero.trim() == "" || ano.trim() == ""){
 
@@ -121,21 +123,22 @@ class FormularioSerieActivity : AppCompatActivity() {
 
         } else {
 
+            if (radioFilme.isChecked) serie.tipo = radioFilme.text.toString()
+            else serie.tipo = radioSerie.text.toString()
+
             serie.titulo = titulo
             serie.genero = genero
             serie.ano = ano.toInt()
             serie.estrelando = estrelando
             serie.estudio = estudio
             serie.sinopse = sinopse
-            serie.qtdTemporadas = qtdTemp
             serie.usuario.target = usuarioLogado
             serieBox.put(serie)
-            setResult(Activity.RESULT_OK)
             finish()
 
             Toast.makeText(
                 this,
-                "Série salva!", Toast.LENGTH_LONG
+                "Salvo!", Toast.LENGTH_LONG
             ).show()
 
         }

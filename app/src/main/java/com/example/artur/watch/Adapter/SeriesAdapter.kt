@@ -80,13 +80,13 @@ class SeriesAdapter(private val context: Context,
 
             popup.show()
 
-            true
         }
 
         menuPop(holder.itemView, serie, position)
     }
 
     private fun compartilhar(serie: Serie, position: Int){
+
         val intent = Intent(context, FormularioPostActivity::class.java)
         intent.putExtra(ID, serie.id)
         context.startActivity(intent)
@@ -94,6 +94,7 @@ class SeriesAdapter(private val context: Context,
     }
 
     private fun informacoes(serie: Serie, position: Int){
+
         val intent = Intent(context, InfoSerieActivity::class.java)
         intent.putExtra(ID, serie.id)
         context.startActivity(intent)

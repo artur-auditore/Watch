@@ -4,10 +4,17 @@
       tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+
         <item
                 android:id="@+id/posts"
                 android:icon="@drawable/ic_action_posts"
-                android:title="Posts"/>
+                android:title="@string/publica_es"/>
+
+        <item
+                android:title="@string/filmes"
+                android:id="@+id/filmes"
+                android:icon="@drawable/ic_action_novo_fillme"
+        />
 
         <item
                 android:id="@+id/series"
@@ -15,33 +22,19 @@
                 android:title="@string/s_ries"/>
 
         <item
-                android:id="@+id/posts_rascunhos"
-                android:title="@string/rascunho"
-                android:icon="@drawable/ic_action_arquivar"
-        />
-
-        <item
-                android:id="@+id/salvos"
-                android:title="@string/salvos"
-                android:icon="@drawable/ic_action_salvos"
-
-            />
-
-        <item
                 android:id="@+id/perfil"
                 android:icon="@drawable/ic_action_perfil"
                 android:title="@string/perfil"/>
+
     </group>
 
-    <item android:title="Outros">
+    <item android:title="@string/outros">
         <menu>
 
             <item
                     android:id="@+id/nav_send"
                     android:icon="@drawable/ic_action_help"
-                    android:title="Ajuda"/>
-
-
+                    android:title="@string/ajuda"/>
         </menu>
     </item>
 

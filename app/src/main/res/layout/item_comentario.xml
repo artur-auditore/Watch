@@ -27,9 +27,7 @@
                     android:textColor="#000000"
                     android:textSize="15sp"
                     tools:text="Nome"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="8dp"
             />
 
@@ -39,10 +37,20 @@
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
                     tools:text="username"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
             />
+
+            <ImageButton
+                    android:background="@drawable/ic_action_opcoes_post"
+                    android:id="@+id/opcoes_comentario"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:gravity="end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Opções"/>
 
         </LinearLayout>
 

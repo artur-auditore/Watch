@@ -14,7 +14,7 @@ class Serie {
     lateinit var sinopse: String
     lateinit var estudio: String
     lateinit var estrelando: String
-    var qtdTemporadas: Int = 0
+    lateinit var tipo: String
     lateinit var usuario: ToOne<Usuario>
 
     override fun toString(): String {

@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class PostAdapter(private val context: Context,
+                  private var listPosts: MutableList<Post>,
                   private val postBox: Box<Post>): RecyclerView.Adapter<PostAdapter.ViewHolder>(){
 
     companion object {
@@ -35,15 +36,16 @@ class PostAdapter(private val context: Context,
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
+        val nome = itemView.text_nome
+        val username = itemView.text_username
+        val texto = itemView.text_post
+        val textSerie = itemView.text_post_titulo_serie
+        val textEstado = itemView.text_post_estado
+        val data = itemView.text_data
+        val opcoes = itemView.opcoes_post
+
         @SuppressLint("SimpleDateFormat", "SetTextI18n")
         fun bind(post: Post){
-            val nome = itemView.text_nome
-            val username = itemView.text_username
-            val texto = itemView.text_post
-            val textSerie = itemView.text_post_titulo_serie
-            val textEstado = itemView.text_post_estado
-            val data = itemView.text_data
-
 
             val dataAtual = Date()
             nome.text = post.usuario.target.nome
@@ -52,15 +54,6 @@ class PostAdapter(private val context: Context,
             textSerie.text = post.serie.target.titulo
             textEstado.text = post.estadoPost
             data.text = SimpleDateFormat("dd/MM/yyyy").format(dataAtual)
-
-            textSerie.setOnClickListener {
-                val alertDialog  = AlertDialog.Builder(itemView.context)
-                alertDialog.setTitle("Informações")
-                    .setMessage(post.toString())
-                    .setNeutralButton("OK"){_, _ -> }
-                    .create().show()
-            }
-
         }
     }
 
@@ -69,28 +62,66 @@ class PostAdapter(private val context: Context,
     }
 
     override fun getItemCount(): Int {
-        return postBox.all.size
+        return listPosts.size
 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val post = postBox.all[position]
+        val post = listPosts[position]
         holder.bind(post)
 
         menuPop(holder.itemView, post, position)
 
-        holder.itemView.setOnClickListener {
-            val intent = Intent(context, ComentariosActivity::class.java)
-            intent.putExtra(ID, post.id)
-            context.startActivity(intent)
-            notifyItemChanged(position)
+        holder.textSerie.setOnClickListener {
+            val alertDialog  = AlertDialog.Builder(holder.itemView.context)
+            alertDialog.setTitle("Informações")
+                .setMessage(post.toString())
+                .setNeutralButton("OK"){_, _ -> }
+                .create().show()
         }
 
+        holder.itemView.setOnClickListener {
+            comentar(post, position)
+        }
+
+        opcoes(holder.opcoes, post, position)
+
+    }
+
+    private fun opcoes(itemView: View, post: Post, position: Int){
+
+        itemView.setOnClickListener {
+
+            val popup = PopupMenu(context, it)
+            popup.menuInflater.inflate(R.menu.menu_pop_post, popup.menu)
+
+            popup.setOnMenuItemClickListener { item ->
+
+                when (item.itemId){
+
+                    R.id.op_excluir_post -> {
+                        if (post.usuario.target.id == usuarioLogado.id) excluir(itemView, post, position)
+                        else Snackbar.make(itemView, "Você não publicou isto", Snackbar.LENGTH_LONG).show()
+                    }
+                }
+                false
+            }
+
+            popup.show()
+        }
+    }
+
+    private fun comentar(post: Post, position: Int){
+
+        val intent = Intent(context, ComentariosActivity::class.java)
+        intent.putExtra(ID, post.id)
+        context.startActivity(intent)
+        notifyItemChanged(position)
     }
 
     private fun obterUsuario(): Usuario {
 
-        val pref = context.getSharedPreferences("w.file", MODE_PRIVATE)
+        val pref = context.getSharedPreferences(context.getString(R.string.pref_name), MODE_PRIVATE)
         val id = pref.getLong(KEY, DEFAULT_VALUE)
         return usuarioBox.get(id)
     }
@@ -98,34 +129,24 @@ class PostAdapter(private val context: Context,
     private fun menuPop(itemView: View, post: Post, position: Int){
 
         itemView.setOnLongClickListener { it ->
-            if (post.usuario.target.id == usuarioLogado.id){
 
-                val popup = PopupMenu(context, it)
-                popup.menuInflater.inflate(R.menu.menu_pop, popup.menu)
+            val popup = PopupMenu(context, it)
+            popup.menuInflater.inflate(R.menu.menu_pop_post, popup.menu)
 
-                popup.setOnMenuItemClickListener { item ->
+            popup.setOnMenuItemClickListener { item ->
 
-                    when (item.itemId){
+                when (item.itemId) {
 
-                        R.id.op_editar -> editar(post, position)
-                        R.id.op_excluir -> excluir(itemView, post, position)
+                    R.id.op_excluir_post -> {
+                        if (post.usuario.target.id == usuarioLogado.id) excluir(itemView, post, position)
                     }
-                    false
+
                 }
-
-                popup.show()
-
-            } else { }
+                false
+            }
+            popup.show()
             true
         }
-    }
-
-    private fun editar(post: Post, position: Int){
-
-        val intent = Intent(context, FormularioPostActivity::class.java)
-        intent.putExtra(ID, post.id)
-        context.startActivity(intent)
-        notifyItemChanged(position)
     }
 
     private fun excluir(view: View, post: Post, position: Int){
@@ -139,6 +160,7 @@ class PostAdapter(private val context: Context,
             .setMessage("Deseja realmente excluir seu post?")
             .setPositiveButton("SIM"){_, _ ->
                 query.remove(post)
+                this.listPosts.remove(post)
                 this.postBox.remove(post)
                 notifyItemChanged(position)
                 notifyItemRangeChanged(position, itemCount)

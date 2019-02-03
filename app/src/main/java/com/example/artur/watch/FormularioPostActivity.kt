@@ -212,7 +212,6 @@ class FormularioPostActivity : AppCompatActivity() {
 
             post.descricao = textPost
             post.data = Date()
-            post.isArquivado = true
             post.usuario.target = usuarioLogado
             postRascunhoBox.put(post)
             finish()

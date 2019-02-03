@@ -78,23 +78,6 @@
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
-                    android:id="@+id/edit_estrelando"
-                    android:hint="Estrelando"
-            />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-        >
-            <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:inputType="textPersonName"
                     android:id="@+id/edit_estudio"
                     android:hint="Estúdio (Netflix, HBO, Warner, etc)"
@@ -112,12 +95,46 @@
             <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="Quantas Temporadas?"
-                    android:id="@+id/edit_qtd_temporadas"
+                    android:inputType="textCapWords"
+                    android:id="@+id/edit_estrelando"
+                    android:hint="Estrelando"
             />
 
         </android.support.design.widget.TextInputLayout>
+
+        <TextView
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="3dp"
+                android:textColor="@color/colorAccent"
+                android:text="Você vai adicionar:"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        <RadioGroup
+                android:orientation="horizontal"
+                android:id="@+id/radio_group_form_serie"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <RadioButton
+                    android:text="Filme"
+                    android:layout_weight="1"
+                    android:id="@+id/tipo_filme"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <RadioButton
+                    android:text="Série"
+                    android:layout_weight="1"
+                    android:id="@+id/tipo_serie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </RadioGroup>
 
         <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
