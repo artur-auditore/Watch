@@ -5,24 +5,24 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.widget.TextView
+import com.example.artur.watch.Adapter.CapituloAdapter
 import com.example.artur.watch.Adapter.TemporadaAdapter
-import com.example.artur.watch.Model.Serie
-import com.example.artur.watch.Model.Temporada
-import com.example.artur.watch.Model.Temporada_
+import com.example.artur.watch.Model.*
 import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_lista_temporadas.*
+import kotlinx.android.synthetic.main.view_dialog_nova_nota.view.*
 
 @SuppressLint("Registered")
 class InfoSerieActivity : AppCompatActivity() {
 
     companion object {
         const val ID_SERIE = "idSerie"
-        const val ID_FILME = "idFilme"
         const val DEFAUT_VALUE: Long = -1
     }
 
@@ -37,13 +37,17 @@ class InfoSerieActivity : AppCompatActivity() {
     private lateinit var textAnoItem: TextView
     private lateinit var textSinopseItem: TextView
 
+    private lateinit var capituloBox: Box<Capitulo>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_temporadas)
 
         bind()
 
-        if (serieAtual.tipo == "Filme") novaNota() else novaTemporada()
+        if (serieAtual.tipo == "Filme") {
+            novaNota()
+        } else novaTemporada()
 
     }
 
@@ -56,9 +60,10 @@ class InfoSerieActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("InflateParams")
     private fun novaNota(){
         fabNewTemp.setOnClickListener {
-            val alertDialog = AlertDialog.Builder(this)
+
         }
     }
 
@@ -80,6 +85,8 @@ class InfoSerieActivity : AppCompatActivity() {
         textGeneroItem.text = serieAtual.genero
         textAnoItem.text = serieAtual.ano.toString()
 
+        capituloBox = ObjectBox.boxStore.boxFor(Capitulo::class.java)
+
         if (serieAtual.tipo == "Série") textSinopseItem.text = "Série Original ${serieAtual.estudio}"
         else textSinopseItem.text = "Produção: ${serieAtual.estudio}"
 
@@ -89,7 +96,15 @@ class InfoSerieActivity : AppCompatActivity() {
 
         recyclerView.adapter = TemporadaAdapter(this, list, temporadaBox)
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        recyclerView.hasFixedSize()
+    }
+
+    private fun loadNotas(){
+
+        val list = capituloBox.query()
+            .equal(Capitulo_.serieId, serieAtual.id)
+            .build().find()
+        recyclerView.adapter = CapituloAdapter(this, list,capituloBox)
+        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
     }
 
     override fun onResume() {

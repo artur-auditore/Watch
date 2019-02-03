@@ -10,11 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import com.example.artur.watch.FormularioPostActivity
-import com.example.artur.watch.FormularioSerieActivity
-import com.example.artur.watch.InfoSerieActivity
+import com.example.artur.watch.*
 import com.example.artur.watch.Model.Serie
-import com.example.artur.watch.R
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.item_serie.view.*
 
@@ -23,7 +20,8 @@ class SeriesAdapter(private val context: Context,
                     private val serieBox:Box<Serie>): RecyclerView.Adapter<SeriesAdapter.ViewHolder>() {
 
     companion object {
-        const val ID = "idSerie"
+        const val ID_SERIE = "idSerie"
+        const val ID_FILME = "idFilme"
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -88,16 +86,21 @@ class SeriesAdapter(private val context: Context,
     private fun compartilhar(serie: Serie, position: Int){
 
         val intent = Intent(context, FormularioPostActivity::class.java)
-        intent.putExtra(ID, serie.id)
+        intent.putExtra(ID_SERIE, serie.id)
         context.startActivity(intent)
         notifyItemChanged(position)
     }
 
     private fun informacoes(serie: Serie, position: Int){
 
-        val intent = Intent(context, InfoSerieActivity::class.java)
-        intent.putExtra(ID, serie.id)
-        context.startActivity(intent)
+        val intentSerie = Intent(context, InfoSerieActivity::class.java)
+        intentSerie.putExtra(ID_SERIE, serie.id)
+        val intentFilme = Intent(context, InfoFilmeActivity::class.java)
+        intentFilme.putExtra(ID_FILME, serie.id)
+
+        if (serie.tipo == "Filme") context.startActivity(intentFilme)
+        else context.startActivity(intentSerie)
+
         notifyItemChanged(position)
     }
 
@@ -127,7 +130,7 @@ class SeriesAdapter(private val context: Context,
     private fun editar(serie: Serie, position: Int) {
 
         val intent = Intent(context, FormularioSerieActivity::class.java)
-        intent.putExtra(ID, serie.id)
+        intent.putExtra(ID_SERIE, serie.id)
         context.startActivity(intent)
         notifyItemChanged(position)
     }

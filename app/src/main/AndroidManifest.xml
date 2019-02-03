@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="com.example.artur.watch">
-    <uses-permission android:name="android.permission.INTERNET">
 
+    <uses-permission android:name="android.permission.INTERNET">
     </uses-permission>
+
     <application
             android:name=".dal.App"
             android:icon="@mipmap/ic_laucher_2"
@@ -64,9 +65,12 @@
                 android:label="Novo Capítulo"
                 android:parentActivityName=".ListaCapitulosActivity">
         </activity>
-        <activity android:name=".ComentariosActivity"
-        android:label="Comentários"
-        android:parentActivityName=".TimeLineActivity">
+        <activity
+                android:name=".ComentariosActivity"
+                android:label="Comentários"
+                android:parentActivityName=".TimeLineActivity">
+        </activity>
+        <activity android:name=".InfoFilmeActivity">
         </activity>
     </application>
 
