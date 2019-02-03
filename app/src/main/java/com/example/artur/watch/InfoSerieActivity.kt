@@ -5,8 +5,6 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.widget.TextView
@@ -16,7 +14,6 @@ import com.example.artur.watch.Model.*
 import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_lista_temporadas.*
-import kotlinx.android.synthetic.main.view_dialog_nova_nota.view.*
 
 @SuppressLint("Registered")
 class InfoSerieActivity : AppCompatActivity() {
@@ -32,12 +29,10 @@ class InfoSerieActivity : AppCompatActivity() {
     private lateinit var serieAtual: Serie
     private lateinit var recyclerView: RecyclerView
 
-    private lateinit var textTituloItem: TextView
-    private lateinit var textGeneroItem: TextView
-    private lateinit var textAnoItem: TextView
-    private lateinit var textSinopseItem: TextView
-
-    private lateinit var capituloBox: Box<Capitulo>
+    private lateinit var textTituloSerie: TextView
+    private lateinit var textGeneroSerie: TextView
+    private lateinit var textAnoSerie: TextView
+    private lateinit var textEstudioSerie: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,9 +40,7 @@ class InfoSerieActivity : AppCompatActivity() {
 
         bind()
 
-        if (serieAtual.tipo == "Filme") {
-            novaNota()
-        } else novaTemporada()
+        novaTemporada()
 
     }
 
@@ -60,13 +53,6 @@ class InfoSerieActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("InflateParams")
-    private fun novaNota(){
-        fabNewTemp.setOnClickListener {
-
-        }
-    }
-
     @SuppressLint("SetTextI18n")
     private fun bind(){
 
@@ -76,19 +62,15 @@ class InfoSerieActivity : AppCompatActivity() {
         fabNewTemp = fab_nova_temporada
         recyclerView = rv_temporadas
 
-        textTituloItem = text_titulo_serie_filme
-        textGeneroItem = text_genero_serie_filme
-        textAnoItem = text_ano_serie_filme
-        textSinopseItem = text_estudio_serie_filme
+        textTituloSerie = text_titulo_serie_filme
+        textGeneroSerie = text_genero_serie_filme
+        textAnoSerie = text_ano_serie_filme
+        textEstudioSerie = text_estudio_serie
 
-        textTituloItem.text = serieAtual.titulo
-        textGeneroItem.text = serieAtual.genero
-        textAnoItem.text = serieAtual.ano.toString()
-
-        capituloBox = ObjectBox.boxStore.boxFor(Capitulo::class.java)
-
-        if (serieAtual.tipo == "Série") textSinopseItem.text = "Série Original ${serieAtual.estudio}"
-        else textSinopseItem.text = "Produção: ${serieAtual.estudio}"
+        textTituloSerie.text = serieAtual.titulo
+        textGeneroSerie.text = serieAtual.genero
+        textAnoSerie.text = serieAtual.ano.toString()
+        textEstudioSerie.text = "Série Original ${serieAtual.estudio}"
 
     }
 
@@ -98,22 +80,12 @@ class InfoSerieActivity : AppCompatActivity() {
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
     }
 
-    private fun loadNotas(){
-
-        val list = capituloBox.query()
-            .equal(Capitulo_.serieId, serieAtual.id)
-            .build().find()
-        recyclerView.adapter = CapituloAdapter(this, list,capituloBox)
-        recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-    }
-
     override fun onResume() {
         super.onResume()
 
         val list = temporadaBox.query()
             .equal(Temporada_.serieId, serieAtual.id)
-            .build()
-            .find()
+            .build().find()
 
         loadTemporadas(list)
     }

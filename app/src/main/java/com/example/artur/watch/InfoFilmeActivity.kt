@@ -46,6 +46,7 @@ class InfoFilmeActivity : AppCompatActivity() {
         novaNota()
     }
 
+    @SuppressLint("InflateParams")
     private fun novaNota(){
         fabNovaNota.setOnClickListener {
             val alertDialog = AlertDialog.Builder(this)
