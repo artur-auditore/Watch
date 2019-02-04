@@ -20,7 +20,6 @@ class TemporadaAdapter(private val context: Context,
 
     companion object {
         const val ID = "idTemporada"
-        const val NUMERO_TEMPORADA = "numeroTemporada"
     }
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -51,7 +50,6 @@ class TemporadaAdapter(private val context: Context,
 
             val intent = Intent(context, ListaCapitulosActivity::class.java)
             intent.putExtra(ID, temporada.id)
-            intent.putExtra(NUMERO_TEMPORADA, temporada.numero)
             context.startActivity(intent)
             notifyItemChanged(position)
         }

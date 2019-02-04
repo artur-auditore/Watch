@@ -8,7 +8,10 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import com.example.artur.watch.Adapter.CapituloAdapter
 import com.example.artur.watch.Model.Capitulo
 import com.example.artur.watch.Model.Capitulo_
@@ -112,5 +115,53 @@ class InfoFilmeActivity : AppCompatActivity() {
         textAno.text = serie.ano.toString()
         textEstudio.text = "Produzido por: ${serie.estudio}"
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_filme, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item!!.itemId){
+            R.id.op_excluir_filme -> excluirFilme()
+            R.id.op_excluir_capitulos -> excluirCapitulos()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun excluirFilme(){
+
+        val alertDialog = AlertDialog.Builder(this)
+        alertDialog.setTitle("Excluir Filme")
+            .setMessage("Deseja realmente excluir ${serie.titulo} da sua lista de filmes? " +
+                    "Esta ação não poderá ser desfeita.")
+            .setPositiveButton("Excluir"){_, _ ->
+                serieBox.remove(serie)
+                Toast.makeText(this, "${serie.titulo} apagado", Toast.LENGTH_LONG).show()
+                finish()
+            }
+            .setNegativeButton("Cancelar"){_, _ ->}
+            .create().show()
+    }
+
+    private fun excluirCapitulos(){
+
+        val alertDialog = AlertDialog.Builder(this)
+        alertDialog.setTitle("Excluir Tudo")
+            .setMessage("Deseja realmente excluir todas as notas que você fez de ${serie.titulo}? " +
+                    "Esta ação não poderá ser desfeita.")
+            .setPositiveButton("Excluir"){_, _ ->
+
+                val list = capituloBox.query()
+                    .equal(Capitulo_.serieId, serie.id)
+                    .build().find()
+
+                capituloBox.remove(list)
+                Toast.makeText(this, "Tudo apagado", Toast.LENGTH_LONG).show()
+                finish()
+            }
+            .setNegativeButton("Cancelar"){_, _ ->}
+            .create().show()
     }
 }

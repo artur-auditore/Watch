@@ -19,7 +19,6 @@
                 android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -70,7 +69,10 @@
                 android:label="Comentários"
                 android:parentActivityName=".TimeLineActivity">
         </activity>
-        <activity android:name=".InfoFilmeActivity">
+        <activity
+                android:name=".InfoFilmeActivity"
+                android:parentActivityName=".TimeLineActivity"
+                android:label="Informações">
         </activity>
     </application>
 

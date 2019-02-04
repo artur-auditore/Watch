@@ -19,7 +19,6 @@ class ListaCapitulosActivity : AppCompatActivity() {
     companion object {
         const val ID = "idTemporada"
         const val DEFAULT_VAUE: Long = -1
-        const val NUMERO_TEMPORADA: String = "numeroTemporada"
 
     }
 

@@ -20,7 +20,7 @@ class CapituloAdapter(private val context: Context,
                       private val capituloBox: Box<Capitulo>): RecyclerView.Adapter<CapituloAdapter.ViewHolder>(){
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        
+
         fun bind(capitulo: Capitulo){
 
             val titulo = itemView.text_titulo_capitulo

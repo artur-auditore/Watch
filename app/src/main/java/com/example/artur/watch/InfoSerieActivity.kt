@@ -5,9 +5,13 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import com.example.artur.watch.Adapter.CapituloAdapter
 import com.example.artur.watch.Adapter.TemporadaAdapter
 import com.example.artur.watch.Model.*
@@ -34,6 +38,8 @@ class InfoSerieActivity : AppCompatActivity() {
     private lateinit var textAnoSerie: TextView
     private lateinit var textEstudioSerie: TextView
 
+    private lateinit var adapter: TemporadaAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_temporadas)
@@ -57,7 +63,7 @@ class InfoSerieActivity : AppCompatActivity() {
     private fun bind(){
 
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
-        serieAtual = serieBox.get(intent.getLongExtra(ID_SERIE, DEFAUT_VALUE))
+        serieAtual = serieBox.get(intent.getLongExtra(ID_SERIE, 0))
         temporadaBox = ObjectBox.boxStore.boxFor(Temporada::class.java)
         fabNewTemp = fab_nova_temporada
         recyclerView = rv_temporadas
@@ -76,8 +82,62 @@ class InfoSerieActivity : AppCompatActivity() {
 
     private fun loadTemporadas(list: MutableList<Temporada>){
 
-        recyclerView.adapter = TemporadaAdapter(this, list, temporadaBox)
+        adapter = TemporadaAdapter(this, list, temporadaBox)
+        recyclerView.adapter = adapter
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_temporadas, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        when(item!!.itemId){
+
+            R.id.op_excluir_tudo -> excluirTemporadas()
+            R.id.op_excluir_serie -> excluirSerie()
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun excluirSerie(){
+
+        val alertDialog = AlertDialog.Builder(this)
+        alertDialog.setTitle("Excluir Série")
+            .setMessage("Deseja realemnte excluir ${serieAtual.titulo} da sua lista de séries?" +
+                    "Todo seu esquema desta série será apagado e esta ação não poderá ser desfeita")
+            .setPositiveButton("Excluir"){_, _ ->
+                serieBox.remove(serieAtual)
+                Toast.makeText(this, "${serieAtual.titulo} apagado", Toast.LENGTH_LONG).show()
+                finish()
+            }
+            .setNegativeButton("Cancelar"){_, _ ->}
+            .create().show()
+    }
+
+    private fun excluirTemporadas(){
+
+        val alertDialog = AlertDialog.Builder(this)
+        alertDialog.setTitle("Excluir tudo")
+            .setMessage("Deseja realmente excluir todas as temporadas que você adicionou a ${serieAtual.titulo}? " +
+                    "Os capítulos das temporadas serão apagados e esta ação não poderá ser desfeita.")
+            .setPositiveButton("Excluir Tudo"){_, _ ->
+
+                val list = temporadaBox.query()
+                    .equal(Temporada_.serieId, serieAtual.id)
+                    .build().find()
+
+                temporadaBox.remove(list)
+                Toast.makeText(this, "Tudo apagado", Toast.LENGTH_LONG).show()
+                loadTemporadas(list)
+            }
+            .setNegativeButton("Cancelar"){_, _ ->}
+            .create().show()
+
     }
 
     override fun onResume() {

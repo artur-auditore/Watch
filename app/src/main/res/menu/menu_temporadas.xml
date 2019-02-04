@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:title="Excluir tudo"
+            android:id="@+id/op_excluir_tudo"
+        />
+
+    <item
+            android:title="Excluir Série"
+            android:id="@+id/op_excluir_serie"
+        />
+
+</menu>
