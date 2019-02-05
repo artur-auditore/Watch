@@ -13,7 +13,6 @@ import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import com.example.artur.watch.Adapter.CapituloAdapter
-import com.example.artur.watch.Adapter.TemporadaAdapter
 import com.example.artur.watch.Model.*
 import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
@@ -28,7 +27,6 @@ class InfoSerieActivity : AppCompatActivity() {
     }
 
     private lateinit var fabNewTemp: FloatingActionButton
-    private lateinit var temporadaBox: Box<Temporada>
     private lateinit var serieBox: Box<Serie>
     private lateinit var serieAtual: Serie
     private lateinit var recyclerView: RecyclerView
@@ -38,7 +36,8 @@ class InfoSerieActivity : AppCompatActivity() {
     private lateinit var textAnoSerie: TextView
     private lateinit var textEstudioSerie: TextView
 
-    private lateinit var adapter: TemporadaAdapter
+    private lateinit var capituloBox: Box<Capitulo>
+    private lateinit var postBox: Box<Post>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,14 +45,14 @@ class InfoSerieActivity : AppCompatActivity() {
 
         bind()
 
-        novaTemporada()
+        novoCapitulo()
 
     }
 
-    private fun novaTemporada(){
+    private fun novoCapitulo(){
         fabNewTemp.setOnClickListener {
 
-            val intent = Intent(this, FormularioTemporadaActivity::class.java)
+            val intent = Intent(this, FormularioCapituloActivity::class.java)
             intent.putExtra(ID_SERIE, serieAtual.id)
             startActivity(intent)
         }
@@ -64,8 +63,9 @@ class InfoSerieActivity : AppCompatActivity() {
 
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
         serieAtual = serieBox.get(intent.getLongExtra(ID_SERIE, 0))
-        temporadaBox = ObjectBox.boxStore.boxFor(Temporada::class.java)
-        fabNewTemp = fab_nova_temporada
+        capituloBox = ObjectBox.boxStore.boxFor(Capitulo::class.java)
+        postBox = ObjectBox.boxStore.boxFor(Post::class.java)
+        fabNewTemp = fab_novo_capitulo
         recyclerView = rv_temporadas
 
         textTituloSerie = text_titulo_serie_filme
@@ -80,9 +80,9 @@ class InfoSerieActivity : AppCompatActivity() {
 
     }
 
-    private fun loadTemporadas(list: MutableList<Temporada>){
+    private fun loadCapitulos(list: MutableList<Capitulo>){
 
-        adapter = TemporadaAdapter(this, list, temporadaBox)
+        val adapter = CapituloAdapter(this, list, capituloBox)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         adapter.notifyDataSetChanged()
@@ -94,13 +94,10 @@ class InfoSerieActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-
         when(item!!.itemId){
-
-            R.id.op_excluir_tudo -> excluirTemporadas()
+            R.id.op_excluir_tudo -> excluirCapitulos()
             R.id.op_excluir_serie -> excluirSerie()
         }
-
         return super.onOptionsItemSelected(item)
     }
 
@@ -108,32 +105,51 @@ class InfoSerieActivity : AppCompatActivity() {
 
         val alertDialog = AlertDialog.Builder(this)
         alertDialog.setTitle("Excluir Série")
-            .setMessage("Deseja realemnte excluir ${serieAtual.titulo} da sua lista de séries?" +
-                    "Todo seu esquema desta série será apagado e esta ação não poderá ser desfeita")
-            .setPositiveButton("Excluir"){_, _ ->
-                serieBox.remove(serieAtual)
-                Toast.makeText(this, "${serieAtual.titulo} apagado", Toast.LENGTH_LONG).show()
-                finish()
+            .setMessage(
+                "Deseja realemnte excluir ${serieAtual.titulo} da sua lista de séries?" +
+                    "Todo seu esquema desta série será apagado e esta ação não poderá ser desfeita"
+            )
+            .setPositiveButton("Excluir") { _, _ ->
+
+                val list = postBox.query()
+                    .equal(Post_.serieId, serieAtual.id).build().find()
+
+                if (list[0].serie.target.id == serieAtual.id) {
+
+                    val alert = AlertDialog.Builder(this)
+                    alert.setTitle("Erro")
+                        .setMessage(
+                            "Não é possível excluir ${serieAtual.titulo} porque existem uma ou mais publicações" +
+                                    " associadas. Apague a(s) publicação(ões) e tente novamente."
+                        )
+                        .setNegativeButton("Ok") { _, _ -> }.create().show()
+
+                } else {
+
+                    serieBox.remove(serieAtual)
+                    Toast.makeText(this, "${serieAtual.titulo} apagado", Toast.LENGTH_LONG).show()
+                    finish()
+                }
             }
             .setNegativeButton("Cancelar"){_, _ ->}
             .create().show()
     }
 
-    private fun excluirTemporadas(){
+    private fun excluirCapitulos(){
 
         val alertDialog = AlertDialog.Builder(this)
         alertDialog.setTitle("Excluir tudo")
-            .setMessage("Deseja realmente excluir todas as temporadas que você adicionou a ${serieAtual.titulo}? " +
-                    "Os capítulos das temporadas serão apagados e esta ação não poderá ser desfeita.")
+            .setMessage("Deseja realmente excluir todas os capítulos que você adicionou a ${serieAtual.titulo}? " +
+                    "Esta ação não poderá ser desfeita.")
             .setPositiveButton("Excluir Tudo"){_, _ ->
 
-                val list = temporadaBox.query()
-                    .equal(Temporada_.serieId, serieAtual.id)
+                val list = capituloBox.query()
+                    .equal(Capitulo_.serieId, serieAtual.id)
                     .build().find()
 
-                temporadaBox.remove(list)
+                capituloBox.remove(list)
                 Toast.makeText(this, "Tudo apagado", Toast.LENGTH_LONG).show()
-                loadTemporadas(list)
+                loadCapitulos(list)
             }
             .setNegativeButton("Cancelar"){_, _ ->}
             .create().show()
@@ -143,10 +159,10 @@ class InfoSerieActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        val list = temporadaBox.query()
-            .equal(Temporada_.serieId, serieAtual.id)
+        val list = capituloBox.query()
+            .equal(Capitulo_.serieId, serieAtual.id)
             .build().find()
 
-        loadTemporadas(list)
+        loadCapitulos(list)
     }
 }

@@ -147,7 +147,7 @@
     },
     {
       "id": "13:1546753524128424977",
-      "lastPropertyId": "4:3458928423265246399",
+      "lastPropertyId": "5:1816217464637674903",
       "name": "Capitulo",
       "properties": [
         {
@@ -166,6 +166,11 @@
           "id": "4:3458928423265246399",
           "indexId": "10:8624002325126902197",
           "name": "temporadaId"
+        },
+        {
+          "id": "5:1816217464637674903",
+          "indexId": "18:136961799060119824",
+          "name": "serieId"
         }
       ],
       "relations": []
@@ -202,7 +207,7 @@
     }
   ],
   "lastEntityId": "14:1188238215981616987",
-  "lastIndexId": "17:8145855520953685316",
+  "lastIndexId": "18:136961799060119824",
   "lastRelationId": "10:783897563171957654",
   "lastSequenceId": "0:0",
   "modelVersion": 4,

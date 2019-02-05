@@ -1,14 +1,11 @@
 package com.example.artur.watch
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
@@ -20,7 +17,6 @@ import kotlinx.android.synthetic.main.activity_formulario_item.*
 class FormularioSerieActivity : AppCompatActivity() {
 
     companion object {
-        const val ID_FILME = "idFilme"
         const val ID_SERIE = "idSerie"
         const val KEY = "idUsuario"
         const val DEFAULT_VALUE: Long = -1

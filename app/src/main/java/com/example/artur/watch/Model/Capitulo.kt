@@ -18,6 +18,7 @@ class Capitulo {
     var id: Long = 0
     lateinit var titulo: String
     lateinit var descricao: String
-    lateinit var temporada: ToOne<Temporada>
+    var nTemporada: Int = 0
+    var nCapitulo: Int = 0
     lateinit var serie: ToOne<Serie>
 }

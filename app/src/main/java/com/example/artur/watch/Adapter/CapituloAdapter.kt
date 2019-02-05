@@ -2,6 +2,7 @@ package com.example.artur.watch.Adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.example.artur.watch.FormularioCapituloActivity
 import com.example.artur.watch.Model.Capitulo
 import com.example.artur.watch.R
 import io.objectbox.Box
@@ -19,15 +21,24 @@ class CapituloAdapter(private val context: Context,
                       private val capitulos: MutableList<Capitulo>,
                       private val capituloBox: Box<Capitulo>): RecyclerView.Adapter<CapituloAdapter.ViewHolder>(){
 
+    companion object {
+        const val ID_CAPITULO = "idCapitulo"
+    }
+
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
+        @SuppressLint("SetTextI18n")
         fun bind(capitulo: Capitulo){
 
             val titulo = itemView.text_titulo_capitulo
             val descricao = itemView.text_desc_capitulo
+            val nTempNCap = itemView.text_n_temp_n_capitulo
 
             titulo.text = capitulo.titulo
             descricao.text = capitulo.descricao
+            if (capitulo.serie.target.tipo == "Filme") nTempNCap.visibility = View.GONE
+            else nTempNCap.text = "T${capitulo.nTemporada}: E${capitulo.nCapitulo}"
+
         }
     }
 
@@ -76,29 +87,39 @@ class CapituloAdapter(private val context: Context,
     @SuppressLint("InflateParams")
     private fun verOuEditar(capitulo: Capitulo, position: Int){
 
-        val alertDialog = AlertDialog.Builder(context)
-        val viewDialog = LayoutInflater.from(context).inflate(R.layout.view_dialog_nova_nota, null)
+        if (capitulo.serie.target.tipo == "Filme"){
 
-        val editTitulo = viewDialog.edit_titulo_nota
-        val descricao = viewDialog.edit_descricao_nota
+            val alertDialog = AlertDialog.Builder(context)
+            val viewDialog = LayoutInflater.from(context).inflate(R.layout.view_dialog_nova_nota, null)
 
-        editTitulo.setText(capitulo.titulo)
-        descricao.setText(capitulo.descricao)
+            val editTitulo = viewDialog.edit_titulo_nota
+            val descricao = viewDialog.edit_descricao_nota
 
-        alertDialog.setView(viewDialog)
-            .setTitle("Nova Nota")
-            .setPositiveButton("Salvar"){_, _ ->
+            editTitulo.setText(capitulo.titulo)
+            descricao.setText(capitulo.descricao)
 
-                capitulo.titulo = editTitulo.text.toString()
-                capitulo.descricao = descricao.text.toString()
+            alertDialog.setView(viewDialog)
+                .setTitle("Nova Nota")
+                .setPositiveButton("Salvar"){_, _ ->
 
-                Snackbar.make(viewDialog,
-                    "Adicionado",
-                    Snackbar.LENGTH_LONG).show()
+                    capitulo.titulo = editTitulo.text.toString()
+                    capitulo.descricao = descricao.text.toString()
 
-                notifyItemChanged(position)
-            }
-            .setNegativeButton("Cancelar"){_, _ ->}
-            .create().show()
+                    Snackbar.make(viewDialog,
+                        "Adicionado",
+                        Snackbar.LENGTH_LONG).show()
+
+                    notifyItemChanged(position)
+                }
+                .setNegativeButton("Cancelar"){_, _ ->}
+                .create().show()
+        } else {
+
+            val intent = Intent(context, FormularioCapituloActivity::class.java)
+            intent.putExtra(ID_CAPITULO, capitulo.id)
+            context.startActivity(intent)
+            notifyItemChanged(position)
+        }
+
     }
 }

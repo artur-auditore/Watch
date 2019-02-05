@@ -13,9 +13,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import com.example.artur.watch.Adapter.CapituloAdapter
-import com.example.artur.watch.Model.Capitulo
-import com.example.artur.watch.Model.Capitulo_
-import com.example.artur.watch.Model.Serie
+import com.example.artur.watch.Model.*
 import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_info_filme.*
@@ -36,6 +34,7 @@ class InfoFilmeActivity : AppCompatActivity() {
 
     private lateinit var capituloBox: Box<Capitulo>
     private lateinit var serieBox: Box<Serie>
+    private lateinit var postBox: Box<Post>
 
     private lateinit var serie: Serie
     private lateinit var capitulo: Capitulo
@@ -62,8 +61,7 @@ class InfoFilmeActivity : AppCompatActivity() {
                 .setTitle("Nova Nota")
                 .setPositiveButton("Salvar"){_, _ ->
 
-                    capitulo.titulo = editTitulo.text.toString()
-                    capitulo.descricao = descricao.text.toString()
+                    capitulo = Capitulo(editTitulo.text.toString(), descricao.text.toString())
                     capitulo.serie.target = serie
                     capituloBox.put(capitulo)
 
@@ -103,7 +101,7 @@ class InfoFilmeActivity : AppCompatActivity() {
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
         serie = serieBox.get(intent.getLongExtra(ID_FILME, 0))
         capituloBox = ObjectBox.boxStore.boxFor(Capitulo::class.java)
-        capitulo = Capitulo()
+        postBox = ObjectBox.boxStore.boxFor(Post::class.java)
 
         textTitulo = text_titulo_filme
         textGenero = text_genero_filme
@@ -136,12 +134,28 @@ class InfoFilmeActivity : AppCompatActivity() {
         alertDialog.setTitle("Excluir Filme")
             .setMessage("Deseja realmente excluir ${serie.titulo} da sua lista de filmes? " +
                     "Esta ação não poderá ser desfeita.")
-            .setPositiveButton("Excluir"){_, _ ->
-                serieBox.remove(serie)
-                Toast.makeText(this, "${serie.titulo} apagado", Toast.LENGTH_LONG).show()
-                finish()
+            .setPositiveButton("Excluir") { _, _ ->
+
+                val list = postBox.query()
+                    .equal(Post_.serieId, serie.id).build().find()
+
+                if (list[0].serie.target.id == serie.id) {
+
+                    val alert = AlertDialog.Builder(this)
+                    alert.setTitle("Erro")
+                        .setMessage(
+                            "Não é possível excluir ${serie.titulo} porque existem uma ou mais publicações" +
+                                    " associadas. Apague a(s) publicação(ões) e tente novamente."
+                        )
+                        .setNegativeButton("Ok") { _, _ -> }.create().show()
+                } else {
+
+                    serieBox.remove(serie)
+                    Toast.makeText(this, "${serie.titulo} apagado", Toast.LENGTH_LONG).show()
+                    finish()
+                }
             }
-            .setNegativeButton("Cancelar"){_, _ ->}
+            .setNegativeButton("Cancelar") { _, _ -> }
             .create().show()
     }
 
@@ -159,7 +173,7 @@ class InfoFilmeActivity : AppCompatActivity() {
 
                 capituloBox.remove(list)
                 Toast.makeText(this, "Tudo apagado", Toast.LENGTH_LONG).show()
-                finish()
+                loadCapitulos()
             }
             .setNegativeButton("Cancelar"){_, _ ->}
             .create().show()

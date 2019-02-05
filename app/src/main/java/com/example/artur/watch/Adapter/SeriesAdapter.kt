@@ -10,10 +10,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import com.example.artur.watch.*
+import com.example.artur.watch.Model.Post
+import com.example.artur.watch.Model.Post_
 import com.example.artur.watch.Model.Serie
+import com.example.artur.watch.dal.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.item_serie.view.*
+import java.lang.NullPointerException
 
 class SeriesAdapter(private val context: Context,
                     private val series: MutableList<Serie>,
@@ -23,6 +28,8 @@ class SeriesAdapter(private val context: Context,
         const val ID_SERIE = "idSerie"
         const val ID_FILME = "idFilme"
     }
+
+    var postbox: Box<Post> = ObjectBox.boxStore.boxFor(Post::class.java)
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val titulo = itemView.titulo_serie
@@ -135,21 +142,35 @@ class SeriesAdapter(private val context: Context,
         notifyItemChanged(position)
     }
 
-    private fun excluir(view: View, serie: Serie, position: Int){
+    private fun excluir(view: View, serie: Serie, position: Int) {
 
         val alertDialog = AlertDialog.Builder(context)
         alertDialog.setTitle("Excluir")
             .setMessage("Deseja realmente excluir ${serie.titulo} da sua lista de séries?")
             .setPositiveButton("SIM"){_, _ ->
 
-                this.series.remove(serie)
-                this.serieBox.remove(serie)
-                notifyItemChanged(position)
-                notifyItemChanged(position, itemCount)
-                Snackbar.make(view, "${serie.titulo} apagado.", Snackbar.LENGTH_LONG).show()
+                val list = postbox.query()
+                    .equal(Post_.serieId, serie.id).build().find()
+
+                if (list[0].serie.target.id == serie.id) {
+
+                    val alert = AlertDialog.Builder(context)
+                    alert.setTitle("Erro")
+                        .setMessage("Não é possível excluir ${serie.titulo} porque existem uma ou mais publicações" +
+                                " associadas. Apague a(s) publicação(ões) e tente novamente.")
+                        .setNegativeButton("Ok"){_, _ ->}.create().show()
+
+                } else {
+
+                    this.series.remove(serie)
+                    this.serieBox.remove(serie)
+                    notifyItemChanged(position)
+                    notifyItemChanged(position, itemCount)
+                    Snackbar.make(view, "${serie.titulo} apagado.", Snackbar.LENGTH_LONG).show()
+                }
+
             }
             .setNegativeButton("Não"){_, _ ->}
-            .create()
-            .show()
+            .create().show()
     }
 }

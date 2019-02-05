@@ -75,6 +75,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             startActivity(Intent(this, FormularioPostActivity::class.java))
         }
 
+        loadPosts()
     }
 
     private fun bind(){
@@ -156,14 +157,6 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         } else {
             super.onBackPressed()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        supportActionBar!!.title = getString(R.string.feed_principal)
-
-        loadPosts()
     }
 
     @SuppressLint("RestrictedApi")
