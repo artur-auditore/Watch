@@ -9,17 +9,14 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.artur.watch.Model.Capitulo
 import com.example.artur.watch.Model.Serie
-import com.example.artur.watch.dal.ObjectBox
+import com.example.artur.watch.Util.K.Companion.DEFAULT_VALUE
+import com.example.artur.watch.Util.K.Companion.ID_CAPITULO
+import com.example.artur.watch.Util.K.Companion.ID_SERIE
+import com.example.artur.watch.Util.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_formulario_capitulo.*
 
 class FormularioCapituloActivity : AppCompatActivity() {
-
-    companion object {
-        const val ID_SERIE = "idSerie"
-        const val ID_CAPITULO = "idCapitulo"
-        const val DEFAULT_VALUE: Long = -1
-    }
 
     private lateinit var editTitulo: EditText
     private lateinit var editDescricao: EditText
@@ -35,7 +32,6 @@ class FormularioCapituloActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_formulario_capitulo)
-
 
         bind()
 
@@ -96,8 +92,7 @@ class FormularioCapituloActivity : AppCompatActivity() {
 
         } else {
 
-            capitulo.titulo = titulo
-            capitulo.descricao = descricao
+            capitulo = Capitulo(titulo, descricao)
             capitulo.nCapitulo = nCapitulo.toInt()
             capitulo.nTemporada = nTemporada.toInt()
             capitulo.serie.target = serie

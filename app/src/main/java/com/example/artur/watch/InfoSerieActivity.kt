@@ -14,19 +14,17 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.artur.watch.Adapter.CapituloAdapter
 import com.example.artur.watch.Model.*
-import com.example.artur.watch.dal.ObjectBox
+import com.example.artur.watch.Util.K.Companion.DEFAULT_VALUE
+import com.example.artur.watch.Util.K.Companion.ID_SERIE
+import com.example.artur.watch.Util.ObjectBox
 import io.objectbox.Box
+import kotlinx.android.synthetic.main.activity_formulario_capitulo.view.*
 import kotlinx.android.synthetic.main.activity_lista_temporadas.*
 
 @SuppressLint("Registered")
 class InfoSerieActivity : AppCompatActivity() {
 
-    companion object {
-        const val ID_SERIE = "idSerie"
-        const val DEFAUT_VALUE: Long = -1
-    }
-
-    private lateinit var fabNewTemp: FloatingActionButton
+    private lateinit var fabNovoCapitulo: FloatingActionButton
     private lateinit var serieBox: Box<Serie>
     private lateinit var serieAtual: Serie
     private lateinit var recyclerView: RecyclerView
@@ -37,6 +35,7 @@ class InfoSerieActivity : AppCompatActivity() {
     private lateinit var textEstudioSerie: TextView
 
     private lateinit var capituloBox: Box<Capitulo>
+    private lateinit var capitulo: Capitulo
     private lateinit var postBox: Box<Post>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,27 +44,67 @@ class InfoSerieActivity : AppCompatActivity() {
 
         bind()
 
-        novoCapitulo()
+        fabNovoCapitulo.setOnClickListener {
+            novoCapitulo()
+        }
 
     }
 
+    @SuppressLint("InflateParams")
     private fun novoCapitulo(){
-        fabNewTemp.setOnClickListener {
 
-            val intent = Intent(this, FormularioCapituloActivity::class.java)
-            intent.putExtra(ID_SERIE, serieAtual.id)
-            startActivity(intent)
-        }
+        val alertDialog = AlertDialog.Builder(this)
+
+        val viewDialog = layoutInflater.inflate(R.layout.activity_formulario_capitulo, null)
+
+        val editTitulo = viewDialog.edit_titulo_capitulo
+        val editNTemp = viewDialog.edit_n_temporada
+        val editNCap = viewDialog.edit_n_capitulo
+        val editDescricao = viewDialog.edit_capitulo_descricao
+
+        alertDialog.setView(viewDialog)
+            .setTitle("Novo Capítulo")
+            .setPositiveButton("Salvar"){_, _ ->
+
+                val titulo = editTitulo.text.toString()
+                val nTemp = editNTemp.text.toString()
+                val nCapitulo = editNCap.text.toString()
+                val descricao = editDescricao.text.toString()
+
+                if (titulo.trim() == "" || nTemp.trim() == "" || nCapitulo.trim() == ""){
+                    Toast.makeText(
+                        this,
+                        getString(R.string.aviso_dialog_capitulo),
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                } else {
+
+                    capitulo = Capitulo(titulo, descricao)
+                    capitulo.nCapitulo = nCapitulo.toInt()
+                    capitulo.nTemporada = nTemp.toInt()
+                    capitulo.serie.target = serieAtual
+                    capituloBox.put(capitulo)
+
+                    Toast.makeText(this,
+                        "Capítulo salvo",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                loadCapitulos()
+            }
+            .setNeutralButton("Cancelar"){_, _ ->}
+            .create().show()
     }
 
     @SuppressLint("SetTextI18n")
     private fun bind(){
 
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
-        serieAtual = serieBox.get(intent.getLongExtra(ID_SERIE, 0))
+        serieAtual = serieBox.get(intent.getLongExtra(ID_SERIE, DEFAULT_VALUE))
         capituloBox = ObjectBox.boxStore.boxFor(Capitulo::class.java)
         postBox = ObjectBox.boxStore.boxFor(Post::class.java)
-        fabNewTemp = fab_novo_capitulo
+        fabNovoCapitulo = fab_novo_capitulo
         recyclerView = rv_temporadas
 
         textTituloSerie = text_titulo_serie_filme
@@ -80,7 +119,11 @@ class InfoSerieActivity : AppCompatActivity() {
 
     }
 
-    private fun loadCapitulos(list: MutableList<Capitulo>){
+    private fun loadCapitulos(){
+
+        val list = capituloBox.query()
+            .equal(Capitulo_.serieId, serieAtual.id)
+            .build().find()
 
         val adapter = CapituloAdapter(this, list, capituloBox)
         recyclerView.adapter = adapter
@@ -114,7 +157,13 @@ class InfoSerieActivity : AppCompatActivity() {
                 val list = postBox.query()
                     .equal(Post_.serieId, serieAtual.id).build().find()
 
-                if (list[0].serie.target.id == serieAtual.id) {
+                if (list.isEmpty()) {
+
+                    serieBox.remove(serieAtual)
+                    Toast.makeText(this, "${serieAtual.titulo} apagado", Toast.LENGTH_LONG).show()
+                    finish()
+
+                } else {
 
                     val alert = AlertDialog.Builder(this)
                     alert.setTitle("Erro")
@@ -123,12 +172,6 @@ class InfoSerieActivity : AppCompatActivity() {
                                     " associadas. Apague a(s) publicação(ões) e tente novamente."
                         )
                         .setNegativeButton("Ok") { _, _ -> }.create().show()
-
-                } else {
-
-                    serieBox.remove(serieAtual)
-                    Toast.makeText(this, "${serieAtual.titulo} apagado", Toast.LENGTH_LONG).show()
-                    finish()
                 }
             }
             .setNegativeButton("Cancelar"){_, _ ->}
@@ -149,7 +192,7 @@ class InfoSerieActivity : AppCompatActivity() {
 
                 capituloBox.remove(list)
                 Toast.makeText(this, "Tudo apagado", Toast.LENGTH_LONG).show()
-                loadCapitulos(list)
+                loadCapitulos()
             }
             .setNegativeButton("Cancelar"){_, _ ->}
             .create().show()
@@ -159,10 +202,6 @@ class InfoSerieActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        val list = capituloBox.query()
-            .equal(Capitulo_.serieId, serieAtual.id)
-            .build().find()
-
-        loadCapitulos(list)
+        loadCapitulos()
     }
 }

@@ -20,20 +20,17 @@ import android.widget.TextView
 import com.example.artur.watch.Adapter.*
 import com.example.artur.watch.Fragments.SeriesFragment
 import com.example.artur.watch.Model.*
-import com.example.artur.watch.dal.ObjectBox
+import com.example.artur.watch.Util.K
+import com.example.artur.watch.Util.K.Companion.DEFAULT_VALUE
+import com.example.artur.watch.Util.K.Companion.ID_USUARIO
+import com.example.artur.watch.Util.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_time_line.*
 import kotlinx.android.synthetic.main.app_bar_time_line.*
 import kotlinx.android.synthetic.main.content_time_line.*
 import kotlinx.android.synthetic.main.nav_header_time_line.view.*
 
-@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
-    companion object {
-        const val KEY = "idUsuario"
-        const val DEFAULT_VALUE: Long = -1
-    }
 
     private lateinit var preferences: SharedPreferences
     private lateinit var recyclerView: RecyclerView
@@ -101,7 +98,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private fun logado(): Boolean {
 
         preferences = getSharedPreferences(getString(R.string.pref_name), Context.MODE_PRIVATE)
-        val usuarioID = preferences.getLong(KEY, DEFAULT_VALUE)
+        val usuarioID = preferences.getLong(K.ID_USUARIO, DEFAULT_VALUE)
         return usuarioID != DEFAULT_VALUE
     }
 
@@ -109,7 +106,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private fun obterUsuario(): Usuario {
 
         val pref = getSharedPreferences(getString(R.string.pref_name), Context.MODE_PRIVATE)
-        val id = pref.getLong(KEY, DEFAULT_VALUE)
+        val id = pref.getLong(ID_USUARIO, DEFAULT_VALUE)
         return usuarioBox.get(id)
     }
 
@@ -135,6 +132,15 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private fun loadSeries(list: MutableList<Serie>){
 
         val adapter = SeriesAdapter(this, list, serieBox)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.hasFixedSize()
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun loadFilmes(list: MutableList<Serie>){
+
+        val adapter = FilmeAdapter(this, list, serieBox)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.hasFixedSize()
@@ -197,7 +203,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                     .contains(Serie_.tipo, "Filme")
                     .build().find()
 
-                loadSeries(list)
+                loadFilmes(list)
             }
 
             R.id.perfil -> {

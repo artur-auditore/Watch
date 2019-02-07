@@ -24,10 +24,15 @@ class Post{
     }
 
     override fun toString(): String {
-        return "Título:   ${serie.target.titulo}\n" +
-                "Ano: ${serie.target.ano}\n" +
-                "Gênero:  ${serie.target.genero}\n" +
-                "Série Original ${serie.target.estudio}\n"
+        return if (serie.target.tipo == "Série")
+            "Título: ${serie.target.titulo}\n" +
+                    "Ano: ${serie.target.ano}\n" +
+                    "Gênero: ${serie.target.genero}\n" +
+                    "Série Original ${serie.target.estudio}\n" else
+            "Título: ${serie.target.titulo}\n" +
+                    "Ano: ${serie.target.ano}\n" +
+                    "Gênero: ${serie.target.genero}\n" +
+                    "Produzido por: ${serie.target.estudio}\n"
     }
 
 }

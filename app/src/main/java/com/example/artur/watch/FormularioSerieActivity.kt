@@ -10,24 +10,21 @@ import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
 import com.example.artur.watch.Model.*
-import com.example.artur.watch.dal.ObjectBox
+import com.example.artur.watch.Util.K.Companion.DEFAULT_VALUE
+import com.example.artur.watch.Util.K.Companion.ID_CAPITULO
+import com.example.artur.watch.Util.K.Companion.ID_SERIE
+import com.example.artur.watch.Util.K.Companion.ID_USUARIO
+import com.example.artur.watch.Util.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_formulario_item.*
 
 class FormularioSerieActivity : AppCompatActivity() {
-
-    companion object {
-        const val ID_SERIE = "idSerie"
-        const val KEY = "idUsuario"
-        const val DEFAULT_VALUE: Long = -1
-    }
 
     private lateinit var editTitulo: EditText
     private lateinit var editGenero: EditText
     private lateinit var editAno: EditText
     private lateinit var editEstrelando: EditText
     private lateinit var editEstudio: EditText
-    private lateinit var editQtdTemp: EditText
     private lateinit var editSinopse: EditText
 
     private lateinit var serieBox: Box<Serie>
@@ -63,6 +60,7 @@ class FormularioSerieActivity : AppCompatActivity() {
         editEstrelando.setText(serie.estrelando)
         editEstudio.setText(serie.estudio)
         editSinopse.setText(serie.sinopse)
+        if (serie.tipo == "Filme") radioFilme.isChecked = true else radioSerie.isChecked = true
     }
 
     private fun bind(){
@@ -86,7 +84,7 @@ class FormularioSerieActivity : AppCompatActivity() {
     private fun obterUsuario(): Usuario {
 
         val pref = getSharedPreferences("w.file", Context.MODE_PRIVATE)
-        val id = pref.getLong(KEY, DEFAULT_VALUE)
+        val id = pref.getLong(ID_USUARIO, DEFAULT_VALUE)
         return usuarioBox.get(id)
     }
 
@@ -113,11 +111,9 @@ class FormularioSerieActivity : AppCompatActivity() {
             val alertDialog = AlertDialog.Builder(this)
             alertDialog.setTitle("Aviso")
                 .setMessage("Título, gênero e ano são campos obrigatórios!")
-                .setNegativeButton("OK"){_, _ ->}
-                .create()
-                .show()
+                .setNegativeButton("OK"){_, _ ->}.create().show()
 
-        } else {
+        } else if (radioFilme.isChecked || radioSerie.isChecked) {
 
             if (radioFilme.isChecked) serie.tipo = radioFilme.text.toString()
             else serie.tipo = radioSerie.text.toString()
@@ -126,7 +122,7 @@ class FormularioSerieActivity : AppCompatActivity() {
             serie.genero = genero
             serie.ano = ano.toInt()
             serie.estrelando = estrelando
-            serie.estudio = estudio
+            serie.estudio = estudio; if (serie.estudio.trim() == "") serie.estudio = "Desconhecido"
             serie.sinopse = sinopse
             serie.usuario.target = usuarioLogado
             serieBox.put(serie)
@@ -137,7 +133,14 @@ class FormularioSerieActivity : AppCompatActivity() {
                 "Salvo!", Toast.LENGTH_LONG
             ).show()
 
+        } else {
+
+            val alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("Aviso")
+                .setMessage("Tipo não definido! Selecione Filme ou Série para prosseguir!")
+                .setNegativeButton("OK"){_, _ ->}.create().show()
         }
     }
+
 }
 

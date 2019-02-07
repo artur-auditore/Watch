@@ -14,16 +14,14 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.artur.watch.Adapter.CapituloAdapter
 import com.example.artur.watch.Model.*
-import com.example.artur.watch.dal.ObjectBox
+import com.example.artur.watch.Util.K.Companion.DEFAULT_VALUE
+import com.example.artur.watch.Util.K.Companion.ID_FILME
+import com.example.artur.watch.Util.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_info_filme.*
 import kotlinx.android.synthetic.main.view_dialog_nova_nota.view.*
 
 class InfoFilmeActivity : AppCompatActivity() {
-
-    companion object {
-        const val ID_FILME = "idFilme"
-    }
 
     private lateinit var textTitulo: TextView
     private lateinit var textGenero: TextView
@@ -99,7 +97,7 @@ class InfoFilmeActivity : AppCompatActivity() {
         fabNovaNota = fab_nova_nota
         recyclerView = rv_notas
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
-        serie = serieBox.get(intent.getLongExtra(ID_FILME, 0))
+        serie = serieBox.get(intent.getLongExtra(ID_FILME, DEFAULT_VALUE))
         capituloBox = ObjectBox.boxStore.boxFor(Capitulo::class.java)
         postBox = ObjectBox.boxStore.boxFor(Post::class.java)
 
@@ -139,7 +137,7 @@ class InfoFilmeActivity : AppCompatActivity() {
                 val list = postBox.query()
                     .equal(Post_.serieId, serie.id).build().find()
 
-                if (list[0].serie.target.id == serie.id) {
+                if (list.isEmpty()) {
 
                     val alert = AlertDialog.Builder(this)
                     alert.setTitle("Erro")

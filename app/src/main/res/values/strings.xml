@@ -21,4 +21,11 @@
     <string name="filmes">Filmes</string>
     <string name="outros">Outros</string>
     <string name="ajuda">Ajuda</string>
+    <string name="mensagem_erro">Há campos obrigatórios em branco ou você não adiciou nenhuma série ainda. Adicione uma
+        série e/ou sua opinião para prosseguir.
+    </string>
+    <string name="mensagem_erro_2">Você não adicionou nenhuma série com este título. Adicione-a para prosseguir.
+    </string>
+    <string name="aviso_dialog_capitulo">Titulo, número da temporada e número do capítulo são campos obrigatórios
+    </string>
 </resources>

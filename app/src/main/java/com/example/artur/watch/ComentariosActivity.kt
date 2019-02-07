@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -15,7 +14,10 @@ import com.example.artur.watch.Model.Comentario
 import com.example.artur.watch.Model.Comentario_
 import com.example.artur.watch.Model.Post
 import com.example.artur.watch.Model.Usuario
-import com.example.artur.watch.dal.ObjectBox
+import com.example.artur.watch.Util.K
+import com.example.artur.watch.Util.K.Companion.DEFAULT_VALUE
+import com.example.artur.watch.Util.K.Companion.ID_POST
+import com.example.artur.watch.Util.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_comentarios.*
 import kotlinx.android.synthetic.main.comentario_dialog.view.*
@@ -51,7 +53,7 @@ class ComentariosActivity : AppCompatActivity() {
     private fun obterUsuario(): Usuario {
 
         val pref = getSharedPreferences(getString(R.string.pref_name), Context.MODE_PRIVATE)
-        val id = pref.getLong(TimeLineActivity.KEY, TimeLineActivity.DEFAULT_VALUE)
+        val id = pref.getLong(K.ID_USUARIO, DEFAULT_VALUE)
         val usuario = usuarioBox.get(id)
         return usuario
     }
@@ -86,7 +88,7 @@ class ComentariosActivity : AppCompatActivity() {
         usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
         usuarioLogado = obterUsuario()
 
-        val postId = intent.getLongExtra(PostAdapter.ID, PostAdapter.DEFAULT_VALUE)
+        val postId = intent.getLongExtra(ID_POST, DEFAULT_VALUE)
         postBox = ObjectBox.boxStore.boxFor(Post::class.java)
 
         comentarioBox = ObjectBox.boxStore.boxFor(Comentario::class.java)

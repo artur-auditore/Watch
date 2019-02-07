@@ -1,4 +1,4 @@
-package com.example.artur.watch.dal
+package com.example.artur.watch.Util
 
 import android.app.Application
 import android.content.Context

@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.Window
+import com.example.artur.watch.Util.K
+import com.example.artur.watch.Util.K.Companion.DEFAULT_VALUE
 
 class SplashActivity : AppCompatActivity() {
 
@@ -33,7 +35,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun logado(): Boolean {
         preferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
-        val usuarioID = preferences.getLong(TimeLineActivity.KEY, TimeLineActivity.DEFAULT_VALUE)
-        return usuarioID != TimeLineActivity.DEFAULT_VALUE
+        val usuarioID = preferences.getLong(K.ID_USUARIO, DEFAULT_VALUE)
+        return usuarioID != K.DEFAULT_VALUE
     }
 }

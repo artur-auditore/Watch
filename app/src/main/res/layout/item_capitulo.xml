@@ -38,7 +38,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginStart="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginBottom="2dp"
                 android:layout_marginEnd="8dp" />
 
         <TextView
@@ -48,10 +47,18 @@
                 android:textSize="15sp"
                 tools:text="Texto"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"/>
 
+        <ImageButton
+                android:id="@+id/imageCompartilhar"
+                android:background="@drawable/ic_action_compartilhar"
+                android:layout_width="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="8dp"
+                android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

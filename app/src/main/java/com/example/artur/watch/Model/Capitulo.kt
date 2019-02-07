@@ -21,4 +21,9 @@ class Capitulo {
     var nTemporada: Int = 0
     var nCapitulo: Int = 0
     lateinit var serie: ToOne<Serie>
+
+    override fun toString(): String {
+        return if (serie.target.tipo == "Filme") this.descricao else
+            "T${this.nTemporada}: E${this.nCapitulo}\n${this.descricao}"
+    }
 }

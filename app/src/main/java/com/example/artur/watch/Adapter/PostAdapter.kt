@@ -3,6 +3,7 @@ package com.example.artur.watch.Adapter
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
@@ -11,10 +12,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import com.example.artur.watch.ComentariosActivity
-import com.example.artur.watch.FormularioPostActivity
 import com.example.artur.watch.Model.*
 import com.example.artur.watch.R
-import com.example.artur.watch.dal.ObjectBox
+import com.example.artur.watch.Util.K
+import com.example.artur.watch.Util.K.Companion.DEFAULT_VALUE
+import com.example.artur.watch.Util.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.item_post.view.*
 import java.text.SimpleDateFormat
@@ -23,13 +25,6 @@ import java.util.*
 class PostAdapter(private val context: Context,
                   private var listPosts: MutableList<Post>,
                   private val postBox: Box<Post>): RecyclerView.Adapter<PostAdapter.ViewHolder>(){
-
-    companion object {
-        const val KEY = "idUsuario"
-        const val MODE_PRIVATE = 0x0000
-        const val ID = "idPost"
-        const val DEFAULT_VALUE: Long = -1
-    }
 
     private var usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
     private var usuarioLogado = obterUsuario()
@@ -114,7 +109,7 @@ class PostAdapter(private val context: Context,
     private fun comentar(post: Post, position: Int){
 
         val intent = Intent(context, ComentariosActivity::class.java)
-        intent.putExtra(ID, post.id)
+        intent.putExtra(K.ID_POST, post.id)
         context.startActivity(intent)
         notifyItemChanged(position)
     }
@@ -122,7 +117,7 @@ class PostAdapter(private val context: Context,
     private fun obterUsuario(): Usuario {
 
         val pref = context.getSharedPreferences(context.getString(R.string.pref_name), MODE_PRIVATE)
-        val id = pref.getLong(KEY, DEFAULT_VALUE)
+        val id = pref.getLong(K.ID_USUARIO, DEFAULT_VALUE)
         return usuarioBox.get(id)
     }
 

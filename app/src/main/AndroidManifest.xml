@@ -7,7 +7,7 @@
     </uses-permission>
 
     <application
-            android:name=".dal.App"
+            android:name=".Util.App"
             android:icon="@mipmap/ic_laucher_2"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_laucher_2"
@@ -41,7 +41,7 @@
         </activity>
         <activity
                 android:name=".FormularioPostActivity"
-                android:label="Novo Post Público"
+                android:label="Escrever"
                 android:parentActivityName=".TimeLineActivity">
         </activity>
         <activity
@@ -50,19 +50,9 @@
                 android:parentActivityName=".TimeLineActivity">
         </activity>
         <activity
-                android:name=".FormularioTemporadaActivity"
-                android:label="Nova Temporada"
-                android:parentActivityName=".InfoSerieActivity">
-        </activity>
-        <activity
-                android:name=".ListaCapitulosActivity"
-                android:label="Capítulos"
-                android:parentActivityName=".InfoSerieActivity">
-        </activity>
-        <activity
                 android:name=".FormularioCapituloActivity"
                 android:label="Novo Capítulo"
-                android:parentActivityName=".ListaCapitulosActivity">
+                android:parentActivityName=".InfoSerieActivity">
         </activity>
         <activity
                 android:name=".ComentariosActivity"

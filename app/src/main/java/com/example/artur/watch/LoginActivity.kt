@@ -9,22 +9,14 @@ import android.widget.EditText
 import android.widget.TextView
 import com.example.artur.watch.Model.Usuario
 import com.example.artur.watch.Model.Usuario_
-import com.example.artur.watch.dal.ObjectBox
+import com.example.artur.watch.Util.ObjectBox
 import io.objectbox.Box
-import io.objectbox.query.QueryBuilder
 import kotlinx.android.synthetic.main.activity_login.*
 import android.widget.Toast
-import android.text.method.TextKeyListener.clear
-import java.nio.file.Files.size
-import com.example.artur.watch.Model.Usuario_.senha
-import com.example.artur.watch.Model.Usuario_.email
-
+import com.example.artur.watch.Util.K.Companion.ID_USUARIO
 
 
 class LoginActivity : AppCompatActivity() {
-    companion object {
-        const val KEY = "idUsuario"
-    }
 
     private lateinit var editUsername: EditText
     private lateinit var editSenha: EditText
@@ -75,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putLong(KEY, usuario.id)
+        editor.putLong(ID_USUARIO, usuario.id)
         editor.apply()
         startActivity(Intent(this, TimeLineActivity::class.java))
     }

@@ -10,15 +10,12 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.artur.watch.Model.Usuario
 import com.example.artur.watch.Model.Usuario_
-import com.example.artur.watch.dal.ObjectBox
+import com.example.artur.watch.Util.K
+import com.example.artur.watch.Util.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_cadastro.*
 
 class CadastroActivity : AppCompatActivity() {
-
-    companion object {
-        const val ID = "idUsuario"
-    }
 
     private lateinit var editNome: EditText
     private lateinit var editEmail: EditText
@@ -50,7 +47,7 @@ class CadastroActivity : AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        editor.putLong(ID, usuario.id)
+        editor.putLong(K.ID_USUARIO, usuario.id)
         editor.apply()
         startActivity(Intent(this, TimeLineActivity::class.java))
     }
