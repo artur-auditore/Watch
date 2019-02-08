@@ -48,9 +48,7 @@ class FilmeAdapter(private val context: Context,
     }
 
     override fun getItemCount(): Int {
-        val list = serieBox.query()
-            .contains(Serie_.tipo, "Filme").build().find()
-        return list.size
+        return series.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -126,15 +124,15 @@ class FilmeAdapter(private val context: Context,
 
     private fun excluir(itemView: View, serie: Serie, position: Int) {
 
+        val list = postbox.query().equal(Post_.serieId, serie.id)
+            .build().find()
+
         val alertDialog = AlertDialog.Builder(context)
         alertDialog.setTitle("Excluir")
             .setMessage("Deseja realmente excluir ${serie.titulo} da sua lista de séries?")
             .setPositiveButton("SIM"){_, _ ->
 
-                val list = postbox.query()
-                    .equal(Post_.serieId, serie.id).build().find()
-
-                if (list.isEmpty()) {
+                if (list.size > 0){
 
                     val alert = AlertDialog.Builder(context)
                     alert.setTitle("Erro")
@@ -150,6 +148,7 @@ class FilmeAdapter(private val context: Context,
                     notifyItemChanged(position, itemCount)
                     Snackbar.make(itemView, "${serie.titulo} apagado.", Snackbar.LENGTH_LONG).show()
                 }
+
 
             }
             .setNegativeButton("Não"){_, _ ->}

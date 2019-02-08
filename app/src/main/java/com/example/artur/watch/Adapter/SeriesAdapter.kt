@@ -51,9 +51,7 @@ class SeriesAdapter(private val context: Context,
     }
 
     override fun getItemCount(): Int {
-        val list = serieBox.query()
-            .contains(Serie_.tipo, "Série").build().find()
-        return list.size
+       return series.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -138,23 +136,15 @@ class SeriesAdapter(private val context: Context,
 
     private fun excluir(view: View, serie: Serie, position: Int) {
 
+        val list = postbox.query().equal(Post_.serieId, serie.id)
+            .build().find()
+
         val alertDialog = AlertDialog.Builder(context)
         alertDialog.setTitle("Excluir")
             .setMessage("Deseja realmente excluir ${serie.titulo} da sua lista de séries?")
             .setPositiveButton("SIM"){_, _ ->
 
-                val list = postbox.query()
-                    .equal(Post_.serieId, serie.id).build().find()
-
-                if (list.isEmpty()) {
-
-                    this.series.remove(serie)
-                    this.serieBox.remove(serie)
-                    notifyItemChanged(position)
-                    notifyItemChanged(position, itemCount)
-                    Snackbar.make(view, "${serie.titulo} apagado.", Snackbar.LENGTH_LONG).show()
-
-                } else {
+                if (list.size > 0){
 
                     val alert = AlertDialog.Builder(context)
                     alert.setTitle("Erro")
@@ -162,6 +152,13 @@ class SeriesAdapter(private val context: Context,
                                 " associadas. Apague a(s) publicação(ões) e tente novamente.")
                         .setNegativeButton("Ok"){_, _ ->}.create().show()
 
+                } else {
+
+                    this.series.remove(serie)
+                    this.serieBox.remove(serie)
+                    notifyItemChanged(position)
+                    notifyItemChanged(position, itemCount)
+                    Snackbar.make(view, "${serie.titulo} apagado.", Snackbar.LENGTH_LONG).show()
                 }
 
             }

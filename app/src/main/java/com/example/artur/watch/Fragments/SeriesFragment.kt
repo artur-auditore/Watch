@@ -22,27 +22,8 @@ class SeriesFragment: Fragment() {
         fabNovaSerie.setOnClickListener {
             startActivity(Intent(myView.context, FormularioSerieActivity::class.java))
         }
-        setHasOptionsMenu(true)
 
         return myView
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater!!.inflate(R.menu.menu_opcoes, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId){
-            R.id.op_excluir_lista ->{
-
-            }
-            R.id.op_nova_lista ->{
-
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
     }
 
 }
