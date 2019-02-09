@@ -208,11 +208,20 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
             R.id.perfil -> {
 
-                supportActionBar!!.title = getString(R.string.perfil)
                 val alertDialog = AlertDialog.Builder(this)
-                alertDialog.setTitle("Aviso")
-                    .setMessage("Funcionalidade em manutenção")
-                    .setNegativeButton("OK"){_, _ ->}
+                alertDialog.setTitle("Perfil")
+                    .setMessage("O que você deseja fazer")
+                    .setPositiveButton("Ver Suas Publicações"){_, _ ->
+
+                        supportActionBar!!.title = "Suas publicações"
+                        val list = postBox.query()
+                            .equal(Post_.usuarioId, usuarioLogado.id)
+                            .build().find()
+                        loadYourPosts(list)
+                    }
+                    .setNegativeButton("Editar Informações"){_, _ ->
+                        verInformacoes()
+                    }
                     .create().show()
             }
         }
@@ -221,7 +230,16 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         return true
     }
 
+    private fun verInformacoes(){
+
+        val intent = Intent(this, CadastroActivity::class.java)
+        intent.putExtra(K.ID_USUARIO, usuarioLogado.id)
+        startActivity(intent)
+    }
+
     private fun loadYourPosts(list: MutableList<Post>){
 
+        recyclerView.adapter = PostAdapter(this, list, postBox)
+        recyclerView.layoutManager = LinearLayoutManager( this)
     }
 }

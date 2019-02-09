@@ -24,14 +24,28 @@ class CadastroActivity : AppCompatActivity() {
     private lateinit var editConfirmSenha: EditText
 
     private lateinit var usuarioBox: Box<Usuario>
+    private lateinit var usuario: Usuario
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cadastro)
 
-        usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
-
         bind()
+
+        val idUsuario = intent.getLongExtra(K.ID_USUARIO, K.DEFAULT_VALUE)
+        if (idUsuario != K.DEFAULT_VALUE){
+            usuario = usuarioBox.get(idUsuario)
+            preecherDados(usuario)
+        }
+    }
+
+    private fun preecherDados(usuario: Usuario){
+
+        editNome.setText(usuario.nome)
+        editUsername.setText(usuario.username)
+        editEmail.setText(usuario.email)
+        editSenha.setText(usuario.senha)
+        editConfirmSenha.setText(usuario.senha)
     }
 
     private fun bind(){
@@ -41,6 +55,10 @@ class CadastroActivity : AppCompatActivity() {
         editUsername = edit_username
         editSenha = edit_senha
         editConfirmSenha = edit_confirm_senha
+
+        usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
+
+        usuario = Usuario()
     }
 
     private fun logar(usuario: Usuario){
@@ -89,7 +107,10 @@ class CadastroActivity : AppCompatActivity() {
 
         } else {
 
-            val usuario = Usuario(nome, username, email, senha)
+            usuario.nome = nome
+            usuario.username = username
+            usuario.email = email
+            usuario.senha = senha
             usuarioBox.put(usuario)
             logar(usuario)
             finish()
