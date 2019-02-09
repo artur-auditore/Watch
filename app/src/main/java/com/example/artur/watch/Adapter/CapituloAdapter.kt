@@ -17,6 +17,7 @@ import com.example.artur.watch.R
 import com.example.artur.watch.Util.K.Companion.ID_CAPITULO
 import com.example.artur.watch.Util.K.Companion.TEXT_CAPITULO
 import io.objectbox.Box
+import kotlinx.android.synthetic.main.activity_formulario_capitulo.view.*
 import kotlinx.android.synthetic.main.item_capitulo.view.*
 import kotlinx.android.synthetic.main.view_dialog_nova_nota.view.*
 
@@ -95,19 +96,46 @@ class CapituloAdapter(private val context: Context,
 
         val alertDialog = AlertDialog.Builder(context)
 
-        if (capitulo.serie.target.tipo == "Filme"){
-            verNota(alertDialog, capitulo, position)
+        if (capitulo.serie.target.tipo == "Série"){
+            verCapitulo(alertDialog, capitulo, position)
+
         } else {
-            verCapitulo(capitulo, position)
+            verNota(alertDialog, capitulo, position)
         }
 
     }
 
-    private fun verCapitulo(capitulo: Capitulo, position: Int){
-        val intent = Intent(context, FormularioCapituloActivity::class.java)
-        intent.putExtra(ID_CAPITULO, capitulo.id)
-        context.startActivity(intent)
-        notifyItemChanged(position)
+    @SuppressLint("InflateParams")
+    private fun verCapitulo(alertDialog: AlertDialog.Builder, capitulo: Capitulo, position: Int){
+        val viewDialog = LayoutInflater.from(context).inflate(R.layout.activity_formulario_capitulo, null)
+
+        val editTitulo = viewDialog.edit_titulo_capitulo
+        val editDescricao = viewDialog.edit_capitulo_descricao
+        val editNTemp = viewDialog.edit_n_temporada
+        val editNCapitulo = viewDialog.edit_n_capitulo
+
+        editTitulo.setText(capitulo.titulo)
+        editDescricao.setText(capitulo.descricao)
+        editNTemp.setText(capitulo.nTemporada.toString())
+        editNCapitulo.setText(capitulo.nCapitulo.toString())
+
+        alertDialog.setView(viewDialog)
+            .setTitle("Novo Capítulo")
+            .setPositiveButton("Salvar"){_, _ ->
+
+                capitulo.titulo = editTitulo.text.toString()
+                capitulo.descricao = editDescricao.text.toString()
+                capitulo.nCapitulo = editNCapitulo.text.toString().toInt()
+                capitulo.nTemporada = editNTemp.text.toString().toInt()
+
+                Snackbar.make(viewDialog,
+                    "Adicionado",
+                    Snackbar.LENGTH_LONG).show()
+
+                notifyItemChanged(position)
+            }
+            .setNegativeButton("Cancelar"){_, _ ->}
+            .create().show()
 
     }
 

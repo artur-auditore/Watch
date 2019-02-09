@@ -47,7 +47,6 @@ class InfoSerieActivity : AppCompatActivity() {
         fabNovoCapitulo.setOnClickListener {
             novoCapitulo()
         }
-
     }
 
     @SuppressLint("InflateParams")
@@ -80,9 +79,11 @@ class InfoSerieActivity : AppCompatActivity() {
 
                 } else {
 
-                    capitulo = Capitulo(titulo, descricao)
+                    capitulo = Capitulo()
+                    capitulo.titulo = titulo
                     capitulo.nCapitulo = nCapitulo.toInt()
                     capitulo.nTemporada = nTemp.toInt()
+                    capitulo.descricao = descricao
                     capitulo.serie.target = serieAtual
                     capituloBox.put(capitulo)
 
@@ -146,6 +147,9 @@ class InfoSerieActivity : AppCompatActivity() {
 
     private fun excluirSerie(){
 
+        val list = postBox.query()
+            .equal(Post_.serieId, serieAtual.id).build().find()
+
         val alertDialog = AlertDialog.Builder(this)
         alertDialog.setTitle("Excluir Série")
             .setMessage(
@@ -154,16 +158,7 @@ class InfoSerieActivity : AppCompatActivity() {
             )
             .setPositiveButton("Excluir") { _, _ ->
 
-                val list = postBox.query()
-                    .equal(Post_.serieId, serieAtual.id).build().find()
-
-                if (list.isEmpty()) {
-
-                    serieBox.remove(serieAtual)
-                    Toast.makeText(this, "${serieAtual.titulo} apagado", Toast.LENGTH_LONG).show()
-                    finish()
-
-                } else {
+                if (list.size > 0) {
 
                     val alert = AlertDialog.Builder(this)
                     alert.setTitle("Erro")
@@ -172,6 +167,12 @@ class InfoSerieActivity : AppCompatActivity() {
                                     " associadas. Apague a(s) publicação(ões) e tente novamente."
                         )
                         .setNegativeButton("Ok") { _, _ -> }.create().show()
+
+                } else {
+
+                    serieBox.remove(serieAtual)
+                    Toast.makeText(this, "${serieAtual.titulo} apagado", Toast.LENGTH_LONG).show()
+                    finish()
                 }
             }
             .setNegativeButton("Cancelar"){_, _ ->}
