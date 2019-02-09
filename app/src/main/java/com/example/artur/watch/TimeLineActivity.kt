@@ -220,4 +220,8 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
+
+    private fun loadYourPosts(list: MutableList<Post>){
+
+    }
 }
