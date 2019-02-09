@@ -1,6 +1,7 @@
 package com.example.artur.watch
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -16,6 +17,7 @@ import com.example.artur.watch.Adapter.CapituloAdapter
 import com.example.artur.watch.Model.*
 import com.example.artur.watch.Util.K.Companion.DEFAULT_VALUE
 import com.example.artur.watch.Util.K.Companion.ID_FILME
+import com.example.artur.watch.Util.K.Companion.ID_SERIE
 import com.example.artur.watch.Util.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_info_filme.*
@@ -120,10 +122,26 @@ class InfoFilmeActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item!!.itemId){
+            R.id.compartilhar_filme -> compartilhar()
+            R.id.op_editar_filme -> editarFilme()
             R.id.op_excluir_filme -> excluirFilme()
             R.id.op_excluir_capitulos -> excluirCapitulos()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun compartilhar(){
+
+        val intent = Intent(this, FormularioPostActivity::class.java)
+        intent.putExtra(ID_SERIE, serie.id)
+        startActivity(intent)
+    }
+
+    private fun editarFilme(){
+
+        val intent = Intent(this, FormularioSerieActivity::class.java)
+        intent.putExtra(ID_SERIE, serie.id)
+        startActivity(intent)
     }
 
     private fun excluirFilme(){

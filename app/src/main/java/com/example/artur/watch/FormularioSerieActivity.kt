@@ -45,8 +45,9 @@ class FormularioSerieActivity : AppCompatActivity() {
         //Para editar
         val idSerie = intent.getLongExtra(ID_SERIE, DEFAULT_VALUE)
         if (idSerie != DEFAULT_VALUE){
-            supportActionBar!!.title = "Editar Série"
             serie = serieBox.get(idSerie)
+            if (serie.tipo == "Série") supportActionBar!!.title = "Editar Série"
+            else supportActionBar!!.title = "Editar Filme"
             preecherSerie(serie)
         }
 

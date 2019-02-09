@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+            android:title="Compartilhar"
+            android:id="@+id/compartilhar_filme"
+    />
+
+    <item
+            android:title="Editar Filme"
+            android:id="@+id/op_editar_filme"
+    />
 
     <item
             android:title="Excluir Filme"

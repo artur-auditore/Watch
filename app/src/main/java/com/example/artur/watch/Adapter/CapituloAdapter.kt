@@ -10,12 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.example.artur.watch.FormularioCapituloActivity
 import com.example.artur.watch.FormularioPostActivity
 import com.example.artur.watch.Model.Capitulo
 import com.example.artur.watch.R
 import com.example.artur.watch.Util.K.Companion.ID_CAPITULO
-import com.example.artur.watch.Util.K.Companion.TEXT_CAPITULO
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_formulario_capitulo.view.*
 import kotlinx.android.synthetic.main.item_capitulo.view.*

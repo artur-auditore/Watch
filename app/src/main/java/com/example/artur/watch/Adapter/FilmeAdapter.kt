@@ -13,7 +13,6 @@ import com.example.artur.watch.*
 import com.example.artur.watch.Model.Post
 import com.example.artur.watch.Model.Post_
 import com.example.artur.watch.Model.Serie
-import com.example.artur.watch.Model.Serie_
 import com.example.artur.watch.Util.K.Companion.ID_FILME
 import com.example.artur.watch.Util.K.Companion.ID_SERIE
 import com.example.artur.watch.Util.ObjectBox

@@ -79,11 +79,9 @@ class InfoSerieActivity : AppCompatActivity() {
 
                 } else {
 
-                    capitulo = Capitulo()
-                    capitulo.titulo = titulo
+                    capitulo = Capitulo(titulo, descricao)
                     capitulo.nCapitulo = nCapitulo.toInt()
                     capitulo.nTemporada = nTemp.toInt()
-                    capitulo.descricao = descricao
                     capitulo.serie.target = serieAtual
                     capituloBox.put(capitulo)
 
@@ -139,10 +137,26 @@ class InfoSerieActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item!!.itemId){
+            R.id.compartilhar_serie -> compartilhar()
+            R.id.op_editar_serie -> editarSerie()
             R.id.op_excluir_tudo -> excluirCapitulos()
             R.id.op_excluir_serie -> excluirSerie()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun compartilhar(){
+
+        val intent = Intent(this, FormularioPostActivity::class.java)
+        intent.putExtra(ID_SERIE, serieAtual.id)
+        startActivity(intent)
+    }
+
+    private fun editarSerie(){
+
+        val intent = Intent(this, FormularioSerieActivity::class.java)
+        intent.putExtra(ID_SERIE, serieAtual.id)
+        startActivity(intent)
     }
 
     private fun excluirSerie(){

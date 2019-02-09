@@ -50,11 +50,6 @@
                 android:parentActivityName=".TimeLineActivity">
         </activity>
         <activity
-                android:name=".FormularioCapituloActivity"
-                android:label="Novo Capítulo"
-                android:parentActivityName=".InfoSerieActivity">
-        </activity>
-        <activity
                 android:name=".ComentariosActivity"
                 android:label="Comentários"
                 android:parentActivityName=".TimeLineActivity">

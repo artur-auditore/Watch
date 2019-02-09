@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+            android:title="Compartilhar"
+            android:id="@+id/compartilhar_serie"
+        />
+
+    <item
+            android:title="Editar Série"
+            android:id="@+id/op_editar_serie"
+        />
+
+    <item
+            android:title="Excluir Série"
+            android:id="@+id/op_excluir_serie"
+    />
 
     <item
             android:title="Excluir tudo"
             android:id="@+id/op_excluir_tudo"
         />
 
-    <item
-            android:title="Excluir Série"
-            android:id="@+id/op_excluir_serie"
-        />
 
 </menu>
