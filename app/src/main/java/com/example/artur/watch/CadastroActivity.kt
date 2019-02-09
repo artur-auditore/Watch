@@ -34,6 +34,7 @@ class CadastroActivity : AppCompatActivity() {
 
         val idUsuario = intent.getLongExtra(K.ID_USUARIO, K.DEFAULT_VALUE)
         if (idUsuario != K.DEFAULT_VALUE){
+            supportActionBar!!.title = getString(R.string.suas_informacoes)
             usuario = usuarioBox.get(idUsuario)
             preecherDados(usuario)
         }

@@ -67,12 +67,30 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         }
 
         bind()
+        verify()
 
         fabNovoPost.setOnClickListener {
             startActivity(Intent(this, FormularioPostActivity::class.java))
         }
 
         loadPosts()
+    }
+
+    private fun verify(){
+        val list = serieBox.query()
+            .equal(Serie_.usuarioId, usuarioLogado.id)
+            .build().find()
+
+        if (list.isEmpty()){
+            val alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("Bem vindo!")
+                .setMessage(getString(R.string.ajuda_1))
+                .setPositiveButton("Adicionar..."){_, _ ->
+                    startActivity(Intent(this, FormularioSerieActivity::class.java))
+                }
+                .setNegativeButton("Cancelar"){_, _ ->}
+                .create().show()
+        }
     }
 
     private fun bind(){
@@ -120,33 +138,6 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         finish()
     }
 
-    //Métodos para carregar itens para recyclerView
-    private fun loadPosts(){
-
-        adapter = PostAdapter(this, postBox.all, postBox)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
-    }
-
-
-    private fun loadSeries(list: MutableList<Serie>){
-
-        val adapter = SeriesAdapter(this, list, serieBox)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.hasFixedSize()
-        adapter.notifyDataSetChanged()
-    }
-
-    private fun loadFilmes(list: MutableList<Serie>){
-
-        val adapter = FilmeAdapter(this, list, serieBox)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.hasFixedSize()
-        adapter.notifyDataSetChanged()
-    }
-
     //Métodos de menus e navigation drawer
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.time_line, menu); return true
@@ -186,7 +177,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
                 val list = serieBox.query()
                     .equal(Serie_.usuarioId, usuarioLogado.id)
-                    .contains(Serie_.tipo, "Série")
+                    .contains(Serie_.tipo, getString(R.string.serie))
                     .build().find()
 
                 loadSeries(list)
@@ -200,7 +191,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 supportActionBar!!.title = getString(R.string.filmes)
                 val list = serieBox.query()
                     .equal(Serie_.usuarioId, usuarioLogado.id)
-                    .contains(Serie_.tipo, "Filme")
+                    .contains(Serie_.tipo, getString(R.string.filme))
                     .build().find()
 
                 loadFilmes(list)
@@ -209,17 +200,17 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             R.id.perfil -> {
 
                 val alertDialog = AlertDialog.Builder(this)
-                alertDialog.setTitle("Perfil")
-                    .setMessage("O que você deseja fazer")
-                    .setPositiveButton("Ver Suas Publicações"){_, _ ->
+                alertDialog.setTitle(getString(R.string.perfil))
+                    .setMessage(getString(R.string.pergunta))
+                    .setPositiveButton(getString(R.string.ver_pub)){ _, _ ->
 
-                        supportActionBar!!.title = "Suas publicações"
+                        supportActionBar!!.title = getString(R.string.suas_pub)
                         val list = postBox.query()
                             .equal(Post_.usuarioId, usuarioLogado.id)
                             .build().find()
                         loadYourPosts(list)
                     }
-                    .setNegativeButton("Editar Informações"){_, _ ->
+                    .setNegativeButton(getString(R.string.edit_info)){ _, _ ->
                         verInformacoes()
                     }
                     .create().show()
@@ -241,5 +232,32 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         recyclerView.adapter = PostAdapter(this, list, postBox)
         recyclerView.layoutManager = LinearLayoutManager( this)
+    }
+
+    //Métodos para carregar itens para recyclerView
+    private fun loadPosts(){
+
+        adapter = PostAdapter(this, postBox.all, postBox)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+    }
+
+
+    private fun loadSeries(list: MutableList<Serie>){
+
+        val adapter = SeriesAdapter(this, list, serieBox)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.hasFixedSize()
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun loadFilmes(list: MutableList<Serie>){
+
+        val adapter = FilmeAdapter(this, list, serieBox)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.hasFixedSize()
+        adapter.notifyDataSetChanged()
     }
 }

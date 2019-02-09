@@ -8,7 +8,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="s_ries">Séries</string>
-    <string name="perfil">Perfil</string>
     <string name="feed_principal">Publicações</string>
     <string name="pref_name">w.file</string>
     <string name="editar_post">Editar Post</string>
@@ -27,5 +26,16 @@
     <string name="mensagem_erro_2">Você não adicionou nenhuma série com este título. Adicione-a para prosseguir.
     </string>
     <string name="aviso_dialog_capitulo">Titulo, número da temporada e número do capítulo são campos obrigatórios
+    </string>
+    <string name="suas_informacoes">Suas Informações</string>
+    <string name="serie">Série</string>
+    <string name="filme">Filme</string>
+    <string name="edit_info">Editar Informações</string>
+    <string name="ver_pub">Ver Suas Publicações</string>
+    <string name="pergunta">O que você deseja fazer?</string>
+    <string name="perfil">Perfil</string>
+    <string name="suas_pub">Suas publicações</string>
+    <string name="ajuda_1">Seja bem vindo ao Watch! Aqui você pode compartilhar sua opnião sobre séries e filmes que
+        você adicionar. Pena que você não adicionou nada ainda. Vamos começar?
     </string>
 </resources>
