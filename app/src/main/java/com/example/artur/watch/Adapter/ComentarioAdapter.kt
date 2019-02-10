@@ -29,12 +29,14 @@ class ComentarioAdapter(private val context: Context,
         val textUsername = itemView.text_comentario_username
         val descricao = itemView.text_comentario_descricao
         val data = itemView.text_comentario_data
+        val usernameResp = itemview.text_username_comentario
 
         val opcoes = itemview.opcoes_comentario
 
         @SuppressLint("SimpleDateFormat", "SetTextI18n")
         fun bind(comentario: Comentario){
 
+            usernameResp.text = "@${comentario.post.target.usuario.target.username}"
             textNome.text = comentario.usuario.target.nome
             textUsername.text = "@${comentario.usuario.target.username}"
             descricao.text = comentario.descricao
@@ -120,7 +122,7 @@ class ComentarioAdapter(private val context: Context,
 
                                 Toast.makeText(
                                     context,
-                                    "Apagado.",
+                                    "Comentário Apagado.",
                                     Toast.LENGTH_LONG
                                 ).show()
                             }

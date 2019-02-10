@@ -134,7 +134,9 @@ class ComentariosActivity : AppCompatActivity() {
                 "Escreva algo antes de prosseguir",
                 Toast.LENGTH_LONG
             ).show()
+
         } else {
+
             val dataAtual = Date()
             val comentario = Comentario()
             comentario.descricao = descricao
