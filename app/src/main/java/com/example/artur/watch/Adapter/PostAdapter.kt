@@ -42,13 +42,12 @@ class PostAdapter(private val context: Context,
         @SuppressLint("SimpleDateFormat", "SetTextI18n")
         fun bind(post: Post){
 
-            val dataAtual = Date()
             nome.text = post.usuario.target.nome
             username.text = "@${post.usuario.target.username}"
             texto.text = post.descricao
             textSerie.text = post.serie.target.titulo
             textEstado.text = post.estadoPost
-            data.text = SimpleDateFormat("dd/MM/yyyy").format(dataAtual)
+            data.text = SimpleDateFormat("dd/MM/yyyy - HH:mm").format(post.data)
         }
     }
 

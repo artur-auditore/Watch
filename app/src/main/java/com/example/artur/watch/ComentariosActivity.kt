@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.example.artur.watch.Adapter.ComentarioAdapter
-import com.example.artur.watch.Adapter.PostAdapter
 import com.example.artur.watch.Model.Comentario
 import com.example.artur.watch.Model.Comentario_
 import com.example.artur.watch.Model.Post
@@ -20,7 +22,8 @@ import com.example.artur.watch.Util.K.Companion.ID_POST
 import com.example.artur.watch.Util.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_comentarios.*
-import kotlinx.android.synthetic.main.comentario_dialog.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ComentariosActivity : AppCompatActivity() {
 
@@ -29,24 +32,25 @@ class ComentariosActivity : AppCompatActivity() {
     private lateinit var textSerie: TextView
     private lateinit var textEstado: TextView
     private lateinit var textDescricao: TextView
+    private lateinit var textData: TextView
     private lateinit var textComentar: TextView
 
     private lateinit var usuarioBox: Box<Usuario>
     private lateinit var usuarioLogado: Usuario
     private lateinit var comentarioBox: Box<Comentario>
-    private lateinit var comentario: Comentario
     private lateinit var postBox: Box<Post>
     private lateinit var postAtual: Post
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var editComentario: EditText
+    private lateinit var buttonPublicar: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comentarios)
 
         bind()
-
-        comentar()
+        escreverComentario()
 
     }
 
@@ -74,7 +78,7 @@ class ComentariosActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SimpleDateFormat")
     private fun bind(){
 
         textNome = text_nome_post
@@ -82,8 +86,11 @@ class ComentariosActivity : AppCompatActivity() {
         textDescricao = text_post_descricao
         textSerie = text_post_titulo_serie
         textEstado = text_post_estado
+        textData = text_data_post
         textComentar = text_comentar
         recyclerView = rv_comentarios
+        buttonPublicar = button_comentar
+        editComentario = edit_comentario_descricao
 
         usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
         usuarioLogado = obterUsuario()
@@ -92,7 +99,6 @@ class ComentariosActivity : AppCompatActivity() {
         postBox = ObjectBox.boxStore.boxFor(Post::class.java)
 
         comentarioBox = ObjectBox.boxStore.boxFor(Comentario::class.java)
-        comentario = Comentario()
 
         postAtual = postBox.get(postId)
 
@@ -101,36 +107,57 @@ class ComentariosActivity : AppCompatActivity() {
         textSerie.text = postAtual.serie.target.titulo
         textEstado.text = postAtual.estadoPost
         textDescricao.text = postAtual.descricao
+        textData.text = SimpleDateFormat("dd/MM/yyyy - HH:mm").format(postAtual.data)
     }
 
     @SuppressLint("InflateParams")
-    private fun comentar(){
+    private fun escreverComentario(){
         textComentar.setOnClickListener {
 
-            val alertdialog = AlertDialog.Builder(this)
-            val viewDialog = layoutInflater.inflate(R.layout.comentario_dialog, null)
-
-            val editdecricao = viewDialog.edit_comentario_descricao
-
-            alertdialog.setView(viewDialog)
-                .setTitle("Comentar")
-                .setPositiveButton("Publicar"){_, _ ->
-
-                    comentario.descricao = editdecricao.text.toString()
-                    comentario.post.target = postAtual
-                    comentario.usuario.target = usuarioLogado
-                    comentarioBox.put(comentario)
-
-                    val list = comentarioBox.query()
-                        .equal(Comentario_.postId, postAtual.id)
-                        .build().find()
-
-                    loadComentarios(list)
-                }
-                .setNegativeButton("Cancelar"){_, _ ->}
-                .create().show()
-
+            editComentario.visibility = View.VISIBLE
+            buttonPublicar.visibility = View.VISIBLE
         }
 
+        buttonPublicar.setOnClickListener {
+            publicar()
+        }
+    }
+
+    private fun publicar(){
+
+        val descricao = editComentario.text.toString()
+
+        if (descricao.trim() == ""){
+
+            Toast.makeText(
+                this,
+                "Escreva algo antes de prosseguir",
+                Toast.LENGTH_LONG
+            ).show()
+        } else {
+            val dataAtual = Date()
+            val comentario = Comentario()
+            comentario.descricao = descricao
+            comentario.post.target = postAtual
+            comentario.usuario.target = usuarioLogado
+            comentario.data = dataAtual
+            comentarioBox.put(comentario)
+
+            editComentario.text.clear()
+            editComentario.visibility = View.GONE
+            buttonPublicar.visibility = View.GONE
+
+            Toast.makeText(
+                this,
+                "Comentário Publicado",
+                Toast.LENGTH_LONG
+            ).show()
+
+            val list = comentarioBox.query()
+                .equal(Comentario_.postId, postAtual.id).build().find()
+
+            loadComentarios(list)
+
+        }
     }
 }

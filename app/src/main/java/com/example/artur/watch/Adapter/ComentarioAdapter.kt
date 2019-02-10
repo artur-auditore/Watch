@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.artur.watch.Model.Comentario
+import com.example.artur.watch.Model.Post
 import com.example.artur.watch.R
+import com.example.artur.watch.Util.ObjectBox
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.item_comentario.view.*
 import java.text.SimpleDateFormat
@@ -20,19 +22,18 @@ class ComentarioAdapter(private val context: Context,
 
     class ViewHolder(itemview: View): RecyclerView.ViewHolder(itemview){
 
+        val textNome = itemView.text_comentario_nome
+        val textUsername = itemView.text_comentario_username
+        val descricao = itemView.text_comentario_descricao
+        val data = itemView.text_comentario_data
+
         @SuppressLint("SimpleDateFormat", "SetTextI18n")
         fun bind(comentario: Comentario){
 
-            val textNome = itemView.text_comentario_nome
-            val textUsername = itemView.text_comentario_username
-            val descricao = itemView.text_comentario_descricao
-            val data = itemView.text_comentario_data
-
-            val dataAtual = Date()
             textNome.text = comentario.usuario.target.nome
             textUsername.text = "@${comentario.usuario.target.username}"
             descricao.text = comentario.descricao
-            data.text = SimpleDateFormat("dd/MM/yyyy").format(dataAtual)
+            data.text = SimpleDateFormat("dd/MM/yyyy - HH:mm").format(comentario.data)
         }
     }
 
