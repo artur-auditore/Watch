@@ -2,10 +2,13 @@ package com.example.artur.watch.Adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
+import android.widget.Toast
 import com.example.artur.watch.Model.Comentario
 import com.example.artur.watch.Model.Post
 import com.example.artur.watch.R
@@ -26,6 +29,8 @@ class ComentarioAdapter(private val context: Context,
         val textUsername = itemView.text_comentario_username
         val descricao = itemView.text_comentario_descricao
         val data = itemView.text_comentario_data
+
+        val opcoes = itemview.opcoes_comentario
 
         @SuppressLint("SimpleDateFormat", "SetTextI18n")
         fun bind(comentario: Comentario){
@@ -48,5 +53,84 @@ class ComentarioAdapter(private val context: Context,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val comentario = comentarios[position]
         holder.bind(comentario)
+
+        menuPop(holder.itemView, comentario, position)
+
+        excluir(holder.opcoes, comentario, position)
+    }
+
+    private fun excluir(itemview: View, comentario: Comentario, position: Int){
+
+        itemview.setOnClickListener {
+
+            val popup = PopupMenu(context, it)
+            popup.menuInflater.inflate(R.menu.menu_pop_post, popup.menu)
+
+            popup.setOnMenuItemClickListener { item ->
+
+                when(item.itemId){
+                    R.id.op_excluir_post ->{
+
+                        val alertDialog = AlertDialog.Builder(context)
+                        alertDialog.setTitle("Excluir")
+                            .setMessage("Deseja realmente excluir seu comentário?")
+                            .setPositiveButton("Sim"){_, _ ->
+
+                                this.comentarios.remove(comentario)
+                                this.comentarioBox.remove(comentario)
+                                notifyItemChanged(position)
+                                notifyItemRangeChanged(position, itemCount)
+
+                                Toast.makeText(
+                                    context,
+                                    "Apagado.",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                            .setNegativeButton("Não"){_, _ ->}.create().show()
+                    }
+                }
+                false
+            }
+            popup.show()
+        }
+    }
+
+    private fun menuPop(itemview: View, comentario: Comentario, position: Int){
+
+        itemview.setOnLongClickListener { it ->
+
+            val popup = PopupMenu(context, it)
+            popup.menuInflater.inflate(R.menu.menu_pop_post, popup.menu)
+
+            popup.setOnMenuItemClickListener { item ->
+
+                when(item.itemId){
+                    R.id.op_excluir_post ->{
+
+                        val alertDialog = AlertDialog.Builder(context)
+                        alertDialog.setTitle("Excluir")
+                            .setMessage("Deseja realmente excluir seu comentário?")
+                            .setPositiveButton("Sim"){_, _ ->
+
+                                this.comentarios.remove(comentario)
+                                this.comentarioBox.remove(comentario)
+                                notifyItemChanged(position)
+                                notifyItemRangeChanged(position, itemCount)
+
+                                Toast.makeText(
+                                    context,
+                                    "Apagado.",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                            .setNegativeButton("Não"){_, _ ->}.create().show()
+                    }
+                }
+                false
+            }
+            popup.show()
+            true
+        }
     }
 }
