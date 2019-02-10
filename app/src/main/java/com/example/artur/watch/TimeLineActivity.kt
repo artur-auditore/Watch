@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -15,15 +14,15 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import com.example.artur.watch.Adapter.*
-import com.example.artur.watch.Fragments.SeriesFragment
 import com.example.artur.watch.Model.*
 import com.example.artur.watch.Util.K
 import com.example.artur.watch.Util.K.Companion.DEFAULT_VALUE
 import com.example.artur.watch.Util.K.Companion.ID_USUARIO
 import com.example.artur.watch.Util.ObjectBox
+import io.github.yavski.fabspeeddial.FabSpeedDial
+import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_time_line.*
 import kotlinx.android.synthetic.main.app_bar_time_line.*
@@ -35,7 +34,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     private lateinit var preferences: SharedPreferences
     private lateinit var recyclerView: RecyclerView
     private lateinit var postBox: Box<Post>
-    private lateinit var fabNovoPost: FloatingActionButton
+    private lateinit var fabSpeed: FabSpeedDial
 
     private lateinit var textNome: TextView
     private lateinit var textEmail: TextView
@@ -68,12 +67,29 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         bind()
         verify()
+        optionsFab()
+    }
 
-        fabNovoPost.setOnClickListener {
-            startActivity(Intent(this, FormularioPostActivity::class.java))
-        }
+    override fun onResume() {
+        super.onResume()
 
         loadPosts()
+    }
+
+    private fun optionsFab(){
+        fabSpeed.setMenuListener(object : SimpleMenuListenerAdapter() {
+            override fun onMenuItemSelected(menuItem: MenuItem?): Boolean {
+                when(menuItem!!.itemId){
+                    R.id.nova_publicação -> {
+                        startActivity(Intent(this@TimeLineActivity, FormularioPostActivity::class.java))
+                    }
+                    R.id.novo_filme_serie ->{
+                        startActivity(Intent(this@TimeLineActivity, FormularioSerieActivity::class.java))
+                    }
+                }
+                return super.onMenuItemSelected(menuItem)
+            }
+        })
     }
 
     private fun verify(){
@@ -98,7 +114,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
         recyclerView = rv_posts
         postBox = ObjectBox.boxStore.boxFor(Post::class.java)
         usuarioBox = ObjectBox.boxStore.boxFor(Usuario::class.java)
-        fabNovoPost = fab_novo_post
+        fabSpeed = fab_speed
         usuarioLogado = obterUsuario()
 
         serieBox = ObjectBox.boxStore.boxFor(Serie::class.java)
@@ -162,16 +178,11 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
             R.id.posts -> {
 
-                fabNovoPost.visibility = View.VISIBLE
-
                 supportActionBar!!.title = getString(R.string.feed_principal)
                 loadPosts()
             }
 
             R.id.series -> {
-
-                fabNovoPost.visibility = View.INVISIBLE
-                supportFragmentManager.beginTransaction().replace(R.id.main, SeriesFragment()).commit()
 
                 supportActionBar!!.title = getString(R.string.s_ries)
 
@@ -184,9 +195,6 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             }
 
             R.id.filmes ->{
-
-                fabNovoPost.visibility = View.INVISIBLE
-                supportFragmentManager.beginTransaction().replace(R.id.main, SeriesFragment()).commit()
 
                 supportActionBar!!.title = getString(R.string.filmes)
                 val list = serieBox.query()

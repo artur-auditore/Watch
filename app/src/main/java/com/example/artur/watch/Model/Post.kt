@@ -28,7 +28,8 @@ class Post{
             "Título: ${serie.target.titulo}\n" +
                     "Ano: ${serie.target.ano}\n" +
                     "Gênero: ${serie.target.genero}\n" +
-                    "Série Original ${serie.target.estudio}\n" else
+                    "Série Original ${serie.target.estudio}\n"
+        else
             "Título: ${serie.target.titulo}\n" +
                     "Ano: ${serie.target.ano}\n" +
                     "Gênero: ${serie.target.genero}\n" +

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+     >
+    <item
+            android:id="@+id/nova_publicação"
+            android:icon="@drawable/ic_action_novo_post"
+            android:title="Publicação" />
+    <item
+            android:id="@+id/novo_filme_serie"
+            android:icon="@drawable/ic_action_novo_fillme"
+            android:title="Filme/Série"/>
+
+</menu>
