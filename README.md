@@ -5,6 +5,11 @@
 A principal finalidade do aplicativo é compartilhar opinião em uma linha do tempo - **Simulada, ou seja, totalmente standalone** - como o twitter, sobre filmes e/ou séries que o usuário adicionar à sua lista, ou fazer um esquema (por capítulos, se for série, ou notas, se for filme). 
 Caso não tenha uma conta, poderá se cadastrar. É possível também fazer comentários à publicações de outros usuários.
 
+### Biblioteca utilizada:
+Para que a adição de posts e séries fosse facilitada foi incluído ![esta biblioteca](https://github.com/yavski/fab-speed-dial). Observe a imagem abaixo:
+
+![screenshot_20190212-134210](https://user-images.githubusercontent.com/16518399/52652108-9e94b100-2ed4-11e9-80d0-cf0123cedc4f.png)
+
 ### Requisitos e Restrições
 * API 19: Android 4.4 (KitKat);
 * Aplicativo desenvolvido utilizando a linguagem de programação Kotlin;
