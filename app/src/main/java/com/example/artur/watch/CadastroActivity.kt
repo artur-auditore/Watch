@@ -64,11 +64,13 @@ class CadastroActivity : AppCompatActivity() {
 
     private fun logar(usuario: Usuario){
 
-        val sharedPreferences = getSharedPreferences("w.file", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences(getString(R.string.pref_name), Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putLong(K.ID_USUARIO, usuario.id)
         editor.apply()
         startActivity(Intent(this, TimeLineActivity::class.java))
+        Toast.makeText(this, getString(R.string.toast_logado), Toast.LENGTH_LONG).show()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -95,16 +97,16 @@ class CadastroActivity : AppCompatActivity() {
 
         if (senha != confirmSenha){
 
-            Toast.makeText(this, "As senhas devem ser iguais", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.erro_senhas_iguais), Toast.LENGTH_LONG).show()
 
         } else if (nome.trim() == "" || username.trim() == "" || email.trim() == "" ||
             senha.trim() == "" || confirmSenha.trim() == ""){
 
-            Toast.makeText(this, "Preecha todos os dados!", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.erro_preencher), Toast.LENGTH_LONG).show()
 
         } else if (result.size > 0) {
 
-            Toast.makeText(this, "E-mail já cadastrado!", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.erro_email), Toast.LENGTH_LONG).show()
 
         } else {
 

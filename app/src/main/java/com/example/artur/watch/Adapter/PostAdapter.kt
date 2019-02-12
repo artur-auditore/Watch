@@ -44,10 +44,14 @@ class PostAdapter(private val context: Context,
 
             nome.text = post.usuario.target.nome
             username.text = "@${post.usuario.target.username}"
-            texto.text = post.descricao
+            textoVazio(post)
             textSerie.text = post.serie.target.titulo
             textEstado.text = post.estadoPost
             data.text = SimpleDateFormat("dd/MM/yyyy - HH:mm").format(post.data)
+        }
+
+        fun textoVazio(post: Post){
+            if (post.descricao.trim() == "") texto.visibility = View.GONE else texto.text = post.descricao
         }
     }
 

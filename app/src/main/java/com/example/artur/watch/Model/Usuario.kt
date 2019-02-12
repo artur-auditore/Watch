@@ -23,7 +23,9 @@ class Usuario{
         this.senha = senha
     }
 
-    fun salvar(post: Post){
-
+    override fun toString(): String {
+        return "Nome: ${this.nome}\n" +
+                "Nome de usuário: ${this.username}\n" +
+                "E-mail: ${this.email}\n"
     }
 }

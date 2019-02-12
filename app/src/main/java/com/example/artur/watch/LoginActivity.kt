@@ -58,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
                 logar(result[0])
             } else {
                 editSenha.text.clear()
-                Toast.makeText(this, "Email e/ou senha incorreto(s)!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.erro_login), Toast.LENGTH_SHORT).show()
             }
         }
     }

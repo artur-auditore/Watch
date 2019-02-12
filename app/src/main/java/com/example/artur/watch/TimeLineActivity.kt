@@ -73,6 +73,7 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onResume() {
         super.onResume()
 
+        supportActionBar!!.title = getString(R.string.publica_es)
         loadPosts()
     }
 
@@ -208,8 +209,8 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
             R.id.perfil -> {
 
                 val alertDialog = AlertDialog.Builder(this)
-                alertDialog.setTitle(getString(R.string.perfil))
-                    .setMessage(getString(R.string.pergunta))
+                alertDialog.setTitle(getString(R.string.suas_informacoes))
+                    .setMessage("$usuarioLogado\n" + getString(R.string.vc_pode))
                     .setPositiveButton(getString(R.string.ver_pub)){ _, _ ->
 
                         supportActionBar!!.title = getString(R.string.suas_pub)

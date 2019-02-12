@@ -30,7 +30,7 @@
     <string name="suas_informacoes">Suas Informações</string>
     <string name="serie">Série</string>
     <string name="filme">Filme</string>
-    <string name="edit_info">Editar Informações</string>
+    <string name="edit_info">Editar</string>
     <string name="ver_pub">Ver Suas Publicações</string>
     <string name="pergunta">O que você deseja fazer?</string>
     <string name="perfil">Perfil</string>
@@ -38,4 +38,10 @@
     <string name="ajuda_1">Seja bem vindo ao Watch! Aqui você pode compartilhar sua opnião sobre séries e filmes que
         você adicionar. Pena que você não adicionou nada ainda. Vamos começar?
     </string>
+    <string name="vc_pode">Você pode ainda:</string>
+    <string name="erro_senhas_iguais">As senhas devem ser iguais</string>
+    <string name="erro_preencher">Preecha todos os dados!</string>
+    <string name="erro_email">E-mail já cadastrado!</string>
+    <string name="toast_logado">Parabéns! Você já está logado!</string>
+    <string name="erro_login">Email e/ou senha incorreto(s)!</string>
 </resources>
