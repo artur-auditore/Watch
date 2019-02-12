@@ -90,22 +90,28 @@ class PostAdapter(private val context: Context,
 
         itemView.setOnClickListener {
 
-            val popup = PopupMenu(context, it)
-            popup.menuInflater.inflate(R.menu.menu_pop_post, popup.menu)
+            if (post.usuario.target.id == usuarioLogado.id){
 
-            popup.setOnMenuItemClickListener { item ->
+                val popup = PopupMenu(context, it)
+                popup.menuInflater.inflate(R.menu.menu_pop_post, popup.menu)
 
-                when (item.itemId){
+                popup.setOnMenuItemClickListener { item ->
 
-                    R.id.op_excluir_post -> {
-                        if (post.usuario.target.id == usuarioLogado.id) excluir(itemView, post, position)
-                        else Snackbar.make(itemView, "Você não publicou isto", Snackbar.LENGTH_LONG).show()
+                    when (item.itemId){
+
+                        R.id.op_excluir_post -> {
+                            excluir(itemView, post, position)
+
+                        }
                     }
+                    false
                 }
-                false
-            }
 
-            popup.show()
+                popup.show()
+
+            } else{
+                Snackbar.make(itemView, context.getString(R.string.erro_post), Snackbar.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -128,21 +134,29 @@ class PostAdapter(private val context: Context,
 
         itemView.setOnLongClickListener { it ->
 
-            val popup = PopupMenu(context, it)
-            popup.menuInflater.inflate(R.menu.menu_pop_post, popup.menu)
+            if (post.usuario.target.id == usuarioLogado.id){
 
-            popup.setOnMenuItemClickListener { item ->
+                val popup = PopupMenu(context, it)
+                popup.menuInflater.inflate(R.menu.menu_pop_post, popup.menu)
 
-                when (item.itemId) {
+                popup.setOnMenuItemClickListener { item ->
 
-                    R.id.op_excluir_post -> {
-                        if (post.usuario.target.id == usuarioLogado.id) excluir(itemView, post, position)
+                    when (item.itemId) {
+
+                        R.id.op_excluir_post -> {
+                            excluir(itemView, post, position)
+                        }
+
                     }
-
+                    false
                 }
-                false
+                popup.show()
+
+            } else{
+
+                Snackbar.make(itemView, context.getString(R.string.erro_post), Snackbar.LENGTH_LONG).show()
             }
-            popup.show()
+
             true
         }
     }
