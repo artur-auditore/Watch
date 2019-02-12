@@ -4,13 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import com.example.artur.watch.Adapter.ComentarioAdapter
 import com.example.artur.watch.Model.Comentario
 import com.example.artur.watch.Model.Comentario_
@@ -34,6 +33,7 @@ class ComentariosActivity : AppCompatActivity() {
     private lateinit var textDescricao: TextView
     private lateinit var textData: TextView
     private lateinit var textComentar: TextView
+    private lateinit var opcoesComentario: ImageButton
 
     private lateinit var usuarioBox: Box<Usuario>
     private lateinit var usuarioLogado: Usuario
@@ -51,7 +51,42 @@ class ComentariosActivity : AppCompatActivity() {
 
         bind()
         escreverComentario()
+        opcoesPost()
+    }
 
+    private fun opcoesPost(){
+
+        opcoesComentario.setOnClickListener { it ->
+
+            if (postAtual.usuario.target.id == usuarioLogado.id){
+
+                val popupMenu = PopupMenu(this, it)
+                popupMenu.menuInflater.inflate(R.menu.menu_pop_post, popupMenu.menu)
+
+                popupMenu.setOnMenuItemClickListener { item ->
+                    when(item.itemId){ R.id.op_excluir_post -> excluirPost() }
+                    false
+                }
+                popupMenu.show()
+
+            } else {
+
+                Snackbar.make(it, getString(R.string.erro_post), Snackbar.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun excluirPost(){
+
+        val alertDialog = AlertDialog.Builder(this)
+        alertDialog.setTitle("Excluir")
+            .setMessage(R.string.mensagem_excluir_post)
+            .setPositiveButton("Sim"){_, _ ->
+                this.postBox.remove(postAtual)
+                Toast.makeText(this, getString(R.string.pub_excluida), Toast.LENGTH_LONG).show()
+                finish()
+            }
+            .setNegativeButton("Não"){_, _ ->}.create().show()
     }
 
     private fun obterUsuario(): Usuario {
@@ -89,6 +124,7 @@ class ComentariosActivity : AppCompatActivity() {
         textData = text_data_post
         textComentar = text_comentar
         recyclerView = rv_comentarios
+        opcoesComentario = opcoes_comentario
         buttonPublicar = button_comentar
         editComentario = edit_comentario_descricao
 

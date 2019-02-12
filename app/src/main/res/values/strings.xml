@@ -45,4 +45,6 @@
     <string name="toast_logado">Parabéns! Você já está logado!</string>
     <string name="erro_login">Email e/ou senha incorreto(s)!</string>
     <string name="erro_post">Você não publicou isto.</string>
+    <string name="mensagem_excluir_post">Deseja realmente excluir sua publicação?</string>
+    <string name="pub_excluida">Publicação excluída</string>
 </resources>

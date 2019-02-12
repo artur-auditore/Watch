@@ -169,7 +169,7 @@ class PostAdapter(private val context: Context,
 
         val alertDialog = AlertDialog.Builder(context)
         alertDialog.setTitle("Excluir")
-            .setMessage("Deseja realmente excluir seu post?")
+            .setMessage(context.getString(R.string.mensagem_excluir_post))
             .setPositiveButton("SIM"){_, _ ->
                 query.remove(post)
                 this.listPosts.remove(post)
@@ -177,7 +177,7 @@ class PostAdapter(private val context: Context,
                 notifyItemChanged(position)
                 notifyItemRangeChanged(position, itemCount)
                 notifyItemRangeRemoved(position, itemCount)
-                Snackbar.make(view, "Post excluído", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(view, context.getString(R.string.pub_excluida), Snackbar.LENGTH_LONG).show()
             }
             .setNegativeButton("NÃO"){_, _ ->}
             .create()
