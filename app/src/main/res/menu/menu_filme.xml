@@ -2,6 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+            android:title="Sinopse"
+            android:id="@+id/ver_sinopse_filme"
+            app:showAsAction="always"
+            android:icon="@drawable/ic_action_info"
+        />
+
+    <item
             android:title="Compartilhar"
             android:id="@+id/compartilhar_filme"
     />

@@ -118,26 +118,6 @@ class FormularioPostActivity : AppCompatActivity() {
         return usuarioBox.get(id)
     }
 
-    override fun onBackPressed() {
-
-        if (editPostDescricao.text.toString().trim() != ""){
-
-            val alertDialog = AlertDialog.Builder(this)
-            alertDialog.setTitle("Arquivar")
-                .setMessage("Deseja arquivar o post?")
-                .setPositiveButton("SIM"){_ , _ ->
-                    salvarRascunho()
-                }
-                .setNegativeButton("NÃO"){_, _ ->
-                    super.onBackPressed()
-                }
-                .create()
-                .show()
-        } else{
-            super.onBackPressed()
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_compartilhar, menu)
         return true
@@ -202,23 +182,5 @@ class FormularioPostActivity : AppCompatActivity() {
                 .create().show()
         }
 
-    }
-
-    private fun salvarRascunho(){
-
-        val textPost = editPostDescricao.text.toString()
-
-        if (textPost.trim() == ""){
-
-            Toast.makeText(this, "Escreva alguma coisa antes de prosseguir",
-                Toast.LENGTH_LONG).show()
-        } else {
-
-            post.descricao = textPost
-            post.data = Date()
-            post.usuario.target = usuarioLogado
-            postRascunhoBox.put(post)
-            finish()
-        }
     }
 }

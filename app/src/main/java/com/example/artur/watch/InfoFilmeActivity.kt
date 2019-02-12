@@ -122,12 +122,31 @@ class InfoFilmeActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item!!.itemId){
+            R.id.ver_sinopse_filme -> verSinopse()
             R.id.compartilhar_filme -> compartilhar()
             R.id.op_editar_filme -> editarFilme()
             R.id.op_excluir_filme -> excluirFilme()
             R.id.op_excluir_capitulos -> excluirCapitulos()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun verSinopse(){
+
+        if (serie.sinopse == ""){
+
+            Toast.makeText(
+                this,
+                "Você não adicionou sinopse a ${serie.titulo}",
+                Toast.LENGTH_LONG
+            ).show()
+        } else {
+
+            val alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("Sinopse")
+                .setMessage(serie.sinopse)
+                .setNegativeButton("OK"){_, _ ->}.create().show()
+        }
     }
 
     private fun compartilhar(){

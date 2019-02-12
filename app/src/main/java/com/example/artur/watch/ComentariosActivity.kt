@@ -106,8 +106,13 @@ class ComentariosActivity : AppCompatActivity() {
         textUsername.text = "@${postAtual.usuario.target.username}"
         textSerie.text = postAtual.serie.target.titulo
         textEstado.text = postAtual.estadoPost
-        textDescricao.text = postAtual.descricao
+        textoVazio(postAtual)
         textData.text = SimpleDateFormat("dd/MM/yyyy - HH:mm").format(postAtual.data)
+    }
+
+    private fun textoVazio(post: Post){
+        if (post.descricao.trim() == "") textDescricao.visibility = View.GONE
+        else textDescricao.text = postAtual.descricao
     }
 
     @SuppressLint("InflateParams")
@@ -155,6 +160,7 @@ class ComentariosActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG
             ).show()
 
+            //Carrega os comentários logo depois de comentar
             val list = comentarioBox.query()
                 .equal(Comentario_.postId, postAtual.id).build().find()
 

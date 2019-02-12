@@ -131,18 +131,38 @@ class InfoSerieActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_temporadas, menu)
+        menuInflater.inflate(R.menu.menu_serie, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item!!.itemId){
+            R.id.ver_sinopse_serie -> verSinopse()
             R.id.compartilhar_serie -> compartilhar()
             R.id.op_editar_serie -> editarSerie()
             R.id.op_excluir_tudo -> excluirCapitulos()
             R.id.op_excluir_serie -> excluirSerie()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun verSinopse(){
+
+        if (serieAtual.sinopse == ""){
+
+            Toast.makeText(
+                this,
+                "Você não adicionou sinopse a ${serieAtual.titulo}",
+                Toast.LENGTH_LONG
+            ).show()
+        } else {
+
+            val alertDialog = AlertDialog.Builder(this)
+            alertDialog.setTitle("Sinopse")
+                .setMessage(serieAtual.sinopse)
+                .setNegativeButton("OK"){_, _ ->}.create().show()
+
+        }
     }
 
     private fun compartilhar(){
