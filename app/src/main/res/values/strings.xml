@@ -47,4 +47,6 @@
     <string name="erro_post">Você não publicou isto.</string>
     <string name="mensagem_excluir_post">Deseja realmente excluir sua publicação?</string>
     <string name="pub_excluida">Publicação excluída</string>
+    <string name="email_dev">defteros7@gmail.com</string>
+    <string name="nome_dev">Artur Rocha</string>
 </resources>

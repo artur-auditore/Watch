@@ -224,6 +224,16 @@ class TimeLineActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                     }
                     .create().show()
             }
+
+            R.id.sobre ->{
+
+                val alertDialog = AlertDialog.Builder(this)
+                alertDialog.setTitle("Sobre o aplicativo")
+                    .setMessage("Desenvolvido por:\n" +
+                            "${getString(R.string.nome_dev)}\n" +
+                            "${getString(R.string.email_dev)}\n")
+                    .setNegativeButton("Ok"){_, _ ->}.create().show()
+            }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
